@@ -1,88 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Extragalactic Astronomy Group</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<title>Extragalactic Astronomy Group</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-  <style>
-    /* ---------- Colours ---------- */
-    :root{
-      --cyan:#0289c7;
-      --magenta:#5c0d5d;
-      --text:#eef6ff;
-    }
+<style>
+/* ---------- Colours ---------- */
+:root{
+  --cyan:#13b0ff;
+  --magenta:#8434e6;
+  --text:#eef6ff;
+}
 
-    /* ---------- PAGE-WIDE BACKGROUND ---------- */
-    html{
-      height:100%;
-      background:url('/groupwebsite/background.png') center center / cover no-repeat fixed;
-      /*  ↑↑  change path if repo or file name changes  */
-    }
+/* ---------- COSMIC BACKGROUND ---------- */
+html{
+  height:100%;
+  /* deep-space gradient */
+  background:radial-gradient(ellipse at bottom, #162033 0%, #06070e 80%);
+  overflow-x:hidden;         /* hide star layers’ overflow */
+}
 
-    /* ---------- Global text & layout ---------- */
-    body{
-      margin:0;
-      padding:0;
-      min-height:100%;
-      font-family:"Exo 2",sans-serif;
-      color:var(--text);
-      background:transparent;     /* let html’s image show through */
-    }
+/*  1st star layer (small, slow)  */
+html::before,
+html::after{
+  content:'';
+  position:fixed;
+  top:0;left:0;
+  width:200%;height:200%;   /* oversize so drift won’t show edges */
+  background-repeat:repeat;
+  pointer-events:none;
+  z-index:-2;
+}
 
-    /* ---------- Navigation ---------- */
-    .navbar{
-      background:rgba(0,0,0,.68);
-      backdrop-filter:blur(6px);
-      border-bottom:1px solid rgba(2,137,199,.35);
-      position:sticky;top:0;z-index:100;
-    }
-    .nav-container{max-width:1200px;margin:0 auto;display:flex;justify-content:center;}
-    .nav-tabs{display:flex;flex-wrap:wrap;border-radius:42px;background:rgba(255,255,255,.06);}
-    .nav-tab{
-      padding:.8rem 2rem;font-weight:600;color:var(--text);text-decoration:none;letter-spacing:.5px;
-      border-right:1px solid rgba(2,137,199,.15);transition:.25s;position:relative;
-    }
-    .nav-tab:last-child{border-right:none;}
-    .nav-tab:hover{background:rgba(2,137,199,.22);color:var(--cyan);}
-    .nav-tab.active{
-      background:linear-gradient(to right,var(--magenta),var(--cyan));color:#fff;
-    }
-    .nav-tab.active::after{
-      content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);
-      width:60%;height:3px;border-radius:3px 3px 0 0;background:var(--cyan);
-    }
+/* sparse tiny stars */
+html::before{
+  background-image:
+    radial-gradient(1px 1px at 20% 30%,rgba(255,255,255,.7) 50%,transparent 51%),
+    radial-gradient(1px 1px at 70% 20%,rgba(255,255,255,.8) 50%,transparent 51%),
+    radial-gradient(1px 1px at 10% 75%,rgba(255,255,255,.6) 50%,transparent 51%),
+    radial-gradient(1px 1px at 80% 60%,rgba(255,255,255,.9) 50%,transparent 51%),
+    radial-gradient(1px 1px at 45% 90%,rgba(255,255,255,.65) 50%,transparent 51%);
+  background-size:400px 400px;
+  animation: drift 180s linear infinite;
+  opacity:.55;
+}
 
-    /* ---------- Content sections ---------- */
-    .container{max-width:1200px;margin:4rem auto;padding:0 2rem;}
-    .content-section{display:none;animation:fade .5s ease;}
-    .content-section.active{display:block;}
-    @keyframes fade{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+/* denser, slightly larger stars */
+html::after{
+  background-image:
+    radial-gradient(1.5px 1.5px at 15% 50%,rgba(255,255,255,.8) 50%,transparent 51%),
+    radial-gradient(1.5px 1.5px at 55% 25%,rgba(255,255,255,.75) 50%,transparent 51%),
+    radial-gradient(1.5px 1.5px at 90% 85%,rgba(255,255,255,.9) 50%,transparent 51%),
+    radial-gradient(1.5px 1.5px at 35% 15%,rgba(255,255,255,.65) 50%,transparent 51%),
+    radial-gradient(1.5px 1.5px at 75% 75%,rgba(255,255,255,.8) 50%,transparent 51%);
+  background-size:300px 300px;
+  animation: drift 120s linear infinite reverse;
+  z-index:-1;
+  opacity:.65;
+}
 
-    h1{
-      font-size:3rem;margin-bottom:1.5rem;
-      background:linear-gradient(to right,var(--cyan),#fff);
-      background-clip:text;-webkit-background-clip:text;color:transparent;
-      text-shadow:0 0 15px rgba(2,137,199,.45);
-    }
-    p{max-width:800px;line-height:1.8;}
+@keyframes drift{
+  from{transform:translateY(0);}
+  to  {transform:translateY(-50%);}
+}
 
-    /* ---------- Credit ---------- */
-    .credit{
-      position:fixed;right:12px;bottom:8px;z-index:120;
-      font-size:.75rem;opacity:.85;text-shadow:0 0 4px #000;color:var(--text);
-    }
+/* ---------- Global text & layout ---------- */
+body{
+  margin:0;padding:0;min-height:100%;
+  font-family:"Exo 2",sans-serif;color:var(--text);
+  background:transparent;   /* let the starfield show through */
+}
 
-    /* ---------- Mobile ---------- */
-    @media(max-width:768px){
-      .nav-tab{flex:1 0 45%;text-align:center;border-right:none;
-               border-bottom:1px solid rgba(2,137,199,.15);}
-      h1{font-size:2.2rem;}
-    }
-  </style>
+/* ---------- Navigation ---------- */
+.navbar{
+  background:rgba(0,0,0,.7);
+  backdrop-filter:blur(6px);
+  border-bottom:1px solid rgba(19,176,255,.35);
+  position:sticky;top:0;z-index:100;
+}
+.nav-container{max-width:1200px;margin:0 auto;display:flex;justify-content:center;}
+.nav-tabs{display:flex;flex-wrap:wrap;border-radius:42px;background:rgba(255,255,255,.07);}
+.nav-tab{
+  padding:.8rem 2rem;font-weight:600;color:var(--text);text-decoration:none;
+  letter-spacing:.5px;border-right:1px solid rgba(19,176,255,.15);
+  transition:.25s;position:relative;
+}
+.nav-tab:last-child{border-right:none;}
+.nav-tab:hover{background:rgba(19,176,255,.22);color:var(--cyan);}
+.nav-tab.active{
+  background:linear-gradient(to right,var(--magenta),var(--cyan));color:#fff;
+}
+.nav-tab.active::after{
+  content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);
+  width:60%;height:3px;border-radius:3px 3px 0 0;background:var(--cyan);
+}
+
+/* ---------- Content sections ---------- */
+.container{max-width:1200px;margin:4rem auto;padding:0 2rem;}
+.content-section{display:none;animation:fade .5s ease;}
+.content-section.active{display:block;}
+@keyframes fade{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+
+h1{
+  font-size:3rem;margin-bottom:1.5rem;
+  background:linear-gradient(to right,var(--cyan),#fff);
+  background-clip:text;-webkit-background-clip:text;color:transparent;
+  text-shadow:0 0 18px rgba(19,176,255,.45);
+}
+p{max-width:800px;line-height:1.8;}
+
+/* ---------- Mobile tweaks ---------- */
+@media(max-width:768px){
+  .nav-tab{flex:1 0 45%;text-align:center;border-right:none;
+           border-bottom:1px solid rgba(19,176,255,.15);}
+  h1{font-size:2.2rem;}
+}
+</style>
 </head>
 <body>
 
@@ -110,11 +147,8 @@
   <section id="contact" class="content-section"><h1>Contact</h1><p>TBD</p></section>
 </div>
 
-<!-- CREDIT -->
-<div class="credit">Image credit: NASA / ESA / CSA / STScI — JWST SMACS 0723 Deep-Field</div>
-
 <script>
-/* -------- Tab switcher -------- */
+/* --- Tab switcher --- */
 document.querySelectorAll(".nav-tab").forEach(tab=>{
   tab.addEventListener("click",e=>{
     e.preventDefault();
