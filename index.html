@@ -1,182 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Extragalactic Astronomy Group</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  <title>Extragalactic Astronomy Group</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --cyan:#0289c7;
+      --magenta:#5c0d5d;
+      --text:#eef6ff;
+    }
 
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700&family=Ubuntu+Mono&display=swap" rel="stylesheet">
+    /* -------- GLOBAL -------- */
+    html,body{margin:0;padding:0;height:100%;}
+    body{
+      font-family:"Exo 2",sans-serif;
+      color:var(--text);
 
-    <style>
-        /* ---------- Theme ---------- */
-        :root{
-            --space-black:#05010b;
-            --quasar-magenta:#5c0d5d;
-            --cluster-cyan:#0289c7;
-            --starlight:#eef6ff;
-        }
+      /* Full-page JWST background */
+      background:#000 url("/groupwebsite/background.png") center center / cover no-repeat fixed;
+      /*       ↑↑ adjust path if repo name or file name changes        */
+    }
 
-        /* ---------- Global ---------- */
-        html,body{height:100%;}      /* makes the fixed layer size predictable */
+    /* -------- NAVIGATION -------- */
+    .navbar{
+      background:rgba(0,0,0,.65);
+      backdrop-filter:blur(6px);
+      border-bottom:1px solid rgba(2,137,199,.35);
+      position:sticky;top:0;z-index:100;
+    }
+    .nav-container{max-width:1200px;margin:0 auto;display:flex;justify-content:center;}
+    .nav-tabs{display:flex;flex-wrap:wrap;border-radius:42px;background:rgba(255,255,255,.06);}
+    .nav-tab{
+      padding:.8rem 2rem;font-weight:600;color:var(--text);text-decoration:none;
+      letter-spacing:.5px;border-right:1px solid rgba(2,137,199,.15);
+      transition:.25s;position:relative;
+    }
+    .nav-tab:last-child{border-right:none;}
+    .nav-tab:hover{background:rgba(2,137,199,.22);color:var(--cyan);}
+    .nav-tab.active{
+      background:linear-gradient(to right,var(--magenta),var(--cyan));color:#fff;
+    }
+    .nav-tab.active::after{
+      content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);
+      width:60%;height:3px;border-radius:3px 3px 0 0;background:var(--cyan);
+    }
 
-        body{
-            font-family:'Exo 2',sans-serif;
-            margin:0;
-            padding:0;
-            color:var(--starlight);
-            position:relative;
-            min-height:100vh;
-        }
+    /* -------- CONTENT SECTIONS -------- */
+    .container{max-width:1200px;margin:4rem auto;padding:0 2rem;}
+    .content-section{display:none;animation:fade .5s ease;}
+    .content-section.active{display:block;}
+    @keyframes fade{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
 
-        /* --- JWST Deep-Field background (z = −2) --- */
-        body::before{
-            content:'';
-            position:fixed;
-            top:0;left:0;
-            width:100vw; height:100vh;                    /* edge-to-edge */
-            background:url('background.png') center center/cover no-repeat fixed;
-            /*  ↑↑  if this is a user/organization page, drop the '/repo' prefix */
-            z-index:-2;
-        }
+    h1{
+      font-size:3rem;margin-bottom:1.5rem;
+      background:linear-gradient(to right,var(--cyan),#fff);
+      background-clip:text;-webkit-background-clip:text;color:transparent;
+      text-shadow:0 0 15px rgba(2,137,199,.45);
+    }
+    p{max-width:800px;line-height:1.8;}
 
-        /* --- Radial overlay for legibility (z = −1) --- */
-        body::after{
-            content:'';
-            position:fixed;
-            top:0;left:0;width:100vw;height:100vh;
-            pointer-events:none;
-            background:radial-gradient(circle at center 25%,
-                        rgba(0,0,0,0) 0%, rgba(0,0,0,.55) 70%);
-            z-index:-1;
-        }
+    /* -------- PHOTO CREDIT -------- */
+    .credit{
+      position:fixed;right:12px;bottom:8px;z-index:120;font-size:.75rem;opacity:.85;
+      color:var(--text);text-shadow:0 0 4px #000;
+    }
 
-        /* ---------- Navigation ---------- */
-        .navbar{
-            background:rgba(0,0,0,.68);
-            backdrop-filter:blur(6px);
-            border-bottom:1px solid rgba(2,137,199,.3);
-            position:sticky;top:0;z-index:100;
-        }
-        .nav-container{max-width:1200px;margin:0 auto;display:flex;justify-content:center;}
-        .nav-tabs{display:flex;flex-wrap:wrap;border-radius:50px;background:rgba(255,255,255,.06);}
-        .nav-tab{
-            padding:.8rem 2rem;font-weight:600;color:var(--starlight);
-            text-decoration:none;letter-spacing:.5px;transition:.3s;
-            border-right:1px solid rgba(2,137,199,.15);position:relative;
-        }
-        .nav-tab:last-child{border-right:none;}
-        .nav-tab:hover{background:rgba(2,137,199,.18);color:var(--cluster-cyan);}
-        .nav-tab.active{
-            background:linear-gradient(to right,var(--quasar-magenta),var(--cluster-cyan));
-            color:#fff;
-        }
-        .nav-tab.active::before{
-            content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);
-            width:60%;height:3px;background:var(--cluster-cyan);border-radius:3px 3px 0 0;
-        }
-
-        /* ---------- Sections ---------- */
-        .container{max-width:1200px;margin:4rem auto;padding:0 2rem;}
-        .content-section{display:none;animation:fadeIn .5s ease;}
-        .content-section.active{display:block;}
-        @keyframes fadeIn{from{opacity:0;transform:translateY(10px);}
-                          to{opacity:1;transform:translateY(0);}}
-
-        h1{
-            font-size:3rem;margin-bottom:1.5rem;
-            background:linear-gradient(to right,var(--cluster-cyan),#fff);
-            -webkit-background-clip:text;background-clip:text;color:transparent;
-            text-shadow:0 0 15px rgba(2,137,199,.4);
-        }
-        p{max-width:800px;line-height:1.8;}
-
-        /* ---------- Credit ---------- */
-        .photo-credit{
-            position:fixed;right:12px;bottom:8px;z-index:120;
-            font-size:.75rem;opacity:.78;color:var(--starlight);
-            text-shadow:0 0 4px rgba(0,0,0,.8);
-        }
-
-        /* ---------- Mobile tweaks ---------- */
-        @media(max-width:768px){
-            .nav-tab{flex:1 0 45%;text-align:center;border-right:none;
-                     border-bottom:1px solid rgba(2,137,199,.15);}
-            h1{font-size:2.2rem;}
-        }
-    </style>
+    /* -------- MOBILE -------- */
+    @media(max-width:768px){
+      .nav-tab{flex:1 0 45%;text-align:center;border-right:none;
+               border-bottom:1px solid rgba(2,137,199,.15);}
+      h1{font-size:2.2rem;}
+    }
+  </style>
 </head>
 <body>
-    <!-- ---------- Navigation ---------- -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-tabs">
-                <a href="#" class="nav-tab active" data-tab="about">About</a>
-                <a href="#" class="nav-tab" data-tab="personnel">Personnel</a>
-                <a href="#" class="nav-tab" data-tab="research">Research</a>
-                <a href="#" class="nav-tab" data-tab="surveys">Surveys&nbsp;&amp;&nbsp;Telescopes</a>
-                <a href="#" class="nav-tab" data-tab="publications">Publications</a>
-                <a href="#" class="nav-tab" data-tab="contact">Contact</a>
-            </div>
-        </div>
-    </nav>
 
-    <div class="container">
-        <!-- ---------- About ---------- -->
-        <section id="about" class="content-section active">
-            <h1>About</h1>
-            <p>TBD</p>
-        </section>
-
-        <!-- ---------- Personnel ---------- -->
-        <section id="personnel" class="content-section">
-            <h1>Personnel</h1>
-            <p>TBD</p>
-        </section>
-
-        <!-- ---------- Research ---------- -->
-        <section id="research" class="content-section">
-            <h1>Research</h1>
-            <p>TBD</p>
-        </section>
-
-        <!-- ---------- Surveys & Telescopes ---------- -->
-        <section id="surveys" class="content-section">
-            <h1>Surveys &amp; Telescopes</h1>
-            <p>TBD</p>
-        </section>
-
-        <!-- ---------- Publications ---------- -->
-        <section id="publications" class="content-section">
-            <h1>Publications</h1>
-            <p>TBD</p>
-        </section>
-
-        <!-- ---------- Contact ---------- -->
-        <section id="contact" class="content-section">
-            <h1>Contact</h1>
-            <p>TBD</p>
-        </section>
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="nav-container">
+    <div class="nav-tabs">
+      <a class="nav-tab active" data-tab="about" href="#">About</a>
+      <a class="nav-tab" data-tab="personnel" href="#">Personnel</a>
+      <a class="nav-tab" data-tab="research" href="#">Research</a>
+      <a class="nav-tab" data-tab="surveys" href="#">Surveys&nbsp;&amp;&nbsp;Telescopes</a>
+      <a class="nav-tab" data-tab="publications" href="#">Publications</a>
+      <a class="nav-tab" data-tab="contact" href="#">Contact</a>
     </div>
+  </div>
+</nav>
 
-    <!-- ---------- Image Credit ---------- -->
-    <div class="photo-credit">
-        Image credit: NASA / ESA / CSA / STScI — JWST SMACS 0723 Deep-Field
-    </div>
+<!-- CONTENT -->
+<div class="container">
+  <section id="about" class="content-section active"><h1>About</h1><p>TBD</p></section>
+  <section id="personnel" class="content-section"><h1>Personnel</h1><p>TBD</p></section>
+  <section id="research" class="content-section"><h1>Research</h1><p>TBD</p></section>
+  <section id="surveys" class="content-section"><h1>Surveys &amp; Telescopes</h1><p>TBD</p></section>
+  <section id="publications" class="content-section"><h1>Publications</h1><p>TBD</p></section>
+  <section id="contact" class="content-section"><h1>Contact</h1><p>TBD</p></section>
+</div>
 
-    <script>
-        /* ---------- Tab Switching ---------- */
-        document.querySelectorAll('.nav-tab').forEach(tab=>{
-            tab.addEventListener('click',e=>{
-                e.preventDefault();
-                document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
-                document.querySelectorAll('.content-section').forEach(s=>s.classList.remove('active'));
-                tab.classList.add('active');
-                document.getElementById(tab.getAttribute('data-tab')).classList.add('active');
-            });
-        });
-    </script>
+<!-- CREDIT -->
+<div class="credit">Image credit: NASA / ESA / CSA / STScI — JWST SMACS 0723 Deep-Field</div>
+
+<script>
+/* --- Simple tab switcher --- */
+document.querySelectorAll(".nav-tab").forEach(tab=>{
+  tab.addEventListener("click",e=>{
+    e.preventDefault();
+    document.querySelectorAll(".nav-tab").forEach(t=>t.classList.remove("active"));
+    document.querySelectorAll(".content-section").forEach(s=>s.classList.remove("active"));
+    tab.classList.add("active");
+    document.getElementById(tab.dataset.tab).classList.add("active");
+  });
+});
+</script>
 </body>
 </html>
