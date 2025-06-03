@@ -2,100 +2,100 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Cosmic Dynamics Research Group</title>
+    <title>Extragalactic Astronomy Group</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700&family=Ubuntu+Mono&display=swap" rel="stylesheet">
+
     <style>
-        :root {
-            --cosmic-purple: #2A044A;
-            --nebula-blue: #0B2E59;
-            --plasma-teal: #0D6759;
-            --star-yellow: #F7D417;
-            --text-light: #F0F7F4;
+        /* ---------- Theming ---------- */
+        :root{
+            --space-black: #05010b;
+            --nebula-indigo: #1a074f;
+            --quasar-magenta: #5c0d5d;
+            --cluster-cyan: #0289c7;
+            --starlight: #eef6ff;
         }
-        body {
+
+        body{
             font-family: 'Exo 2', sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(135deg, var(--cosmic-purple), var(--nebula-blue));
-            color: var(--text-light);
-            min-height: 100vh;
+            margin:0;
+            padding:0;
+            color:var(--starlight);
+            background:radial-gradient(ellipse at top, var(--nebula-indigo) 0%, var(--space-black) 70%);
+            min-height:100vh;
         }
-        /* Navigation Bar */
-        .navbar {
-            background: rgba(10, 5, 30, 0.85);
-            backdrop-filter: blur(8px);
-            padding: 1rem 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            border-bottom: 1px solid rgba(247, 212, 23, 0.2);
+
+        /* ---------- Navigation ---------- */
+        .navbar{
+            background:rgba(0,0,0,0.7);
+            backdrop-filter:blur(8px);
+            border-bottom:1px solid rgba(2,137,199,0.3);
+            position:sticky;top:0;z-index:100;
         }
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: center;
+        .nav-container{max-width:1200px;margin:0 auto;display:flex;justify-content:center;}
+        .nav-tabs{display:flex;flex-wrap:wrap;overflow:hidden;border-radius:50px;background:rgba(255,255,255,0.05);}
+        .nav-tab{
+            padding:.8rem 2rem;
+            color:var(--starlight);
+            text-decoration:none;
+            font-weight:600;
+            letter-spacing:.5px;
+            transition:all .3s ease;
+            border-right:1px solid rgba(2,137,199,0.15);
         }
-        .nav-tabs {
-            display: flex;
-            gap: 0;
-            border-radius: 50px;
-            overflow: hidden;
-            background: rgba(0, 0, 0, 0.3);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        .nav-tab:last-child{border-right:none;}
+        .nav-tab:hover{background:rgba(2,137,199,0.15);color:var(--cluster-cyan);}
+        .nav-tab.active{
+            background:linear-gradient(to right,var(--quasar-magenta),var(--cluster-cyan));
+            color:#fff;
         }
-        .nav-tab {
-            padding: 0.8rem 2rem;
-            color: var(--text-light);
-            text-decoration: none;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            transition: all 0.3s ease;
-            position: relative;
-            border-right: 1px solid rgba(247, 212, 23, 0.1);
+        .nav-tab.active::before{
+            content:'';
+            position:absolute;bottom:0;left:50%;transform:translateX(-50%);
+            width:60%;height:3px;background:var(--cluster-cyan);border-radius:3px 3px 0 0;
         }
-        .nav-tab:last-child { border-right: none; }
-        .nav-tab:hover { background: rgba(247, 212, 23, 0.1); color: var(--star-yellow); }
-        .nav-tab.active {
-            background: linear-gradient(to right, var(--plasma-teal), var(--nebula-blue));
-            color: white;
+
+        /* ---------- Layout ---------- */
+        .container{max-width:1200px;margin:3rem auto;padding:0 2rem;}
+        .content-section{display:none;animation:fadeIn .5s ease;}
+        .content-section.active{display:block;}
+        @keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+
+        h1{
+            font-size:3rem;margin-bottom:1.5rem;
+            background:linear-gradient(to right,var(--cluster-cyan),#fff);
+            -webkit-background-clip:text;background-clip:text;color:transparent;
+            text-shadow:0 0 15px rgba(2,137,199,0.4);
         }
-        .nav-tab.active::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60%;
-            height: 3px;
-            background: var(--star-yellow);
-            border-radius: 3px 3px 0 0;
+        p{max-width:800px;line-height:1.8;}
+
+        /* ---------- Group Photo ---------- */
+        .group-photo{
+            width:100%;max-width:900px;margin:2rem auto;border:2px solid rgba(255,255,255,0.1);
+            border-radius:12px;overflow:hidden;box-shadow:0 8px 25px rgba(0,0,0,0.4);
         }
-        /* Main Content */
-        .container { max-width: 1200px; margin: 3rem auto; padding: 0 2rem; }
-        .content-section { display: none; animation: fadeIn 0.5s ease; }
-        .content-section.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        h1 { font-size: 3rem; margin-bottom: 1.5rem; background: linear-gradient(to right, var(--star-yellow), #fff); -webkit-background-clip: text; background-clip: text; color: transparent; text-shadow: 0 0 15px rgba(247, 212, 23, 0.3); }
-        p { max-width: 800px; }
-        @media (max-width: 768px) {
-            .nav-tab { flex: 1 0 45%; text-align: center; border-right: none; border-bottom: 1px solid rgba(247, 212, 23, 0.1); }
-            h1 { font-size: 2.2rem; }
+        .group-photo img{display:block;width:100%;height:auto;}
+
+        /* ---------- Media ---------- */
+        @media(max-width:768px){
+            .nav-tab{flex:1 0 45%;text-align:center;border-right:none;border-bottom:1px solid rgba(2,137,199,0.15);}
+            h1{font-size:2.2rem;}
         }
     </style>
 </head>
 <body>
-    <!-- Navigation Bar -->
+    <!-- ---------- Navigation ---------- -->
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-tabs">
                 <a href="#" class="nav-tab active" data-tab="about">About</a>
                 <a href="#" class="nav-tab" data-tab="personnel">Personnel</a>
                 <a href="#" class="nav-tab" data-tab="research">Research</a>
+                <a href="#" class="nav-tab" data-tab="surveys">Surveys&nbsp;&amp;&nbsp;Telescopes</a>
                 <a href="#" class="nav-tab" data-tab="publications">Publications</a>
                 <a href="#" class="nav-tab" data-tab="contact">Contact</a>
             </div>
@@ -103,31 +103,41 @@
     </nav>
 
     <div class="container">
-        <!-- About Section -->
+        <!-- ---------- About ---------- -->
         <section id="about" class="content-section active">
             <h1>About</h1>
+            <div class="group-photo">
+                <!-- Replace # with your image URL -->
+                <img src="#" alt="Group Photo – TBD">
+            </div>
             <p>TBD</p>
         </section>
 
-        <!-- Personnel Section -->
+        <!-- ---------- Personnel ---------- -->
         <section id="personnel" class="content-section">
             <h1>Personnel</h1>
             <p>TBD</p>
         </section>
 
-        <!-- Research Section -->
+        <!-- ---------- Research ---------- -->
         <section id="research" class="content-section">
             <h1>Research</h1>
             <p>TBD</p>
         </section>
 
-        <!-- Publications Section -->
+        <!-- ---------- Surveys & Telescopes ---------- -->
+        <section id="surveys" class="content-section">
+            <h1>Surveys &amp; Telescopes</h1>
+            <p>TBD</p>
+        </section>
+
+        <!-- ---------- Publications ---------- -->
         <section id="publications" class="content-section">
             <h1>Publications</h1>
             <p>TBD</p>
         </section>
 
-        <!-- Contact Section -->
+        <!-- ---------- Contact ---------- -->
         <section id="contact" class="content-section">
             <h1>Contact</h1>
             <p>TBD</p>
@@ -135,14 +145,14 @@
     </div>
 
     <script>
-        // Tab switching functionality
-        document.querySelectorAll('.nav-tab').forEach(tab => {
-            tab.addEventListener('click', function (e) {
+        /* ---------- Tab Switching ---------- */
+        document.querySelectorAll('.nav-tab').forEach(tab=>{
+            tab.addEventListener('click',e=>{
                 e.preventDefault();
-                document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-                document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
-                this.classList.add('active');
-                document.getElementById(this.getAttribute('data-tab')).classList.add('active');
+                document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+                document.querySelectorAll('.content-section').forEach(s=>s.classList.remove('active'));
+                tab.classList.add('active');
+                document.getElementById(tab.getAttribute('data-tab')).classList.add('active');
             });
         });
     </script>
