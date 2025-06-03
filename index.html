@@ -20,12 +20,14 @@
             --starlight: #eef6ff;
         }
 
+        /* ---------- Global ---------- */
         body{
             font-family: 'Exo 2', sans-serif;
-            margin:0;
-            padding:0;
-            color:var(--starlight);
-            background:radial-gradient(ellipse at top, var(--nebula-indigo) 0%, var(--space-black) 70%);
+            margin:0;padding:0;color:var(--starlight);
+            /* JWST background with subtle radial overlay for legibility */
+            background:
+                radial-gradient(circle at center 20%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.55) 60%),
+                url('https://webbtelescope.org/contents/media/images/2022/031/01GBB7V2X2SMGC7KS6YAC7KNA4') center/cover no-repeat fixed;
             min-height:100vh;
         }
 
@@ -37,30 +39,24 @@
             position:sticky;top:0;z-index:100;
         }
         .nav-container{max-width:1200px;margin:0 auto;display:flex;justify-content:center;}
-        .nav-tabs{display:flex;flex-wrap:wrap;overflow:hidden;border-radius:50px;background:rgba(255,255,255,0.05);}
+        .nav-tabs{display:flex;flex-wrap:wrap;border-radius:50px;background:rgba(255,255,255,0.05);}
         .nav-tab{
-            padding:.8rem 2rem;
-            color:var(--starlight);
-            text-decoration:none;
-            font-weight:600;
-            letter-spacing:.5px;
-            transition:all .3s ease;
-            border-right:1px solid rgba(2,137,199,0.15);
+            padding:.8rem 2rem;color:var(--starlight);text-decoration:none;font-weight:600;
+            letter-spacing:.5px;transition:all .3s ease;border-right:1px solid rgba(2,137,199,0.15);
+            position:relative;
         }
         .nav-tab:last-child{border-right:none;}
         .nav-tab:hover{background:rgba(2,137,199,0.15);color:var(--cluster-cyan);}
         .nav-tab.active{
-            background:linear-gradient(to right,var(--quasar-magenta),var(--cluster-cyan));
-            color:#fff;
+            background:linear-gradient(to right,var(--quasar-magenta),var(--cluster-cyan));color:#fff;
         }
         .nav-tab.active::before{
-            content:'';
-            position:absolute;bottom:0;left:50%;transform:translateX(-50%);
+            content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);
             width:60%;height:3px;background:var(--cluster-cyan);border-radius:3px 3px 0 0;
         }
 
         /* ---------- Layout ---------- */
-        .container{max-width:1200px;margin:3rem auto;padding:0 2rem;}
+        .container{max-width:1200px;margin:4rem auto;padding:0 2rem;}
         .content-section{display:none;animation:fadeIn .5s ease;}
         .content-section.active{display:block;}
         @keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
@@ -73,16 +69,18 @@
         }
         p{max-width:800px;line-height:1.8;}
 
-        /* ---------- Group Photo ---------- */
-        .group-photo{
-            width:100%;max-width:900px;margin:2rem auto;border:2px solid rgba(255,255,255,0.1);
-            border-radius:12px;overflow:hidden;box-shadow:0 8px 25px rgba(0,0,0,0.4);
+        /* ---------- Photo Credit ---------- */
+        .photo-credit{
+            position:fixed;right:12px;bottom:8px;z-index:120;
+            font-size:.75rem;opacity:.75;
+            color:var(--starlight);
+            text-shadow:0 0 4px rgba(0,0,0,0.7);
         }
-        .group-photo img{display:block;width:100%;height:auto;}
 
         /* ---------- Media ---------- */
         @media(max-width:768px){
-            .nav-tab{flex:1 0 45%;text-align:center;border-right:none;border-bottom:1px solid rgba(2,137,199,0.15);}
+            .nav-tab{flex:1 0 45%;text-align:center;border-right:none;
+                     border-bottom:1px solid rgba(2,137,199,0.15);}
             h1{font-size:2.2rem;}
         }
     </style>
@@ -106,10 +104,6 @@
         <!-- ---------- About ---------- -->
         <section id="about" class="content-section active">
             <h1>About</h1>
-            <div class="group-photo">
-                <!-- Replace # with your image URL -->
-                <img src="#" alt="Group Photo – TBD">
-            </div>
             <p>TBD</p>
         </section>
 
@@ -142,6 +136,11 @@
             <h1>Contact</h1>
             <p>TBD</p>
         </section>
+    </div>
+
+    <!-- ---------- Image Credit ---------- -->
+    <div class="photo-credit">
+        Image credit: NASA / ESA / CSA / STScI — JWST SMACS 0723 Deep-Field
     </div>
 
     <script>
