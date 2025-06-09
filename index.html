@@ -1,163 +1,867 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Extragalactic Astronomy Group</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UCR Extragalactic Astrophysics Research Group</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<style>
-/* ---------- Colours ---------- */
-:root{
-  --cyan:#13b0ff;
-  --magenta:#8434e6;
-  --text:#eef6ff;
-}
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #000;
+            color: #fff;
+            overflow-x: hidden;
+            position: relative;
+        }
 
-/* ---------- COSMIC BACKGROUND ---------- */
-html{
-  height:100%;
-  /* deep-space gradient */
-  background:radial-gradient(ellipse at bottom, #162033 0%, #06070e 80%);
-  overflow-x:hidden;         /* hide star layers’ overflow */
-}
+        /* JWST-style Galaxy background */
+        .galaxy-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background: 
+                /* Deep nebular regions with JWST colors */
+                radial-gradient(ellipse at 15% 25%, rgba(255, 69, 0, 0.4) 0%, rgba(255, 140, 0, 0.2) 25%, transparent 70%),
+                radial-gradient(ellipse at 85% 75%, rgba(138, 43, 226, 0.3) 0%, rgba(75, 0, 130, 0.2) 30%, transparent 65%),
+                radial-gradient(ellipse at 70% 20%, rgba(255, 215, 0, 0.3) 0%, rgba(255, 165, 0, 0.15) 35%, transparent 70%),
+                radial-gradient(ellipse at 30% 80%, rgba(0, 191, 255, 0.25) 0%, rgba(30, 144, 255, 0.15) 40%, transparent 75%),
+                radial-gradient(ellipse at 60% 60%, rgba(220, 20, 60, 0.2) 0%, rgba(139, 0, 139, 0.1) 45%, transparent 80%),
+                radial-gradient(ellipse at 10% 60%, rgba(255, 20, 147, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 90% 30%, rgba(0, 255, 127, 0.1) 0%, transparent 60%),
+                /* Base space gradient */
+                radial-gradient(circle at 50% 50%, rgba(25, 25, 112, 0.6) 0%, rgba(0, 0, 0, 0.95) 100%),
+                #000812;
+            overflow: hidden;
+        }
 
-/*  1st star layer (small, slow)  */
-html::before,
-html::after{
-  content:'';
-  position:fixed;
-  top:0;left:0;
-  width:200%;height:200%;   /* oversize so drift won’t show edges */
-  background-repeat:repeat;
-  pointer-events:none;
-  z-index:-2;
-}
+        .galaxy-bg::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                /* JWST-style star field with diffraction spikes effect */
+                radial-gradient(2px 2px at 20% 30%, rgba(255, 255, 255, 0.9), transparent),
+                radial-gradient(1px 1px at 22% 32%, rgba(255, 255, 255, 0.6), transparent),
+                radial-gradient(3px 3px at 60% 70%, rgba(255, 220, 180, 0.8), transparent),
+                radial-gradient(1px 1px at 62% 72%, rgba(255, 200, 150, 0.5), transparent),
+                radial-gradient(2px 2px at 50% 10%, rgba(180, 200, 255, 0.9), transparent),
+                radial-gradient(1px 1px at 52% 12%, rgba(150, 180, 255, 0.6), transparent),
+                radial-gradient(1px 1px at 80% 40%, rgba(255, 255, 255, 0.7), transparent),
+                radial-gradient(2px 2px at 10% 90%, rgba(255, 255, 200, 0.8), transparent),
+                radial-gradient(1px 1px at 90% 20%, rgba(255, 180, 255, 0.6), transparent),
+                radial-gradient(1px 1px at 30% 50%, rgba(200, 255, 255, 0.7), transparent),
+                radial-gradient(1px 1px at 70% 80%, rgba(255, 255, 255, 0.8), transparent),
+                radial-gradient(1px 1px at 25% 15%, rgba(255, 200, 200, 0.6), transparent);
+            background-size: 600px 600px, 300px 300px, 800px 800px, 400px 400px, 500px 500px, 250px 250px, 350px 350px, 450px 450px, 550px 550px, 400px 400px, 300px 300px, 200px 200px;
+            background-repeat: repeat;
+            opacity: 0.8;
+            animation: drift 300s linear infinite;
+        }
 
-/* sparse tiny stars */
-html::before{
-  background-image:
-    radial-gradient(1px 1px at 20% 30%,rgba(255,255,255,.7) 50%,transparent 51%),
-    radial-gradient(1px 1px at 70% 20%,rgba(255,255,255,.8) 50%,transparent 51%),
-    radial-gradient(1px 1px at 10% 75%,rgba(255,255,255,.6) 50%,transparent 51%),
-    radial-gradient(1px 1px at 80% 60%,rgba(255,255,255,.9) 50%,transparent 51%),
-    radial-gradient(1px 1px at 45% 90%,rgba(255,255,255,.65) 50%,transparent 51%);
-  background-size:400px 400px;
-  animation: drift 180s linear infinite;
-  opacity:.55;
-}
+        .galaxy-bg::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: 
+                /* Nebular wisps and gas clouds */
+                radial-gradient(ellipse at 40% 30%, rgba(255, 100, 0, 0.15) 0%, transparent 40%),
+                radial-gradient(ellipse at 80% 70%, rgba(138, 43, 226, 0.12) 0%, transparent 45%),
+                radial-gradient(ellipse at 20% 85%, rgba(0, 191, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 75% 15%, rgba(255, 215, 0, 0.08) 0%, transparent 35%),
+                radial-gradient(ellipse at 55% 90%, rgba(220, 20, 60, 0.1) 0%, transparent 40%),
+                /* Distant galaxy glow */
+                radial-gradient(circle at 85% 25%, rgba(255, 255, 255, 0.03) 0%, transparent 15%),
+                radial-gradient(circle at 15% 75%, rgba(180, 180, 255, 0.04) 0%, transparent 12%),
+                radial-gradient(circle at 90% 80%, rgba(255, 180, 180, 0.03) 0%, transparent 10%);
+            filter: blur(2px);
+            animation: pulse 15s ease-in-out infinite, drift 250s linear infinite reverse;
+        }
 
-/* denser, slightly larger stars */
-html::after{
-  background-image:
-    radial-gradient(1.5px 1.5px at 15% 50%,rgba(255,255,255,.8) 50%,transparent 51%),
-    radial-gradient(1.5px 1.5px at 55% 25%,rgba(255,255,255,.75) 50%,transparent 51%),
-    radial-gradient(1.5px 1.5px at 90% 85%,rgba(255,255,255,.9) 50%,transparent 51%),
-    radial-gradient(1.5px 1.5px at 35% 15%,rgba(255,255,255,.65) 50%,transparent 51%),
-    radial-gradient(1.5px 1.5px at 75% 75%,rgba(255,255,255,.8) 50%,transparent 51%);
-  background-size:300px 300px;
-  animation: drift 120s linear infinite reverse;
-  z-index:-1;
-  opacity:.65;
-}
+        @keyframes drift {
+            from { transform: rotate(0deg) scale(2); }
+            to { transform: rotate(360deg) scale(2); }
+        }
 
-@keyframes drift{
-  from{transform:translateY(0);}
-  to  {transform:translateY(-50%);}
-}
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 0.8; }
+        }
 
-/* ---------- Global text & layout ---------- */
-body{
-  margin:0;padding:0;min-height:100%;
-  font-family:"Exo 2",sans-serif;color:var(--text);
-  background:transparent;   /* let the starfield show through */
-}
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 2rem;
+        }
 
-/* ---------- Navigation ---------- */
-.navbar{
-  background:rgba(0,0,0,.7);
-  backdrop-filter:blur(6px);
-  border-bottom:1px solid rgba(19,176,255,.35);
-  position:sticky;top:0;z-index:100;
-}
-.nav-container{max-width:1200px;margin:0 auto;display:flex;justify-content:center;}
-.nav-tabs{display:flex;flex-wrap:wrap;border-radius:42px;background:rgba(255,255,255,.07);}
-.nav-tab{
-  padding:.8rem 2rem;font-weight:600;color:var(--text);text-decoration:none;
-  letter-spacing:.5px;border-right:1px solid rgba(19,176,255,.15);
-  transition:.25s;position:relative;
-}
-.nav-tab:last-child{border-right:none;}
-.nav-tab:hover{background:rgba(19,176,255,.22);color:var(--cyan);}
-.nav-tab.active{
-  background:linear-gradient(to right,var(--magenta),var(--cyan));color:#fff;
-}
-.nav-tab.active::after{
-  content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);
-  width:60%;height:3px;border-radius:3px 3px 0 0;background:var(--cyan);
-}
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-/* ---------- Content sections ---------- */
-.container{max-width:1200px;margin:4rem auto;padding:0 2rem;}
-.content-section{display:none;animation:fade .5s ease;}
-.content-section.active{display:block;}
-@keyframes fade{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #00f, #f0f);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
-h1{
-  font-size:3rem;margin-bottom:1.5rem;
-  background:linear-gradient(to right,var(--cyan),#fff);
-  background-clip:text;-webkit-background-clip:text;color:transparent;
-  text-shadow:0 0 18px rgba(19,176,255,.45);
-}
-p{max-width:800px;line-height:1.8;}
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
 
-/* ---------- Mobile tweaks ---------- */
-@media(max-width:768px){
-  .nav-tab{flex:1 0 45%;text-align:center;border-right:none;
-           border-bottom:1px solid rgba(19,176,255,.15);}
-  h1{font-size:2.2rem;}
-}
-</style>
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #00f;
+        }
+
+        /* Main container */
+        .container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            padding-top: 80px;
+        }
+
+        /* Page sections */
+        .page {
+            display: none;
+            animation: fadeIn 0.5s;
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Home page with circular layout */
+
+        /* Circular Layout */
+        .circular-layout {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 95vw;
+            height: 95vh;
+            max-width: none;
+            max-height: none;
+        }
+
+        /* Central node */
+        .central-node {
+            position: absolute;
+            background: rgba(0, 50, 150, 0.9);
+            border: 4px solid #00f;
+            border-radius: 50%;
+            width: 250px;
+            height: 250px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.4s;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 0 40px rgba(0, 100, 255, 0.8);
+            z-index: 50;
+        }
+
+        .central-node:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 60px rgba(0, 100, 255, 1);
+        }
+
+        .central-node h2 {
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+            color: #fff;
+        }
+
+        .central-node p {
+            font-size: 1rem;
+            color: #cbd5e1;
+            text-align: center;
+        }
+
+        /* Circular nodes */
+        .circular-node {
+            position: absolute;
+            background: rgba(0, 0, 30, 0.85);
+            border: 3px solid rgba(100, 149, 237, 0.6);
+            border-radius: 50%;
+            width: 180px;
+            height: 180px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.4s;
+            backdrop-filter: blur(10px);
+            text-align: center;
+            padding: 1.5rem;
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.5);
+        }
+
+        .circular-node:hover {
+            transform: scale(1.15);
+            background: rgba(0, 50, 100, 0.95);
+            border-color: #00f;
+            box-shadow: 0 0 30px rgba(0, 100, 255, 0.6);
+        }
+
+        .circular-node h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: #7dd3fc;
+            line-height: 1.2;
+        }
+
+        .circular-node p {
+            font-size: 0.85rem;
+            color: #cbd5e1;
+            line-height: 1.3;
+        }
+
+        /* Connection lines */
+        .connection {
+            position: absolute;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, rgba(100, 149, 237, 0.6), transparent);
+            transform-origin: left center;
+            pointer-events: none;
+            opacity: 0.8;
+            z-index: 1;
+        }
+
+        /* Content sections for other pages */
+        .content-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 2rem 0;
+            backdrop-filter: blur(10px);
+        }
+
+        .content-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, #00f, #0ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .research-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .research-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 0, 255, 0.3);
+            border-radius: 15px;
+            padding: 2rem;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .research-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 255, 0.3);
+        }
+
+        .research-card h3 {
+            color: #0ff;
+            margin-bottom: 1rem;
+        }
+
+        .research-card p {
+            color: #aaa;
+            line-height: 1.6;
+        }
+
+        /* Back button */
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 2rem;
+            padding: 0.8rem 2rem;
+            background: rgba(0, 0, 255, 0.2);
+            border: 2px solid #00f;
+            border-radius: 25px;
+            color: #fff;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            background: rgba(0, 0, 255, 0.4);
+            transform: translateX(-5px);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem 0;
+            color: #666;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .circular-layout {
+                width: 98vw;
+                height: 98vh;
+            }
+            
+            .central-node {
+                width: 200px;
+                height: 200px;
+            }
+            
+            .central-node h2 {
+                font-size: 1.8rem;
+            }
+            
+            .circular-node {
+                width: 130px;
+                height: 130px;
+                padding: 1rem;
+            }
+            
+            .circular-node h3 {
+                font-size: 0.9rem;
+            }
+            
+            .circular-node p {
+                font-size: 0.75rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .circular-node {
+                width: 100px;
+                height: 100px;
+                padding: 0.5rem;
+            }
+            
+            .central-node {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .central-node h2 {
+                font-size: 1.4rem;
+            }
+            
+            .circular-node h3 {
+                font-size: 0.8rem;
+            }
+            
+            .circular-node p {
+                font-size: 0.65rem;
+            }
+        }
+    </style>
 </head>
 <body>
+    <!-- Galaxy background -->
+    <div class="galaxy-bg"></div>
 
-<!-- NAVBAR -->
-<nav class="navbar">
-  <div class="nav-container">
-    <div class="nav-tabs">
-      <a class="nav-tab active" data-tab="about" href="#">About</a>
-      <a class="nav-tab" data-tab="personnel" href="#">Personnel</a>
-      <a class="nav-tab" data-tab="research" href="#">Research</a>
-      <a class="nav-tab" data-tab="surveys" href="#">Surveys&nbsp;&amp;&nbsp;Telescopes</a>
-      <a class="nav-tab" data-tab="publications" href="#">Publications</a>
-      <a class="nav-tab" data-tab="contact" href="#">Contact</a>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-content">
+            <div class="logo">UCR Astrophysics</div>
+            <div class="nav-links">
+                <a href="#" onclick="showPage('home')">Home</a>
+                <a href="#" onclick="showPage('teaching')">Teaching</a>
+                <a href="#" onclick="showPage('publications')">Publications</a>
+                <a href="#" onclick="showPage('outreach')">Outreach</a>
+                <a href="#" onclick="showPage('people')">People</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main container -->
+    <div class="container">
+        <!-- Home page with circular layout -->
+        <div id="home" class="page active">
+            <div class="circular-layout" id="circularLayout">
+                <!-- Central Science node -->
+                <div class="central-node" onclick="showPage('science')">
+                    <h2>Science</h2>
+                    <p>Explore our research areas</p>
+                </div>
+
+                <!-- 13 circular nodes arranged in a circle -->
+                <div class="circular-node" data-angle="0" onclick="showPage('teaching')">
+                    <h3>Teaching</h3>
+                    <p>Courses & Education</p>
+                </div>
+
+                <div class="circular-node" data-angle="27.69" onclick="showPage('publications')">
+                    <h3>Recent Publications</h3>
+                    <p>Latest Research</p>
+                </div>
+
+                <div class="circular-node" data-angle="55.38" onclick="showPage('outreach')">
+                    <h3>Outreach</h3>
+                    <p>Community Engagement</p>
+                </div>
+
+                <div class="circular-node" data-angle="83.07" onclick="showPage('people')">
+                    <h3>Current Students</h3>
+                    <p>& Postdocs</p>
+                </div>
+
+                <div class="circular-node" data-angle="110.76" onclick="showPage('alumni')">
+                    <h3>Former Students</h3>
+                    <p>& Postdocs</p>
+                </div>
+
+                <div class="circular-node" data-angle="138.45" onclick="showPage('galaxy-formation')">
+                    <h3>Galaxy Formation</h3>
+                    <p>& Evolution</p>
+                </div>
+
+                <div class="circular-node" data-angle="166.14" onclick="showPage('surveys')">
+                    <h3>Galaxy Surveys</h3>
+                    <p>CANDELS, COSMOS</p>
+                </div>
+
+                <div class="circular-node" data-angle="193.83" onclick="showPage('lss')">
+                    <h3>Large Scale Structure</h3>
+                    <p>Cosmic Web</p>
+                </div>
+
+                <div class="circular-node" data-angle="221.52" onclick="showPage('astro-ai')">
+                    <h3>Astro-AI</h3>
+                    <p>Machine Learning</p>
+                </div>
+
+                <div class="circular-node" data-angle="249.21" onclick="showPage('statistical')">
+                    <h3>Statistical Studies</h3>
+                    <p>Mass & Luminosity</p>
+                </div>
+
+                <div class="circular-node" data-angle="276.9" onclick="showPage('clusters')">
+                    <h3>Galaxy Clusters</h3>
+                    <p>BUFFALO, CLASH</p>
+                </div>
+
+                <div class="circular-node" data-angle="304.59" onclick="showPage('highz')">
+                    <h3>High-z Objects</h3>
+                    <p>High Redshift</p>
+                </div>
+
+                <div class="circular-node" data-angle="332.28" onclick="showPage('instruments')">
+                    <h3>Instruments</h3>
+                    <p>HST, JWST, Euclid</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Teaching page -->
+        <div id="teaching" class="page">
+            <a href="#" class="back-btn" onclick="showPage('home')">← Back to Home</a>
+            <div class="content-section">
+                <h2>Teaching</h2>
+                <div class="research-grid">
+                    <div class="research-card">
+                        <h3>Graduate Courses</h3>
+                        <p>Advanced topics in extragalactic astronomy, cosmology, and observational techniques.</p>
+                    </div>
+                    <div class="research-card">
+                        <h3>Undergraduate Courses</h3>
+                        <p>Introduction to galaxies, stellar astronomy, and general astrophysics.</p>
+                    </div>
+                    <div class="research-card">
+                        <h3>Summer Programs</h3>
+                        <p>Research opportunities for undergraduate students in galaxy evolution studies.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Science page -->
+        <div id="science" class="page">
+            <a href="#" class="back-btn" onclick="showPage('home')">← Back to Home</a>
+            <div class="content-section">
+                <h2>Our Science</h2>
+                <div class="research-grid">
+                    <div class="research-card" onclick="showPage('galaxy-formation')">
+                        <h3>Galaxy Formation & Evolution</h3>
+                        <p>Spectroscopic properties of galaxies, subkpc scale studies, pixel SED fitting</p>
+                    </div>
+                    <div class="research-card" onclick="showPage('surveys')">
+                        <h3>Galaxy Surveys</h3>
+                        <p>CANDELS, HUDF, COSMOS2020, COSMOS-WEB, H2O, CEERS, CATALOGS</p>
+                    </div>
+                    <div class="research-card" onclick="showPage('lss')">
+                        <h3>Large Scale Structure</h3>
+                        <p>Clustering & filamentary studies of the cosmic web</p>
+                    </div>
+                    <div class="research-card" onclick="showPage('astro-ai')">
+                        <h3>Astro-AI</h3>
+                        <p>ML applications, superresolution, multi-modal models</p>
+                    </div>
+                    <div class="research-card">
+                        <h3>Statistical Studies</h3>
+                        <p>Mass function, luminosity function as a function of galaxy properties</p>
+                    </div>
+                    <div class="research-card">
+                        <h3>Galaxy Clusters</h3>
+                        <p>Density-morphology relations, BUFFALO, CLASH, HFF, Coma</p>
+                    </div>
+                    <div class="research-card">
+                        <h3>High-z Objects</h3>
+                        <p>Searching for high redshift galaxies, ISM of high-z galaxies</p>
+                    </div>
+                    <div class="research-card">
+                        <h3>Instruments</h3>
+                        <p>HST, JWST, Euclid, Roman, SPHEREx, PFS, Keck, Subaru</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Galaxy Formation page -->
+        <div id="galaxy-formation" class="page">
+            <a href="#" class="back-btn" onclick="showPage('science')">← Back to Science</a>
+            <div class="content-section">
+                <h2>Galaxy Formation & Evolution</h2>
+                <p>Our research focuses on understanding how galaxies form and evolve over cosmic time through detailed spectroscopic analysis and innovative observational techniques.</p>
+                
+                <div class="research-grid">
+                    <div class="research-card">
+                        <h3>Spectroscopic Properties</h3>
+                        <p>Analyzing emission lines, stellar populations, and chemical abundances to trace galaxy evolution.</p>
+                    </div>
+                    <div class="research-card">
+                        <h3>Subkpc Scale Studies</h3>
+                        <p>High-resolution observations revealing the internal structure and dynamics of galaxies.</p>
+                    </div>
+                    <div class="research-card">
+                        <h3>Pixel SED Fitting</h3>
+                        <p>Spatially resolved analysis of stellar populations and star formation histories.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Other pages follow similar structure -->
+        <div id="publications" class="page">
+            <a href="#" class="back-btn" onclick="showPage('home')">← Back to Home</a>
+            <div class="content-section">
+                <h2>Recent Publications</h2>
+                <p>Our group's latest contributions to the field of extragalactic astronomy.</p>
+            </div>
+        </div>
+
+        <div id="outreach" class="page">
+            <a href="#" class="back-btn" onclick="showPage('home')">← Back to Home</a>
+            <div class="content-section">
+                <h2>Outreach</h2>
+                <p>Engaging with the community to share the wonders of the universe.</p>
+            </div>
+        </div>
+
+        <div id="people" class="page">
+            <a href="#" class="back-btn" onclick="showPage('home')">← Back to Home</a>
+            <div class="content-section">
+                <h2>Current Students & Postdocs</h2>
+                <p>Meet our talented team of researchers pushing the boundaries of extragalactic astronomy.</p>
+            </div>
+        </div>
+
+        <div id="alumni" class="page">
+            <a href="#" class="back-btn" onclick="showPage('home')">← Back to Home</a>
+            <div class="content-section">
+                <h2>Former Students & Postdocs</h2>
+                <p>Our alumni making impacts across academia and industry.</p>
+            </div>
+        </div>
+
+        <div id="surveys" class="page">
+            <a href="#" class="back-btn" onclick="showPage('science')">← Back to Science</a>
+            <div class="content-section">
+                <h2>Galaxy Surveys</h2>
+                <p>Large-scale observational campaigns mapping the universe.</p>
+                <div class="research-grid">
+                    <div class="research-card">
+                        <h3>CANDELS</h3>
+                        <p>Cosmic Assembly Near-infrared Deep Extragalactic Legacy Survey</p>
+                    </div>
+                    <div class="research-card">
+                        <h3>COSMOS</h3>
+                        <p>Cosmic Evolution Survey with HST, JWST, and ground-based telescopes</p>
+                    </div>
+                    <div class="research-card">
+                        <h3>CEERS</h3>
+                        <p>Cosmic Evolution Early Release Science with JWST</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="lss" class="page">
+            <a href="#" class="back-btn" onclick="showPage('science')">← Back to Science</a>
+            <div class="content-section">
+                <h2>Large Scale Structure</h2>
+                <p>Mapping the cosmic web through galaxy clustering and filamentary structures.</p>
+            </div>
+        </div>
+
+        <div id="astro-ai" class="page">
+            <a href="#" class="back-btn" onclick="showPage('science')">← Back to Science</a>
+            <div class="content-section">
+                <h2>Astro-AI</h2>
+                <p>Leveraging machine learning and artificial intelligence for astronomical discoveries.</p>
+                <div class="research-grid">
+                    <div class="research-card">
+                        <h3>Superresolution</h3>
+                        <p>Enhancing telescope images using deep learning techniques</p>
+                    </div>
+                    <div class="research-card">
+                        <h3>Galaxy Classification</h3>
+                        <p>Automated identification of different galaxy populations</p>
+                    </div>
+                    <div class="research-card">
+                        <h3>Multi-modal Models</h3>
+                        <p>Combining multiple data types for comprehensive analysis</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="statistical" class="page">
+            <a href="#" class="back-btn" onclick="showPage('science')">← Back to Science</a>
+            <div class="content-section">
+                <h2>Statistical Studies</h2>
+                <p>Understanding galaxy populations through statistical analysis of their properties.</p>
+                <div class="research-grid">
+                    <div class="research-card">
+                        <h3>Mass Functions</h3>
+                        <p>Distribution of galaxy masses across cosmic time</p>
+                    </div>
+                    <div class="research-card">
+                        <h3>Luminosity Functions</h3>
+                        <p>Evolution of galaxy brightness distributions</p>
+                    </div>
+                    <div class="research-card">
+                        <h3>Property Correlations</h3>
+                        <p>Relationships between galaxy characteristics</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="clusters" class="page">
+            <a href="#" class="back-btn" onclick="showPage('science')">← Back to Science</a>
+            <div class="content-section">
+                <h2>Galaxy Clusters</h2>
+                <p>Studying the largest gravitationally bound structures in the universe.</p>
+                <div class="research-grid">
+                    <div class="research-card">
+                        <h3>BUFFALO</h3>
+                        <p>Beyond Ultra-deep Frontier Fields And Legacy Observations</p>
+                    </div>
+                    <div class="research-card">
+                        <h3>CLASH</h3>
+                        <p>Cluster Lensing And Supernova survey with Hubble</p>
+                    </div>
+                    <div class="research-card">
+                        <h3>Coma Cluster</h3>
+                        <p>Detailed studies of our nearest rich galaxy cluster</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="highz" class="page">
+            <a href="#" class="back-btn" onclick="showPage('science')">← Back to Science</a>
+            <div class="content-section">
+                <h2>High-Redshift Galaxies</h2>
+                <p>Discovering and characterizing the earliest galaxies in the universe.</p>
+                <div class="research-grid">
+                    <div class="research-card">
+                        <h3>Galaxy Search</h3>
+                        <p>Finding galaxies at z > 6 using photometric techniques</p>
+                    </div>
+                    <div class="research-card">
+                        <h3>ISM Studies</h3>
+                        <p>Interstellar medium properties in early galaxies</p>
+                    </div>
+                    <div class="research-card">
+                        <h3>Reionization Era</h3>
+                        <p>Galaxies during the epoch of reionization</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="instruments" class="page">
+            <a href="#" class="back-btn" onclick="showPage('science')">← Back to Science</a>
+            <div class="content-section">
+                <h2>Instruments & Telescopes</h2>
+                <p>Cutting-edge facilities enabling our research.</p>
+                <div class="research-grid">
+                    <div class="research-card">
+                        <h3>Space Telescopes</h3>
+                        <p>HST, JWST, Euclid, Roman, SPHEREx</p>
+                    </div>
+                    <div class="research-card">
+                        <h3>Ground-Based</h3>
+                        <p>Keck (MOSFIRE, DEIMOS), Subaru-HSC, PFS</p>
+                    </div>
+                    <div class="research-card">
+                        <h3>Future Missions</h3>
+                        <p>Next-generation facilities and instruments</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-</nav>
 
-<!-- CONTENT -->
-<div class="container">
-  <section id="about" class="content-section active"><h1>About</h1><p>TBD</p></section>
-  <section id="personnel" class="content-section"><h1>Personnel</h1><p>TBD</p></section>
-  <section id="research" class="content-section"><h1>Research</h1><p>TBD</p></section>
-  <section id="surveys" class="content-section"><h1>Surveys &amp; Telescopes</h1><p>TBD</p></section>
-  <section id="publications" class="content-section"><h1>Publications</h1><p>TBD</p></section>
-  <section id="contact" class="content-section"><h1>Contact</h1><p>TBD</p></section>
-</div>
+    <footer>
+        <p>© 2024 UCR Extragalactic Astrophysics Research Group</p>
+    </footer>
 
-<script>
-/* --- Tab switcher --- */
-document.querySelectorAll(".nav-tab").forEach(tab=>{
-  tab.addEventListener("click",e=>{
-    e.preventDefault();
-    document.querySelectorAll(".nav-tab").forEach(t=>t.classList.remove("active"));
-    document.querySelectorAll(".content-section").forEach(s=>s.classList.remove("active"));
-    tab.classList.add("active");
-    document.getElementById(tab.dataset.tab).classList.add("active");
-  });
-});
-</script>
+    <script>
+        // Page navigation
+        function showPage(pageId) {
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active'));
+            
+            const selectedPage = document.getElementById(pageId);
+            if (selectedPage) {
+                selectedPage.classList.add('active');
+                window.scrollTo(0, 0);
+            }
+        }
+
+        // Position nodes in a circle
+        function positionCircularNodes() {
+            const layout = document.getElementById('circularLayout');
+            const nodes = layout.querySelectorAll('.circular-node');
+            const centralNode = layout.querySelector('.central-node');
+            
+            if (!layout || !centralNode) return;
+            
+            const centerX = layout.offsetWidth / 2;
+            const centerY = layout.offsetHeight / 2;
+            
+            // Position central node at exact center
+            centralNode.style.left = (centerX - centralNode.offsetWidth / 2) + 'px';
+            centralNode.style.top = (centerY - centralNode.offsetHeight / 2) + 'px';
+            
+            // Calculate radius for outer nodes
+            const radius = Math.min(centerX, centerY) * 0.7;
+            
+            nodes.forEach((node, index) => {
+                const angle = parseFloat(node.getAttribute('data-angle'));
+                const angleRad = (angle * Math.PI) / 180;
+                
+                const x = centerX + radius * Math.cos(angleRad) - node.offsetWidth / 2;
+                const y = centerY + radius * Math.sin(angleRad) - node.offsetHeight / 2;
+                
+                node.style.left = x + 'px';
+                node.style.top = y + 'px';
+            });
+        }
+
+        // Draw connections from center to all nodes
+        function drawConnections() {
+            const layout = document.getElementById('circularLayout');
+            const centralNode = layout.querySelector('.central-node');
+            const nodes = layout.querySelectorAll('.circular-node');
+            
+            // Remove existing connections
+            const existingConnections = layout.querySelectorAll('.connection');
+            existingConnections.forEach(conn => conn.remove());
+            
+            if (!centralNode) return;
+            
+            const centerX = parseFloat(centralNode.style.left) + centralNode.offsetWidth / 2;
+            const centerY = parseFloat(centralNode.style.top) + centralNode.offsetHeight / 2;
+            
+            nodes.forEach(node => {
+                const nodeX = parseFloat(node.style.left) + node.offsetWidth / 2;
+                const nodeY = parseFloat(node.style.top) + node.offsetHeight / 2;
+                
+                const distance = Math.sqrt(Math.pow(nodeX - centerX, 2) + Math.pow(nodeY - centerY, 2));
+                const angle = Math.atan2(nodeY - centerY, nodeX - centerX) * 180 / Math.PI;
+                
+                // Start connection from edge of central node, not center
+                const centralRadius = centralNode.offsetWidth / 2;
+                const startX = centerX + (centralRadius * Math.cos(angle * Math.PI / 180));
+                const startY = centerY + (centralRadius * Math.sin(angle * Math.PI / 180));
+                
+                // End connection at edge of outer node
+                const nodeRadius = node.offsetWidth / 2;
+                const adjustedDistance = distance - centralRadius - nodeRadius;
+                
+                const connection = document.createElement('div');
+                connection.className = 'connection';
+                connection.style.width = adjustedDistance + 'px';
+                connection.style.left = startX + 'px';
+                connection.style.top = startY + 'px';
+                connection.style.transform = `rotate(${angle}deg)`;
+                
+                layout.appendChild(connection);
+            });
+        }
+
+        // Initialize layout
+        function initializeLayout() {
+            setTimeout(() => {
+                positionCircularNodes();
+                setTimeout(drawConnections, 100);
+            }, 100);
+        }
+
+        // Event listeners
+        window.addEventListener('load', initializeLayout);
+        window.addEventListener('resize', () => {
+            clearTimeout(window.resizeTimeout);
+            window.resizeTimeout = setTimeout(initializeLayout, 250);
+        });
+    </script>
 </body>
 </html>
