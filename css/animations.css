@@ -1,0 +1,229 @@
+/* animations.css - All animation keyframes for the research group website */
+
+/* Cursor pulse animation */
+@keyframes cursorPulse {
+    0%, 100% { 
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% { 
+        transform: scale(1.2);
+        opacity: 0.5;
+    }
+}
+
+/* Floating particles animation */
+@keyframes floatingParticles {
+    0%, 100% { 
+        transform: translateY(0px) translateX(0px);
+        opacity: 0.6;
+    }
+    25% { 
+        transform: translateY(-10px) translateX(5px);
+        opacity: 0.8;
+    }
+    50% { 
+        transform: translateY(-5px) translateX(-8px);
+        opacity: 1;
+    }
+    75% { 
+        transform: translateY(8px) translateX(3px);
+        opacity: 0.7;
+    }
+}
+
+/* Galaxy background drift */
+@keyframes drift {
+    from { transform: rotate(0deg) scale(2); }
+    to { transform: rotate(360deg) scale(2); }
+}
+
+/* Galaxy pulse effect */
+@keyframes pulse {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 0.8; }
+}
+
+/* Page fade in animation */
+@keyframes fadeIn {
+    from { 
+        opacity: 0; 
+        transform: translateY(20px); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+    }
+}
+
+/* Circular layout slow rotation */
+@keyframes slowRotate {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Central node pulse */
+@keyframes centralPulse {
+    0%, 100% { 
+        box-shadow: 
+            0 0 40px rgba(0, 100, 255, 0.8),
+            inset 0 0 30px rgba(0, 150, 255, 0.3);
+        transform: scale(1);
+    }
+    50% { 
+        box-shadow: 
+            0 0 60px rgba(0, 100, 255, 1),
+            0 0 80px rgba(0, 150, 255, 0.6),
+            inset 0 0 40px rgba(0, 200, 255, 0.4);
+        transform: scale(1.02);
+    }
+}
+
+/* Circular nodes counter rotation */
+@keyframes counterRotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(-360deg); }
+}
+
+/* Node glow effect */
+@keyframes nodeGlow {
+    0%, 100% { 
+        box-shadow: 
+            0 6px 25px rgba(0, 0, 0, 0.5),
+            0 0 20px rgba(100, 149, 237, 0.3);
+    }
+    50% { 
+        box-shadow: 
+            0 8px 30px rgba(0, 0, 0, 0.6),
+            0 0 30px rgba(100, 149, 237, 0.5),
+            0 0 40px rgba(0, 100, 255, 0.2);
+    }
+}
+
+/* Connection energy flow */
+@keyframes energyFlow {
+    0%, 100% { 
+        background: linear-gradient(90deg, transparent, rgba(100, 149, 237, 0.6), rgba(0, 150, 255, 0.8), rgba(100, 149, 237, 0.6), transparent);
+        opacity: 0.7;
+    }
+    50% { 
+        background: linear-gradient(90deg, transparent, rgba(0, 150, 255, 0.9), rgba(0, 200, 255, 1), rgba(255, 255, 255, 0.8), rgba(0, 150, 255, 0.9), transparent);
+        opacity: 1;
+        box-shadow: 0 0 10px rgba(0, 150, 255, 0.5);
+    }
+}
+
+/* Circular layout specific styles */
+.circular-layout {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 95vw;
+    height: 95vh;
+    max-width: none;
+    max-height: none;
+    animation: slowRotate 300s linear infinite;
+}
+
+/* Central node styles */
+.central-node {
+    position: absolute;
+    background: rgba(0, 50, 150, 0.9);
+    border: 4px solid #00f;
+    border-radius: 50%;
+    width: 250px;
+    height: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.4s;
+    backdrop-filter: blur(15px);
+    box-shadow: 
+        0 0 40px rgba(0, 100, 255, 0.8),
+        inset 0 0 30px rgba(0, 150, 255, 0.3);
+    z-index: 50;
+    animation: centralPulse 4s ease-in-out infinite;
+}
+
+.central-node:hover {
+    transform: scale(1.1);
+    box-shadow: 
+        0 0 80px rgba(0, 100, 255, 1),
+        0 0 120px rgba(0, 150, 255, 0.8),
+        inset 0 0 50px rgba(0, 200, 255, 0.5);
+    animation: none;
+}
+
+.central-node h2 {
+    font-size: 2.2rem;
+    margin-bottom: 0.5rem;
+    color: #fff;
+}
+
+.central-node p {
+    font-size: 1rem;
+    color: #cbd5e1;
+    text-align: center;
+}
+
+/* Circular nodes */
+.circular-node {
+    position: absolute;
+    background: rgba(0, 0, 30, 0.85);
+    border: 3px solid rgba(100, 149, 237, 0.6);
+    border-radius: 50%;
+    width: 180px;
+    height: 180px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.4s;
+    backdrop-filter: blur(10px);
+    text-align: center;
+    padding: 1.5rem;
+    box-shadow: 
+        0 6px 25px rgba(0, 0, 0, 0.5),
+        0 0 20px rgba(100, 149, 237, 0.3);
+    animation: counterRotate 300s linear infinite, nodeGlow 6s ease-in-out infinite;
+}
+
+.circular-node:hover {
+    transform: scale(1.15) rotate(0deg);
+    background: rgba(0, 50, 100, 0.95);
+    border-color: #00f;
+    box-shadow: 
+        0 10px 40px rgba(0, 0, 0, 0.7),
+        0 0 50px rgba(0, 100, 255, 0.8),
+        0 0 80px rgba(0, 150, 255, 0.4);
+    animation: counterRotate 300s linear infinite;
+}
+
+.circular-node h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    color: #7dd3fc;
+    line-height: 1.2;
+}
+
+.circular-node p {
+    font-size: 0.85rem;
+    color: #cbd5e1;
+    line-height: 1.3;
+}
+
+/* Connection lines */
+.connection {
+    position: absolute;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, rgba(100, 149, 237, 0.8), rgba(0, 150, 255, 1), rgba(100, 149, 237, 0.8), transparent);
+    transform-origin: left center;
+    pointer-events: none;
+    opacity: 0.8;
+    z-index: 1;
+    animation: energyFlow 3s ease-in-out infinite;
+}

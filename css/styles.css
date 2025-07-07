@@ -1,0 +1,317 @@
+/* styles.css - Main styles for the research group website */
+
+/* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: #000;
+    color: #fff;
+    overflow-x: hidden;
+    position: relative;
+    cursor: none;
+}
+
+/* Custom cursor */
+.custom-cursor {
+    position: fixed;
+    width: 20px;
+    height: 20px;
+    background: radial-gradient(circle, rgba(0, 150, 255, 0.8) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.1s ease;
+    box-shadow: 0 0 20px rgba(0, 150, 255, 0.5);
+}
+
+.custom-cursor::after {
+    content: '';
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    top: -10px;
+    left: -10px;
+    border: 1px solid rgba(0, 150, 255, 0.3);
+    border-radius: 50%;
+    animation: cursorPulse 2s ease-in-out infinite;
+}
+
+/* Galaxy background */
+.galaxy-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    background: 
+        radial-gradient(ellipse at 15% 25%, rgba(255, 69, 0, 0.4) 0%, rgba(255, 140, 0, 0.2) 25%, transparent 70%),
+        radial-gradient(ellipse at 85% 75%, rgba(138, 43, 226, 0.3) 0%, rgba(75, 0, 130, 0.2) 30%, transparent 65%),
+        radial-gradient(ellipse at 70% 20%, rgba(255, 215, 0, 0.3) 0%, rgba(255, 165, 0, 0.15) 35%, transparent 70%),
+        radial-gradient(ellipse at 30% 80%, rgba(0, 191, 255, 0.25) 0%, rgba(30, 144, 255, 0.15) 40%, transparent 75%),
+        radial-gradient(ellipse at 60% 60%, rgba(220, 20, 60, 0.2) 0%, rgba(139, 0, 139, 0.1) 45%, transparent 80%),
+        radial-gradient(ellipse at 10% 60%, rgba(255, 20, 147, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 90% 30%, rgba(0, 255, 127, 0.1) 0%, transparent 60%),
+        radial-gradient(circle at 50% 50%, rgba(25, 25, 112, 0.6) 0%, rgba(0, 0, 0, 0.95) 100%),
+        #000812;
+    overflow: hidden;
+}
+
+.galaxy-bg::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(2px 2px at 20% 30%, rgba(255, 255, 255, 0.9), transparent),
+        radial-gradient(1px 1px at 22% 32%, rgba(255, 255, 255, 0.6), transparent),
+        radial-gradient(3px 3px at 60% 70%, rgba(255, 220, 180, 0.8), transparent),
+        radial-gradient(1px 1px at 62% 72%, rgba(255, 200, 150, 0.5), transparent),
+        radial-gradient(2px 2px at 50% 10%, rgba(180, 200, 255, 0.9), transparent),
+        radial-gradient(1px 1px at 52% 12%, rgba(150, 180, 255, 0.6), transparent),
+        radial-gradient(1px 1px at 80% 40%, rgba(255, 255, 255, 0.7), transparent),
+        radial-gradient(2px 2px at 10% 90%, rgba(255, 255, 200, 0.8), transparent),
+        radial-gradient(1px 1px at 90% 20%, rgba(255, 180, 255, 0.6), transparent),
+        radial-gradient(1px 1px at 30% 50%, rgba(200, 255, 255, 0.7), transparent),
+        radial-gradient(1px 1px at 70% 80%, rgba(255, 255, 255, 0.8), transparent),
+        radial-gradient(1px 1px at 25% 15%, rgba(255, 200, 200, 0.6), transparent);
+    background-size: 600px 600px, 300px 300px, 800px 800px, 400px 400px, 500px 500px, 250px 250px, 350px 350px, 450px 450px, 550px 550px, 400px 400px, 300px 300px, 200px 200px;
+    background-repeat: repeat;
+    opacity: 0.8;
+    animation: drift 300s linear infinite;
+}
+
+.galaxy-bg::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(ellipse at 40% 30%, rgba(255, 100, 0, 0.15) 0%, transparent 40%),
+        radial-gradient(ellipse at 80% 70%, rgba(138, 43, 226, 0.12) 0%, transparent 45%),
+        radial-gradient(ellipse at 20% 85%, rgba(0, 191, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(ellipse at 75% 15%, rgba(255, 215, 0, 0.08) 0%, transparent 35%),
+        radial-gradient(ellipse at 55% 90%, rgba(220, 20, 60, 0.1) 0%, transparent 40%),
+        radial-gradient(circle at 85% 25%, rgba(255, 255, 255, 0.03) 0%, transparent 15%),
+        radial-gradient(circle at 15% 75%, rgba(180, 180, 255, 0.04) 0%, transparent 12%),
+        radial-gradient(circle at 90% 80%, rgba(255, 180, 180, 0.03) 0%, transparent 10%),
+        radial-gradient(circle at 30% 20%, rgba(0, 150, 255, 0.4) 0%, transparent 1px),
+        radial-gradient(circle at 70% 40%, rgba(255, 100, 0, 0.3) 0%, transparent 1px),
+        radial-gradient(circle at 20% 60%, rgba(138, 43, 226, 0.4) 0%, transparent 1px),
+        radial-gradient(circle at 80% 80%, rgba(255, 215, 0, 0.3) 0%, transparent 1px),
+        radial-gradient(circle at 10% 30%, rgba(0, 255, 127, 0.3) 0%, transparent 1px),
+        radial-gradient(circle at 90% 10%, rgba(255, 20, 147, 0.4) 0%, transparent 1px);
+    filter: blur(2px);
+    animation: pulse 15s ease-in-out infinite, drift 250s linear infinite reverse, floatingParticles 20s ease-in-out infinite;
+}
+
+/* Navigation */
+nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+    padding: 1rem 2rem;
+    border-bottom: 1px solid rgba(0, 100, 255, 0.3);
+    box-shadow: 
+        0 2px 20px rgba(0, 0, 0, 0.5),
+        0 0 30px rgba(0, 100, 255, 0.1);
+}
+
+.nav-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.logo-main {
+    font-size: 1.4rem;
+    font-weight: bold;
+    background: linear-gradient(45deg, #00f, #f0f);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1.1;
+}
+
+.logo-name {
+    font-size: 1.1rem;
+    color: #7dd3fc;
+    margin-top: 0.3rem;
+    font-weight: 600;
+}
+
+.logo-title {
+    font-size: 0.85rem;
+    color: #cbd5e1;
+    margin-top: 0.2rem;
+    font-weight: 500;
+}
+
+.logo-subtitle {
+    font-size: 0.9rem;
+    color: #7dd3fc;
+    margin-top: 0.2rem;
+    font-weight: 500;
+}
+
+.logo-department {
+    font-size: 0.75rem;
+    color: #cbd5e1;
+    margin-top: 0.1rem;
+    font-weight: 400;
+}
+
+.nav-links {
+    display: flex;
+    gap: 2rem;
+}
+
+.nav-links a {
+    color: #fff;
+    text-decoration: none;
+    transition: all 0.3s;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    position: relative;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    color: #0ff;
+    background: rgba(0, 150, 255, 0.1);
+    box-shadow: 
+        0 0 15px rgba(0, 150, 255, 0.3),
+        inset 0 0 10px rgba(0, 100, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+/* Main container */
+.container {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    padding-top: 80px;
+}
+
+/* Page sections */
+.page {
+    display: none;
+    animation: fadeIn 0.5s;
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.page.active {
+    display: block;
+}
+
+/* Content sections */
+.content-section {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 3rem;
+    margin: 2rem 0;
+    backdrop-filter: blur(10px);
+}
+
+.content-section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(45deg, #00f, #0ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.research-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.research-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(0, 0, 255, 0.3);
+    border-radius: 15px;
+    padding: 2rem;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+.research-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 255, 0.3);
+}
+
+.research-card h3 {
+    color: #0ff;
+    margin-bottom: 1rem;
+}
+
+.research-card p {
+    color: #aaa;
+    line-height: 1.6;
+}
+
+/* Back button */
+.back-btn {
+    display: inline-block;
+    margin-bottom: 2rem;
+    padding: 0.8rem 2rem;
+    background: rgba(0, 0, 255, 0.2);
+    border: 2px solid #00f;
+    border-radius: 25px;
+    color: #fff;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.back-btn:hover {
+    background: rgba(0, 0, 255, 0.4);
+    transform: translateX(-5px);
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 3rem 0;
+    color: #666;
+}
+
+/* Navigation ripple effect */
+.nav-links a {
+    position: relative;
+    overflow: hidden;
+}
+
+.nav-ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.6);
+    transform: scale(0);
+    animation: navRipple 0.6s ease-out;
+    pointer-events: none;
+}
+
+@keyframes navRipple {
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+}

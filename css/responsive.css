@@ -1,0 +1,247 @@
+/* responsive.css - Media queries and responsive styles */
+
+/* Tablet styles */
+@media (max-width: 768px) {
+    .circular-layout {
+        width: 98vw;
+        height: 98vh;
+    }
+    
+    .central-node {
+        width: 200px;
+        height: 200px;
+    }
+    
+    .central-node h2 {
+        font-size: 1.8rem;
+    }
+    
+    .circular-node {
+        width: 130px;
+        height: 130px;
+        padding: 1rem;
+    }
+    
+    .circular-node h3 {
+        font-size: 0.9rem;
+    }
+    
+    .circular-node p {
+        font-size: 0.75rem;
+    }
+    
+    .nav-links {
+        display: none;
+    }
+    
+    .logo-main {
+        font-size: 1.1rem;
+    }
+    
+    .logo-name {
+        font-size: 0.95rem;
+    }
+    
+    .logo-title {
+        font-size: 0.75rem;
+    }
+    
+    .logo-subtitle {
+        font-size: 0.8rem;
+    }
+    
+    .logo-department {
+        font-size: 0.65rem;
+    }
+    
+    /* Content adjustments */
+    .content-section {
+        padding: 2rem;
+    }
+    
+    .content-section h2 {
+        font-size: 2rem;
+    }
+    
+    .research-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+}
+
+/* Mobile styles */
+@media (max-width: 480px) {
+    .circular-node {
+        width: 100px;
+        height: 100px;
+        padding: 0.5rem;
+    }
+    
+    .central-node {
+        width: 150px;
+        height: 150px;
+    }
+    
+    .central-node h2 {
+        font-size: 1.4rem;
+    }
+    
+    .circular-node h3 {
+        font-size: 0.8rem;
+    }
+    
+    .circular-node p {
+        font-size: 0.65rem;
+    }
+    
+    .logo-main {
+        font-size: 1rem;
+    }
+    
+    .logo-name {
+        font-size: 0.85rem;
+    }
+    
+    .logo-title {
+        font-size: 0.7rem;
+    }
+    
+    .logo-subtitle {
+        font-size: 0.75rem;
+    }
+    
+    .logo-department {
+        font-size: 0.6rem;
+    }
+    
+    /* Navigation mobile adjustments */
+    nav {
+        padding: 0.8rem 1rem;
+    }
+    
+    /* Content mobile adjustments */
+    .container {
+        padding-top: 120px;
+    }
+    
+    .page {
+        padding: 1rem;
+    }
+    
+    .content-section {
+        padding: 1.5rem;
+        margin: 1rem 0;
+    }
+    
+    .content-section h2 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+    
+    .back-btn {
+        padding: 0.6rem 1.5rem;
+        font-size: 0.9rem;
+    }
+    
+    .research-card {
+        padding: 1.5rem;
+    }
+    
+    .research-card h3 {
+        font-size: 1rem;
+    }
+    
+    .research-card p {
+        font-size: 0.9rem;
+    }
+}
+
+/* Large desktop styles */
+@media (min-width: 1920px) {
+    .nav-content {
+        max-width: 1600px;
+    }
+    
+    .page {
+        max-width: 1600px;
+    }
+    
+    .circular-layout {
+        width: 90vw;
+        height: 90vh;
+    }
+    
+    .central-node {
+        width: 300px;
+        height: 300px;
+    }
+    
+    .central-node h2 {
+        font-size: 2.5rem;
+    }
+    
+    .circular-node {
+        width: 200px;
+        height: 200px;
+    }
+    
+    .circular-node h3 {
+        font-size: 1.2rem;
+    }
+}
+
+/* Mobile navigation menu (hamburger) - Future enhancement */
+@media (max-width: 768px) {
+    /* Placeholder for mobile menu */
+    .mobile-menu-toggle {
+        display: block;
+        position: absolute;
+        right: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 30px;
+        height: 25px;
+        cursor: pointer;
+    }
+    
+    .mobile-menu-toggle span {
+        display: block;
+        width: 100%;
+        height: 3px;
+        background: #fff;
+        margin: 5px 0;
+        transition: 0.3s;
+    }
+}
+
+/* Print styles */
+@media print {
+    .galaxy-bg,
+    .custom-cursor,
+    .back-btn,
+    nav {
+        display: none;
+    }
+    
+    body {
+        background: white;
+        color: black;
+        cursor: auto;
+    }
+    
+    .container {
+        padding-top: 0;
+    }
+    
+    .content-section {
+        background: none;
+        border: 1px solid #ccc;
+        backdrop-filter: none;
+    }
+    
+    .content-section h2 {
+        -webkit-text-fill-color: black;
+        background: none;
+        color: black;
+    }
+}
