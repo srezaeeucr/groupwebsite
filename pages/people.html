@@ -50,11 +50,11 @@
                             </div>
                             
                             <div class="person-links">
-                                <div class="email-copy-block" onclick="copyEmailToClipboard()" title="Click to copy">
-                                    <span class="link-icon">✉</span>
-                                    <span id="email-text">Saeed.rezaee@email.ucr.edu</span>
-                                    <span id="copy-tooltip" class="tooltip-text">Copied!</span>
-                                </div>
+                            <div class="email-copy-block" onclick="copyEmailToClipboard('Saeed.rezaee@email.ucr.edu', this)" title="Click to copy">
+                                <span class="link-icon">✉</span>
+                                <span class="email-text">Saeed.rezaee@email.ucr.edu</span>
+                                <span class="tooltip-text">Copied!</span>
+                            </div>
                                 <a href="https://scholar.google.com/citations?user=PuCJOKAAAAAJ&hl=en" target="_blank" class="link-button">
                                     <span class="link-icon">🎓</span> Google Scholar
                                 </a>
@@ -94,11 +94,12 @@
                                 <a href="https://sinataamoli.github.io/" target="_blank" class="link-button">
                                     <span class="link-icon">🌐</span> Website
                                 </a>
-                                <div class="email-copy-block" onclick="copyEmailToClipboard('sina.taamoli@email.ucr.edu', this)" title="Click to copy">
-                                    <span class="link-icon">✉</span>
-                                    <span class="email-text">sina.taamoli@email.ucr.edu</span>
-                                    <span class="tooltip-text">Copied!</span>
-                                </div>
+                            <div class="email-copy-block" onclick="copyEmailToClipboard('sina.taamoli@email.ucr.edu', this)" title="Click to copy">
+                                <span class="link-icon">✉</span>
+                                <span class="email-text">sina.taamoli@email.ucr.edu</span>
+                                <span class="tooltip-text">Copied!</span>
+                            </div>
+
                                 <a href="https://sinataamoli.github.io/assets/pdf/SinaTaamoli_Resume.pdf" target="_blank" class="link-button">
                                     <span class="link-icon">📄</span> CV
                                 </a>
@@ -177,17 +178,21 @@
     <script src="../js/main.js"></script>
     <script src="../js/navigation.js"></script>
     <script>
-    function copyEmailToClipboard() {
-        const emailText = document.getElementById("email-text").innerText;
-        navigator.clipboard.writeText(emailText).then(() => {
-            const block = document.querySelector(".email-copy-block");
-            block.classList.add("copied");
+    function copyEmailToClipboard(email, element) {
+        navigator.clipboard.writeText(email).then(() => {
+            element.classList.add("copied");
+            const tooltip = element.querySelector(".tooltip-text");
+            tooltip.style.visibility = "visible";
+            tooltip.style.opacity = "1";
             setTimeout(() => {
-                block.classList.remove("copied");
+                element.classList.remove("copied");
+                tooltip.style.visibility = "hidden";
+                tooltip.style.opacity = "0";
             }, 1500);
         });
     }
     </script>
+
 
 </body>
 </html>

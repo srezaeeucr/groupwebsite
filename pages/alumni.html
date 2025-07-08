@@ -234,13 +234,16 @@
     <script src="../js/main.js"></script>
     <script src="../js/navigation.js"></script>
     <script>
-    function copyEmailToClipboard() {
-        const emailText = document.getElementById("email-text").innerText;
-        navigator.clipboard.writeText(emailText).then(() => {
-            const block = document.querySelector(".email-copy-block");
-            block.classList.add("copied");
+    function copyEmailToClipboard(email, element) {
+        navigator.clipboard.writeText(email).then(() => {
+            element.classList.add("copied");
+            const tooltip = element.querySelector(".tooltip-text");
+            tooltip.style.visibility = "visible";
+            tooltip.style.opacity = "1";
             setTimeout(() => {
-                block.classList.remove("copied");
+                element.classList.remove("copied");
+                tooltip.style.visibility = "hidden";
+                tooltip.style.opacity = "0";
             }, 1500);
         });
     }
