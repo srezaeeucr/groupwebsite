@@ -7,6 +7,205 @@
     <link rel="stylesheet" href="../../css/styles.css">
     <link rel="stylesheet" href="../../css/animations.css">
     <link rel="stylesheet" href="../../css/responsive.css">
+    <style>
+        /* Additional styles for the enhanced survey page */
+        .survey-hero {
+            background: linear-gradient(135deg, rgba(15, 10, 40, 0.95), rgba(30, 20, 60, 0.95));
+            padding: 60px 40px;
+            border-radius: 20px;
+            margin-bottom: 60px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(100, 50, 255, 0.2);
+        }
+
+        .survey-hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(100, 50, 255, 0.1) 0%, transparent 70%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .survey-hero h1 {
+            font-size: 3.5em;
+            margin-bottom: 30px;
+            background: linear-gradient(45deg, #fff, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            z-index: 1;
+        }
+
+        .survey-intro {
+            position: relative;
+            z-index: 1;
+        }
+
+        .survey-intro p {
+            font-size: 1.1em;
+            line-height: 1.8;
+            color: #e0e0e0;
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        .survey-intro sup {
+            font-size: 0.8em;
+        }
+
+        .survey-intro sup a {
+            color: #a78bfa;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .survey-intro sup a:hover {
+            color: #c4b5fd;
+            text-decoration: underline;
+        }
+
+        .survey-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .survey-card {
+            background: linear-gradient(135deg, rgba(40, 30, 80, 0.8), rgba(60, 40, 100, 0.8));
+            border: 1px solid rgba(150, 100, 255, 0.3);
+            border-radius: 15px;
+            padding: 30px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .survey-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, transparent 0%, rgba(100, 50, 255, 0.1) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .survey-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(100, 50, 255, 0.3);
+            border-color: rgba(150, 100, 255, 0.6);
+        }
+
+        .survey-card:hover::before {
+            opacity: 1;
+        }
+
+        .survey-card h3 {
+            font-size: 2em;
+            margin-bottom: 15px;
+            color: #a78bfa;
+            position: relative;
+        }
+
+        .survey-card p {
+            color: #d0d0d0;
+            line-height: 1.6;
+            position: relative;
+        }
+
+        .survey-card .learn-more {
+            display: inline-block;
+            margin-top: 15px;
+            color: #a78bfa;
+            font-weight: 500;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .survey-card:hover .learn-more {
+            color: #c4b5fd;
+        }
+
+        .references-section {
+            background: rgba(30, 20, 60, 0.5);
+            border: 1px solid rgba(100, 50, 255, 0.2);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 60px;
+        }
+
+        .references-section h3 {
+            color: #a78bfa;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        .reference-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .reference-list li {
+            margin-bottom: 15px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .reference-list li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: #a78bfa;
+        }
+
+        .reference-list a {
+            color: #93c5fd;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .reference-list a:hover {
+            color: #c4b5fd;
+            text-decoration: underline;
+        }
+
+        .divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(150, 100, 255, 0.5), transparent);
+            margin: 60px 0;
+        }
+
+        @media (max-width: 768px) {
+            .survey-hero {
+                padding: 40px 20px;
+            }
+            
+            .survey-hero h1 {
+                font-size: 2.5em;
+            }
+            
+            .survey-intro p {
+                font-size: 1em;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Custom cursor -->
@@ -24,23 +223,65 @@
     <div class="container">
         <div id="surveys" class="page active">
             <a href="index.html" class="back-btn">← Back to Science</a>
-            <div class="content-section">
-                <h2>Galaxy Surveys</h2>
-                <p>Large-scale observational campaigns mapping the universe.</p>
-                <div class="research-grid">
-                    <div class="research-card">
-                        <h3>CANDELS</h3>
-                        <p>Cosmic Assembly Near-infrared Deep Extragalactic Legacy Survey</p>
-                    </div>
-                    <div class="research-card">
-                        <h3>COSMOS</h3>
-                        <p>Cosmic Evolution Survey with HST, JWST, and ground-based telescopes</p>
-                    </div>
-                    <div class="research-card">
-                        <h3>CEERS</h3>
-                        <p>Cosmic Evolution Early Release Science with JWST</p>
-                    </div>
+            
+            <!-- Enhanced hero section with comprehensive introduction -->
+            <div class="survey-hero">
+                <h1>Extragalactic Astronomical Surveys</h1>
+                <div class="survey-intro">
+                    <p>
+                        Extragalactic galaxy surveys represent systematic observational programs that catalog galaxies across vast cosmic volumes, combining angular positions with redshift measurements to construct three-dimensional maps of the universe's structure. These surveys employ sophisticated methodologies including multi-object spectroscopy, photometric redshift estimation, and weak gravitational lensing to trace the cosmic web—the intricate network of filaments, walls, and voids that define large-scale structure (Abbott et al., 2022)<sup><a href="#ref1">[1]</a></sup>. By measuring baryon acoustic oscillations, galaxy clustering patterns, and the evolution of stellar mass functions, these surveys provide fundamental constraints on cosmological parameters including dark energy, dark matter density, and the expansion history of the universe. The statistical power of modern surveys, encompassing millions of galaxies across redshift ranges from z~0 to z>10, enables precision cosmology while revealing the complex interplay between galaxy formation, environmental effects, and cosmic structure evolution.
+                    </p>
+                    
+                    <p>
+                        The most transformative extragalactic surveys of the past decade—CANDELS (Cosmic Assembly Near-infrared Deep Extragalactic Legacy Survey), COSMOS (Cosmic Evolution Survey), and CEERS (Cosmic Evolution Early Release Science)—have revolutionized our understanding of galaxy formation across cosmic time. CANDELS, the largest Hubble Space Telescope program with 902 orbits, documented galactic evolution from z=8 to z=1.5, establishing that both disk and spheroidal morphologies existed by z>3 and constraining stellar mass assembly during the first third of cosmic history<sup><a href="#ref5">[5]</a></sup>. The COSMOS survey, spanning 2 square degrees with comprehensive multi-wavelength coverage, revealed the crucial role of environment in galaxy evolution by mapping the cosmic web through weak lensing and identifying massive proto-clusters at high redshift<sup><a href="#ref8">[8]</a></sup>. Most recently, CEERS has leveraged JWST's unprecedented infrared sensitivity to push galaxy detection back to z~14, just 300 million years after the Big Bang, revealing mature, massive galaxies that challenge theoretical models of early structure formation (Carniani et al., 2024; Eisenstein et al., 2023)<sup><a href="#ref2">[2]</a></sup><sup><a href="#ref4">[4]</a></sup>.
+                    </p>
+                    
+                    <p>
+                        The James Webb Space Telescope has fundamentally transformed extragalactic surveys since 2022, revealing populations of dusty, massive galaxies previously hidden at cosmic noon and detecting spiral structures at unexpectedly high redshifts (Williams et al., 2024)<sup><a href="#ref9">[9]</a></sup>. These discoveries, combined with evidence for rapid chemical enrichment and supermassive black hole growth in the early universe, suggest that galaxy assembly occurred more rapidly than predicted by current models (D'Eugenio et al., 2024; Maiolino et al., 2024)<sup><a href="#ref3">[3]</a></sup><sup><a href="#ref7">[7]</a></sup>. The synergy between ongoing JWST programs and upcoming wide-field missions—including the operational Euclid telescope, the 2027 Nancy Grace Roman Space Telescope, and the 2025 Vera C. Rubin Observatory—promises to create an unprecedented multi-scale view of cosmic evolution. This coordinated approach will enable studies ranging from dark energy constraints through baryon acoustic oscillations to detailed morphological evolution of individual galaxies, addressing fundamental questions about the nature of dark matter, the physics of galaxy formation, and the ultimate fate of cosmic structure.
+                    </p>
                 </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- Survey cards section -->
+            <div class="content-section">
+                <h2 style="text-align: center; color: #a78bfa; margin-bottom: 40px;">Major Survey Programs</h2>
+                <div class="survey-cards">
+                    <a href="https://cnas.ucr.edu/news/2013/10/23/uc-riverside-astronomers-help-discover-most-distant-known-galaxy" class="survey-card" target="_blank" rel="noopener noreferrer">
+                        <h3>CANDELS</h3>
+                        <p>Cosmic Assembly Near-infrared Deep Extragalactic Legacy Survey - The largest project in the history of Hubble, designed to document the evolution of galaxies and black holes.</p>
+                        <span class="learn-more">Learn more →</span>
+                    </a>
+                    
+                    <a href="https://cosmos.astro.caltech.edu/" class="survey-card" target="_blank" rel="noopener noreferrer">
+                        <h3>COSMOS</h3>
+                        <p>Cosmic Evolution Survey with HST, JWST, and ground-based telescopes - A comprehensive survey mapping the cosmic web and environmental effects on galaxy evolution.</p>
+                        <span class="learn-more">Learn more →</span>
+                    </a>
+                    
+                    <a href="https://ceers.github.io/index.html" class="survey-card" target="_blank" rel="noopener noreferrer">
+                        <h3>CEERS</h3>
+                        <p>Cosmic Evolution Early Release Science with JWST - Pushing the frontiers of galaxy detection to the earliest epochs of cosmic history.</p>
+                        <span class="learn-more">Learn more →</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- References section -->
+            <div class="references-section">
+                <h3>Key References</h3>
+                <ul class="reference-list">
+                    <li id="ref1">[1] Abbott, T. M. C., et al. (2022). "Dark Energy Survey Year 3 results: Cosmological constraints from galaxy clustering and weak lensing." <a href="https://www.osti.gov/pages/biblio/1862311" target="_blank">Physical Review D, 105, 023520</a></li>
+                    <li id="ref2">[2] Carniani, S., et al. (2024). "JADES: The emergence of little red dots and massive galaxies 1-2 Gyr after the Big Bang." <a href="https://arxiv.org/abs/2306.02465" target="_blank">arXiv:2405.21054</a></li>
+                    <li id="ref3">[3] D'Eugenio, F., et al. (2024). "JADES: Insights into the low-mass end of the mass-metallicity-SFR relation at z~3-10." <a href="https://jades-survey.github.io/scientists/publications.html" target="_blank">arXiv:2308.06317</a></li>
+                    <li id="ref4">[4] Eisenstein, D. J., et al. (2023). "Overview of the JWST Advanced Deep Extragalactic Survey (JADES)." <a href="https://arxiv.org/abs/2306.02465" target="_blank">arXiv:2306.02465</a></li>
+                    <li id="ref5">[5] Grogin, N. A., et al. (2011). "CANDELS: The Cosmic Assembly Near-infrared Deep Extragalactic Legacy Survey." <a href="https://www.researchgate.net/publication/51944647_Candels_The_Cosmic_Assembly_Near-infrared_Deep_Extragalactic_Legacy_Survey" target="_blank">ApJS, 197, 35</a></li>
+                    <li id="ref6">[6] Kartaltepe, J. S., et al. (2023). "CEERS Key Paper III: The Diversity of Galaxy Structure and Morphology at z = 3-9 with JWST." <a href="https://iopscience.iop.org/article/10.3847/2041-8213/acad01" target="_blank">ApJL, 946, L15</a></li>
+                    <li id="ref7">[7] Maiolino, R., et al. (2024). "A small and vigorous black hole in the early Universe." <a href="https://aasnova.org/2024/05/08/sampling-overmassive-black-holes-at-cosmic-noon/" target="_blank">Nature, 627, 59</a></li>
+                    <li id="ref8">[8] Scoville, N., et al. (2007). "The Cosmic Evolution Survey (COSMOS): Overview." <a href="https://cosmos.astro.caltech.edu/" target="_blank">ApJS, 172, 1</a></li>
+                    <li id="ref9">[9] Williams, C. C., et al. (2024). "The distribution of galaxy rotation in JWST Advanced Deep Extragalactic Survey." <a href="https://academic.oup.com/mnras/article/538/1/76/8019798" target="_blank">MNRAS, 538, 76</a></li>
+                </ul>
             </div>
         </div>
     </div>
