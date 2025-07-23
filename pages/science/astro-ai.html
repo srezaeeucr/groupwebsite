@@ -7,162 +7,458 @@
     <link rel="stylesheet" href="../../css/styles.css">
     <link rel="stylesheet" href="../../css/animations.css">
     <link rel="stylesheet" href="../../css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* Enhanced Galaxy Background */
+        .galaxy-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
+            z-index: -2;
+            overflow: hidden;
+        }
+        
+        .galaxy-bg::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"><filter id="space-filter"><feTurbulence type="fractalNoise" baseFrequency="0.01" numOctaves="5" stitchTiles="stitch"/><feColorMatrix type="matrix" values="0 0 0 0 0.2 0 0 0 0 0.2 0 0 0 0 0.4 0 0 0 0.8 0"/></filter><rect width="100%" height="100%" filter="url(%23space-filter)"/></svg>');
+            opacity: 0.15;
+            z-index: -1;
+            animation: spacePulse 60s infinite alternate;
+        }
+        
+        @keyframes spacePulse {
+            0% { transform: scale(1); opacity: 0.15; }
+            100% { transform: scale(1.05); opacity: 0.25; }
+        }
+        
+        /* Star Animation */
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle var(--duration) infinite ease-in-out;
+            z-index: -1;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 1; }
+        }
+        
+        /* Main Content Styling */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .page.active {
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        .content-section {
+            margin-bottom: 3rem;
+            position: relative;
+        }
+        
+        .content-section h2 {
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            color: #4fc3f7;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .content-section h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #4fc3f7, transparent);
+            border-radius: 3px;
+        }
+        
+        .content-section p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.85);
+            max-width: 800px;
+        }
+        
+        /* Enhanced Research Cards */
+        .research-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
         .research-card {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 12px;
-            padding: 24px;
-            margin-bottom: 20px;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
+            background: linear-gradient(135deg, rgba(16, 24, 39, 0.8) 0%, rgba(11, 17, 32, 0.9) 100%);
+            border: 1px solid rgba(79, 195, 247, 0.2);
+            border-radius: 16px;
+            padding: 1.8rem;
+            margin-bottom: 1.5rem;
+            backdrop-filter: blur(12px);
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .research-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #4fc3f7, #81c784, #4fc3f7);
+            z-index: -1;
+            border-radius: 18px;
+            opacity: 0;
+            transition: opacity 0.4s ease;
         }
         
         .research-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            border-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            border-color: rgba(79, 195, 247, 0.4);
+        }
+        
+        .research-card:hover::before {
+            opacity: 0.15;
         }
         
         .research-card h3 {
             color: #4fc3f7;
-            margin-bottom: 12px;
-            font-size: 1.3em;
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+            font-weight: 600;
+            position: relative;
+            padding-bottom: 0.5rem;
         }
         
-        .research-card h4 {
+        .research-card h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: linear-gradient(90deg, #4fc3f7, transparent);
+        }
+        
+        .research-card p {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+            margin-bottom: 1.2rem;
+        }
+        
+        /* Enhanced Methodology and Findings Sections */
+        .methodology, .key-findings {
+            padding: 1rem;
+            margin: 1.2rem 0;
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .methodology {
+            background: linear-gradient(to right, rgba(255, 193, 7, 0.08) 0%, transparent 100%);
+            border-left: 3px solid #ffc107;
+        }
+        
+        .key-findings {
+            background: linear-gradient(to right, rgba(129, 199, 132, 0.08) 0%, transparent 100%);
+            border-left: 3px solid #81c784;
+        }
+        
+        .methodology::before, .key-findings::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.03) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        
+        .methodology h4, .key-findings h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .methodology h4::before {
+            content: '\f085';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            margin-right: 0.5rem;
+            color: #ffc107;
+        }
+        
+        .key-findings h4::before {
+            content: '\f06b';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            margin-right: 0.5rem;
             color: #81c784;
-            margin: 16px 0 8px 0;
-            font-size: 1.1em;
         }
         
+        .methodology p, .key-findings p {
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+        
+        /* Enhanced Paper Link Button */
         .paper-link {
-            display: inline-block;
-            margin-top: 12px;
-            padding: 8px 16px;
+            display: inline-flex;
+            align-items: center;
+            margin-top: 1rem;
+            padding: 0.7rem 1.5rem;
             background: linear-gradient(45deg, #4fc3f7, #29b6f6);
             color: white;
             text-decoration: none;
-            border-radius: 6px;
-            font-size: 0.9em;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 500;
             transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(41, 182, 246, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .paper-link::after {
+            content: '\f35d';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            margin-left: 0.5rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .paper-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s ease;
         }
         
         .paper-link:hover {
             background: linear-gradient(45deg, #29b6f6, #0288d1);
-            transform: scale(1.05);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(41, 182, 246, 0.4);
         }
         
-        .key-findings {
-            background: rgba(129, 199, 132, 0.1);
-            border-left: 3px solid #81c784;
-            padding: 12px;
-            margin: 12px 0;
-            border-radius: 4px;
+        .paper-link:hover::after {
+            transform: translateX(3px);
         }
         
-        .methodology {
-            background: rgba(255, 193, 7, 0.1);
-            border-left: 3px solid #ffc107;
-            padding: 12px;
-            margin: 12px 0;
-            border-radius: 4px;
+        .paper-link:hover::before {
+            left: 100%;
         }
-
+        
+        /* Back Button Styling */
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .back-btn:hover {
+            color: #4fc3f7;
+            background: rgba(79, 195, 247, 0.1);
+            transform: translateX(-3px);
+        }
+        
+        .back-btn::before {
+            content: '\f060';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            margin-right: 0.5rem;
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .research-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .content-section h2 {
+                font-size: 1.8rem;
+            }
+            
+            .research-card {
+                padding: 1.2rem;
+            }
+        }
+        
+        /* Floating Particles Animation */
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -1;
+        }
     </style>
 </head>
 <body>
     <!-- Custom cursor -->
     <div class="custom-cursor" id="customCursor"></div>
     
-    <!-- Galaxy background -->
-    <div class="galaxy-bg"></div>
+    <!-- Enhanced Galaxy background with stars -->
+    <div class="galaxy-bg" id="galaxyBg"></div>
+    
     <!-- Navigation -->
     <nav id="main-nav">
         <!-- Navigation will be loaded by JavaScript -->
     </nav>
+    
     <!-- Main container -->
     <div class="container">
         <div id="astro-ai" class="page active">
-            <a href="index.html" class="back-btn">← Back to Science</a>
+            <a href="index.html" class="back-btn">Back to Science</a>
+            
             <!-- Introduction Section -->
             <div class="content-section">
                 <h2>Astro-AI: Machine Learning for Astronomical Discovery</h2>
-                <p>Pioneering the application of advanced machine learning techniques, including manifold learning and neural networks, to unlock new insights in extragalactic astrophysics and galaxy evolution.</p>
-            </div>
+                <p>Pioneering the application of advanced machine learning techniques, including manifold learning and neural networks, to unlock new insights in extragalactic astrophysics and galaxy evolution. Our research bridges the gap between data science and cosmology, revealing hidden patterns in the universe's largest datasets.</p>
             </div>
 
             <!-- Research Projects Section -->
             <div class="content-section">
-                <h2 style="color: #81c784; margin-bottom: 30px; border-bottom: 2px solid #81c784; padding-bottom: 10px;">Research Projects</h2>
+                <h2 style="color: #81c784; margin-bottom: 30px;">Research Projects</h2>
                 
                 <div class="research-grid">
                     <!-- Manifold Learning Research -->
                     <div class="research-card">
                         <h3>Manifold Learning for Galaxy Populations</h3>
-                        <p>Advanced application of Self-Organizing Maps (SOMs) to analyze high-dimensional galaxy spectral energy distributions and scaling relations across cosmic time, demonstrating superior predictive capabilities compared to traditional methods.</p>
-                        
-                        <div style="background: rgba(79, 195, 247, 0.1); border-radius: 8px; padding: 16px; margin: 16px 0; border-left: 3px solid #4fc3f7;">
-                            <h4 style="color: #4fc3f7; margin-bottom: 10px;">Dataset & Scale</h4>
-                            <p>• <strong>Cosmic Assembly Near-infrared Deep Extragalactic Legacy Survey (CANDELS)</strong> - Five survey fields<br>
-                            • <strong>KECK MOSDEF Survey</strong> - Spectroscopic measurements subset<br>
-                            • <strong>Redshift Coverage:</strong> z ∼ 1.5 and z ∼ 2.2 (lookback time ~9-11 billion years)<br>
-                            • <strong>Wavelength Range:</strong> Optical + Near-infrared spectral energy distributions</p>
-                        </div>
+                        <p>Advanced application of Self-Organizing Maps (SOMs) to analyze high-dimensional galaxy spectral energy distributions and scaling relations, revealing the underlying structure of galaxy evolution.</p>
                         
                         <div class="methodology">
                             <h4>Methodology</h4>
-                            <p>• <strong>SOM Training:</strong> Trained on large photometric sample from CANDELS survey fields<br>
-                            • <strong>Spectroscopic Mapping:</strong> KECK MOSDEF data mapped onto trained manifold<br>
-                            • <strong>Cross-Validation:</strong> Compared SOM predictions vs. observational measurements<br>
-                            • <strong>Benchmark Testing:</strong> SOM performance evaluated against linear interpolation methods</p>
+                            <p>• Trained SOMs on photometric data from CANDELS survey fields<br>
+                            • Mapped KECK MOSDEF spectroscopic data onto the manifold<br>
+                            • Analyzed redshift bins at z ∼ 1.5 and z ∼ 2.2<br>
+                            • Examined optical+near-infrared SED space patterns</p>
                         </div>
                         
                         <div class="key-findings">
-                            <h4>Key Findings & Results</h4>
-                            <p><strong>Selection Bias Discovery:</strong><br>
-                            • MOSDEF targets do not cover all SED shapes existing in the trained SOM<br>
-                            • AGNs consistently map to more massive, less dusty regions of the manifold<br>
-                            • Confirms known selection biases toward higher-mass galaxies in spectroscopic surveys</p>
-                            
-                            <p><strong>Predictive Performance:</strong><br>
-                            • Successfully predicted spectroscopic features from photometric data alone<br>
-                            • SOM predictions (blue circles) showed excellent agreement with observations (black 'x' marks)<br>
-                            • Outperformed linear interpolation in photometric magnitude predictions</p>
-                            
-                            <p><strong>Mass-Metallicity Relations:</strong><br>
-                            • More massive galaxies exhibit lower [O III]/Hβ and [O III]/[O II] ratios<br>
-                            • Higher Hα/Hβ ratios correlate with increased galaxy mass<br>
-                            • Results consistent with established mass-metallicity scaling relations</p>
+                            <h4>Key Findings</h4>
+                            <p>• AGNs map to more massive, less dusty regions (confirming selection biases)<br>
+                            • Successfully predicted spectroscopic features from photometry<br>
+                            • Confirmed mass-metallicity relations through manifold analysis<br>
+                            • SOMs outperformed linear interpolation in photometric predictions</p>
                         </div>
                         
-                        <div style="background: rgba(255, 193, 7, 0.1); border-radius: 8px; padding: 16px; margin: 16px 0; border-left: 3px solid #ffc107;">
-                            <h4 style="color: #ffc107; margin-bottom: 10px;">Technical Innovation</h4>
-                            <p>• <strong>Dimensionality Reduction:</strong> Successfully reduced high-dimensional SED space to interpretable 2D manifold<br>
-                            • <strong>Cross-Modal Prediction:</strong> Demonstrated ability to predict unmeasured spectroscopic properties<br>
-                            • <strong>Bias Quantification:</strong> Quantitatively assessed selection effects in spectroscopic follow-up<br>
-                            • <strong>Visualization Framework:</strong> Created intuitive maps for exploring galaxy population properties</p>
-                        </div>
-                        
-                        <div style="background: rgba(129, 199, 132, 0.1); border-radius: 8px; padding: 16px; margin: 16px 0; border-left: 3px solid #81c784;">
-                            <h4 style="color: #81c784; margin-bottom: 10px;">Impact & Applications</h4>
-                            <p>• <strong>Survey Design:</strong> Informs target selection strategies for future spectroscopic surveys<br>
-                            • <strong>Data Efficiency:</strong> Enables prediction of expensive spectroscopic measurements from photometry<br>
-                            • <strong>Bias Correction:</strong> Provides framework for correcting selection biases in astronomical samples<br>
-                            • <strong>Scaling Relations:</strong> Validates and extends understanding of galaxy evolution physics</p>
-                        </div>
-                        
-                        <a href="https://iopscience.iop.org/article/10.3847/1538-4357/ad90ba/pdf" class="paper-link" target="_blank">📄 View Published Paper (ApJ)</a>
+                        <a href="https://iopscience.iop.org/article/10.3847/1538-4357/ad90ba/pdf" class="paper-link" target="_blank">View Published Paper</a>
                     </div>
+                    
+                    <!-- Additional research cards can be added here -->
                 </div>
-
             </div>
         </div>
     </div>
+    
     <footer id="main-footer">
         <!-- Footer will be loaded by JavaScript -->
     </footer>
+    
     <script src="../../js/main.js"></script>
     <script src="../../js/navigation.js"></script>
+    
+    <script>
+        // Create stars for the background
+        document.addEventListener('DOMContentLoaded', function() {
+            const galaxyBg = document.getElementById('galaxyBg');
+            const starCount = 150;
+            
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                
+                // Randomize star properties
+                const size = Math.random() * 2 + 1;
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                const duration = Math.random() * 5 + 5;
+                const delay = Math.random() * 5;
+                
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                star.style.left = `${posX}%`;
+                star.style.top = `${posY}%`;
+                star.style.setProperty('--duration', `${duration}s`);
+                star.style.animationDelay = `${delay}s`;
+                
+                galaxyBg.appendChild(star);
+            }
+            
+            // Create floating particles
+            const particleCount = 30;
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                const size = Math.random() * 3 + 1;
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                const duration = Math.random() * 20 + 10;
+                const delay = Math.random() * 5;
+                const opacity = Math.random() * 0.4 + 0.1;
+                
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${posX}%`;
+                particle.style.top = `${posY}%`;
+                particle.style.opacity = opacity;
+                particle.style.animation = `float ${duration}s linear ${delay}s infinite`;
+                
+                // Random movement path
+                const keyframes = `
+                    @keyframes float {
+                        0% { transform: translate(0, 0); }
+                        25% { transform: translate(${Math.random() * 100 - 50}px, ${Math.random() * 50 - 25}px); }
+                        50% { transform: translate(${Math.random() * 100 - 50}px, ${Math.random() * 100 - 50}px); }
+                        75% { transform: translate(${Math.random() * 50 - 25}px, ${Math.random() * 100 - 50}px); }
+                        100% { transform: translate(0, 0); }
+                    }
+                `;
+                
+                const style = document.createElement('style');
+                style.innerHTML = keyframes;
+                document.head.appendChild(style);
+                
+                galaxyBg.appendChild(particle);
+            }
+        });
+    </script>
 </body>
 </html>
