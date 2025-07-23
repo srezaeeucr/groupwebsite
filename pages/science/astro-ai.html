@@ -85,33 +85,74 @@
     <div class="container">
         <div id="astro-ai" class="page active">
             <a href="index.html" class="back-btn">← Back to Science</a>
+            <!-- Introduction Section -->
             <div class="content-section">
                 <h2>Astro-AI: Machine Learning for Astronomical Discovery</h2>
                 <p>Pioneering the application of advanced machine learning techniques, including manifold learning and neural networks, to unlock new insights in extragalactic astrophysics and galaxy evolution.</p>
+            </div>
+            </div>
+
+            <!-- Research Projects Section -->
+            <div class="content-section">
+                <h2 style="color: #81c784; margin-bottom: 30px; border-bottom: 2px solid #81c784; padding-bottom: 10px;">Research Projects</h2>
                 
                 <div class="research-grid">
                     <!-- Manifold Learning Research -->
                     <div class="research-card">
                         <h3>Manifold Learning for Galaxy Populations</h3>
-                        <p>Advanced application of Self-Organizing Maps (SOMs) to analyze high-dimensional galaxy spectral energy distributions and scaling relations.</p>
+                        <p>Advanced application of Self-Organizing Maps (SOMs) to analyze high-dimensional galaxy spectral energy distributions and scaling relations across cosmic time, demonstrating superior predictive capabilities compared to traditional methods.</p>
+                        
+                        <div style="background: rgba(79, 195, 247, 0.1); border-radius: 8px; padding: 16px; margin: 16px 0; border-left: 3px solid #4fc3f7;">
+                            <h4 style="color: #4fc3f7; margin-bottom: 10px;">Dataset & Scale</h4>
+                            <p>• <strong>Cosmic Assembly Near-infrared Deep Extragalactic Legacy Survey (CANDELS)</strong> - Five survey fields<br>
+                            • <strong>KECK MOSDEF Survey</strong> - Spectroscopic measurements subset<br>
+                            • <strong>Redshift Coverage:</strong> z ∼ 1.5 and z ∼ 2.2 (lookback time ~9-11 billion years)<br>
+                            • <strong>Wavelength Range:</strong> Optical + Near-infrared spectral energy distributions</p>
+                        </div>
                         
                         <div class="methodology">
                             <h4>Methodology</h4>
-                            <p>• Trained SOMs on photometric data from CANDELS survey fields<br>
-                            • Mapped KECK MOSDEF spectroscopic data onto the manifold<br>
-                            • Analyzed redshift bins at z ∼ 1.5 and z ∼ 2.2<br>
-                            • Examined optical+near-infrared SED space patterns</p>
+                            <p>• <strong>SOM Training:</strong> Trained on large photometric sample from CANDELS survey fields<br>
+                            • <strong>Spectroscopic Mapping:</strong> KECK MOSDEF data mapped onto trained manifold<br>
+                            • <strong>Cross-Validation:</strong> Compared SOM predictions vs. observational measurements<br>
+                            • <strong>Benchmark Testing:</strong> SOM performance evaluated against linear interpolation methods</p>
                         </div>
                         
                         <div class="key-findings">
-                            <h4>Key Findings</h4>
-                            <p>• AGNs map to more massive, less dusty regions (confirming selection biases)<br>
-                            • Successfully predicted spectroscopic features from photometry<br>
-                            • Confirmed mass-metallicity relations through manifold analysis<br>
-                            • SOMs outperformed linear interpolation in photometric predictions</p>
+                            <h4>Key Findings & Results</h4>
+                            <p><strong>Selection Bias Discovery:</strong><br>
+                            • MOSDEF targets do not cover all SED shapes existing in the trained SOM<br>
+                            • AGNs consistently map to more massive, less dusty regions of the manifold<br>
+                            • Confirms known selection biases toward higher-mass galaxies in spectroscopic surveys</p>
+                            
+                            <p><strong>Predictive Performance:</strong><br>
+                            • Successfully predicted spectroscopic features from photometric data alone<br>
+                            • SOM predictions (blue circles) showed excellent agreement with observations (black 'x' marks)<br>
+                            • Outperformed linear interpolation in photometric magnitude predictions</p>
+                            
+                            <p><strong>Mass-Metallicity Relations:</strong><br>
+                            • More massive galaxies exhibit lower [O III]/Hβ and [O III]/[O II] ratios<br>
+                            • Higher Hα/Hβ ratios correlate with increased galaxy mass<br>
+                            • Results consistent with established mass-metallicity scaling relations</p>
                         </div>
                         
-                        <a href="https://iopscience.iop.org/article/10.3847/1538-4357/ad90ba/pdf" class="paper-link" target="_blank">View Published Paper</a>
+                        <div style="background: rgba(255, 193, 7, 0.1); border-radius: 8px; padding: 16px; margin: 16px 0; border-left: 3px solid #ffc107;">
+                            <h4 style="color: #ffc107; margin-bottom: 10px;">Technical Innovation</h4>
+                            <p>• <strong>Dimensionality Reduction:</strong> Successfully reduced high-dimensional SED space to interpretable 2D manifold<br>
+                            • <strong>Cross-Modal Prediction:</strong> Demonstrated ability to predict unmeasured spectroscopic properties<br>
+                            • <strong>Bias Quantification:</strong> Quantitatively assessed selection effects in spectroscopic follow-up<br>
+                            • <strong>Visualization Framework:</strong> Created intuitive maps for exploring galaxy population properties</p>
+                        </div>
+                        
+                        <div style="background: rgba(129, 199, 132, 0.1); border-radius: 8px; padding: 16px; margin: 16px 0; border-left: 3px solid #81c784;">
+                            <h4 style="color: #81c784; margin-bottom: 10px;">Impact & Applications</h4>
+                            <p>• <strong>Survey Design:</strong> Informs target selection strategies for future spectroscopic surveys<br>
+                            • <strong>Data Efficiency:</strong> Enables prediction of expensive spectroscopic measurements from photometry<br>
+                            • <strong>Bias Correction:</strong> Provides framework for correcting selection biases in astronomical samples<br>
+                            • <strong>Scaling Relations:</strong> Validates and extends understanding of galaxy evolution physics</p>
+                        </div>
+                        
+                        <a href="https://iopscience.iop.org/article/10.3847/1538-4357/ad90ba/pdf" class="paper-link" target="_blank">📄 View Published Paper (ApJ)</a>
                     </div>
                 </div>
 
