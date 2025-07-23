@@ -7,6 +7,69 @@
     <link rel="stylesheet" href="../../css/styles.css">
     <link rel="stylesheet" href="../../css/animations.css">
     <link rel="stylesheet" href="../../css/responsive.css">
+    <style>
+        .research-card {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .research-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+        
+        .research-card h3 {
+            color: #4fc3f7;
+            margin-bottom: 12px;
+            font-size: 1.3em;
+        }
+        
+        .research-card h4 {
+            color: #81c784;
+            margin: 16px 0 8px 0;
+            font-size: 1.1em;
+        }
+        
+        .paper-link {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 8px 16px;
+            background: linear-gradient(45deg, #4fc3f7, #29b6f6);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+        }
+        
+        .paper-link:hover {
+            background: linear-gradient(45deg, #29b6f6, #0288d1);
+            transform: scale(1.05);
+        }
+        
+        .key-findings {
+            background: rgba(129, 199, 132, 0.1);
+            border-left: 3px solid #81c784;
+            padding: 12px;
+            margin: 12px 0;
+            border-radius: 4px;
+        }
+        
+        .methodology {
+            background: rgba(255, 193, 7, 0.1);
+            border-left: 3px solid #ffc107;
+            padding: 12px;
+            margin: 12px 0;
+            border-radius: 4px;
+        }
+
+    </style>
 </head>
 <body>
     <!-- Custom cursor -->
@@ -14,41 +77,50 @@
     
     <!-- Galaxy background -->
     <div class="galaxy-bg"></div>
-
     <!-- Navigation -->
     <nav id="main-nav">
         <!-- Navigation will be loaded by JavaScript -->
     </nav>
-
     <!-- Main container -->
     <div class="container">
         <div id="astro-ai" class="page active">
             <a href="index.html" class="back-btn">← Back to Science</a>
             <div class="content-section">
-                <h2>Astro-AI</h2>
-                <p>Leveraging machine learning and artificial intelligence for astronomical discoveries.</p>
+                <h2>Astro-AI: Machine Learning for Astronomical Discovery</h2>
+                <p>Pioneering the application of advanced machine learning techniques, including manifold learning and neural networks, to unlock new insights in extragalactic astrophysics and galaxy evolution.</p>
+                
                 <div class="research-grid">
+                    <!-- Manifold Learning Research -->
                     <div class="research-card">
-                        <h3>Superresolution</h3>
-                        <p>Enhancing telescope images using deep learning techniques</p>
-                    </div>
-                    <div class="research-card">
-                        <h3>Galaxy Classification</h3>
-                        <p>Automated identification of different galaxy populations</p>
-                    </div>
-                    <div class="research-card">
-                        <h3>Multi-modal Models</h3>
-                        <p>Combining multiple data types for comprehensive analysis</p>
+                        <h3>Manifold Learning for Galaxy Populations</h3>
+                        <p>Advanced application of Self-Organizing Maps (SOMs) to analyze high-dimensional galaxy spectral energy distributions and scaling relations.</p>
+                        
+                        <div class="methodology">
+                            <h4>Methodology</h4>
+                            <p>• Trained SOMs on photometric data from CANDELS survey fields<br>
+                            • Mapped KECK MOSDEF spectroscopic data onto the manifold<br>
+                            • Analyzed redshift bins at z ∼ 1.5 and z ∼ 2.2<br>
+                            • Examined optical+near-infrared SED space patterns</p>
+                        </div>
+                        
+                        <div class="key-findings">
+                            <h4>Key Findings</h4>
+                            <p>• AGNs map to more massive, less dusty regions (confirming selection biases)<br>
+                            • Successfully predicted spectroscopic features from photometry<br>
+                            • Confirmed mass-metallicity relations through manifold analysis<br>
+                            • SOMs outperformed linear interpolation in photometric predictions</p>
+                        </div>
+                        
+                        <a href="https://iopscience.iop.org/article/10.3847/1538-4357/ad90ba/pdf" class="paper-link" target="_blank">View Published Paper</a>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
-
     <footer id="main-footer">
         <!-- Footer will be loaded by JavaScript -->
     </footer>
-
     <script src="../../js/main.js"></script>
     <script src="../../js/navigation.js"></script>
 </body>
