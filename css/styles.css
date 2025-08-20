@@ -309,6 +309,15 @@ footer {
     pointer-events: none;
 }
 
+.uniform-text div {
+    font-family: 'Arial', sans-serif; /* Choose your preferred font */
+    color: #333333; /* Choose your preferred color */
+    font-size: 16px; /* Optional: adjust size */
+    line-height: 1.5; /* Optional: spacing between lines */
+    text-align: center; /* Center the text */
+    margin: 2px 0; /* Small spacing between lines */
+}
+
 @keyframes navRipple {
     to {
         transform: scale(4);

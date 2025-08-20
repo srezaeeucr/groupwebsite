@@ -65,19 +65,12 @@ async function loadSharedComponents() {
 function createNavigation(basePath) {
     return `
         <div class="nav-content">
-            <div class="logo">
-                <div class="logo-main">Extragalactic Research Lab</div>
-                <div class="logo-name">Bahram Mobasher</div>
-                <div class="logo-title">Distinguished Professor at</div>
-                <div class="logo-subtitle">Department of Physics and Astronomy</div>
-                <div class="logo-department">University of California Riverside</div>
-            </div>
-            <div class="nav-links">
-                <a href="${basePath}index.html" data-page="home">Home</a>
-                <a href="${basePath}pages/teaching.html" data-page="teaching">Teaching</a>
-                <a href="${basePath}pages/publications.html" data-page="publications">Publications</a>
-                <a href="${basePath}pages/outreach.html" data-page="outreach">Outreach</a>
-                <a href="${basePath}pages/people.html" data-page="people">People</a>
+            <div class="logo uniform-text">
+                <div>Extragalactic Research Lab</div>
+                <div>Bahram Mobasher</div>
+                <div>Distinguished Professor at</div>
+                <div>Department of Physics and Astronomy</div>
+                <div>University of California Riverside</div>
             </div>
         </div>
     `;
