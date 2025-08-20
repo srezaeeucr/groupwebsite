@@ -66,11 +66,7 @@ function createNavigation(basePath) {
     return `
         <div class="nav-content">
             <div class="logo uniform-text">
-                <div>Extragalactic Research Lab</div>
-                <div>Bahram Mobasher</div>
-                <div>Distinguished Professor at</div>
-                <div>Department of Physics and Astronomy</div>
-                <div>University of California Riverside</div>
+                <div> Extragalactic Research Lab – Bahram Mobasher, Distinguished Professor, Department of Physics & Astronomy, UC Riverside
             </div>
         </div>
     `;
