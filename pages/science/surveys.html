@@ -4,23 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Galaxy Surveys - UCR Extragalactic Astrophysics Research Group</title>
-    <link rel="stylesheet" href="../../css/styles.css">
-    <link rel="stylesheet" href="../../css/animations.css">
-    <link rel="stylesheet" href="../../css/responsive.css">
     <style>
-        /* Modern redesigned survey page */
         body {
             background: #000;
             overflow-x: hidden;
+            color: #e5e7eb;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+            margin: 0;
+            padding: 0;
         }
 
-        /* Animated starfield background */
         .stars-container {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            inset: 0;
             pointer-events: none;
             z-index: 1;
         }
@@ -39,32 +35,52 @@
             50% { opacity: 1; }
         }
 
-        /* Main content styling */
-        .survey-container {
+        .survey-page-container {
             position: relative;
             z-index: 2;
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 24px 16px 80px;
         }
 
-        /* Modern header with glass effect */
+        .back-btn-modern {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #60a5fa;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 10px 20px;
+            border: 1px solid rgba(96, 165, 250, 0.35);
+            border-radius: 999px;
+            transition: all 0.25s ease;
+            margin-bottom: 24px;
+            background: rgba(15, 23, 42, 0.7);
+        }
+
+        .back-btn-modern:hover {
+            background: rgba(15, 23, 42, 0.95);
+            border-color: rgba(96, 165, 250, 0.8);
+            transform: translateX(-4px);
+        }
+
         .survey-header {
             text-align: center;
-            margin-bottom: 80px;
-            position: relative;
+            margin-bottom: 56px;
         }
 
         .survey-header h1 {
-            font-size: 4.5em;
-            font-weight: 100;
-            letter-spacing: 0.1em;
-            margin-bottom: 20px;
+            font-size: clamp(2.75rem, 4vw, 3.5rem);
+            font-weight: 200;
+            letter-spacing: 0.18em;
+            margin-bottom: 12px;
+            text-transform: uppercase;
             background: linear-gradient(135deg, #60a5fa, #c084fc, #f472b6);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             animation: gradientShift 6s ease infinite;
+            background-size: 200% 200%;
         }
 
         @keyframes gradientShift {
@@ -72,406 +88,434 @@
             50% { background-position: 100% 50%; }
         }
 
-        .survey-header .subtitle {
-            font-size: 1.3em;
-            color: #94a3b8;
-            font-weight: 300;
-        }
-
-        /* Glassmorphism intro section */
-        .intro-section {
-            background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 30px;
-            padding: 50px;
-            margin-bottom: 80px;
+        .intro-panel {
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.7));
+            border-radius: 24px;
+            padding: 32px;
+            margin-bottom: 64px;
+            border: 1px solid rgba(148, 163, 184, 0.2);
             position: relative;
             overflow: hidden;
         }
 
-        .intro-section::before {
+        .intro-panel::before {
             content: '';
             position: absolute;
-            top: -100%;
-            left: -100%;
-            width: 300%;
-            height: 300%;
-            background: radial-gradient(circle, rgba(99,102,241,0.1) 0%, transparent 70%);
-            animation: float 20s ease-in-out infinite;
+            inset: -100%;
+            background: radial-gradient(circle at 0% 0%, rgba(96, 165, 250, 0.22), transparent 60%);
+            opacity: 0.7;
+            animation: floatGlow 22s ease-in-out infinite;
         }
 
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            33% { transform: translate(30px, -30px) rotate(120deg); }
-            66% { transform: translate(-20px, 20px) rotate(240deg); }
+        @keyframes floatGlow {
+            0%, 100% { transform: translate(0, 0); }
+            33% { transform: translate(40px, -20px); }
+            66% { transform: translate(-20px, 30px); }
         }
 
-        .intro-content {
+        .intro-panel-content {
             position: relative;
             z-index: 1;
         }
 
-        .intro-content p {
-            font-size: 1.15em;
-            line-height: 2;
-            color: #e2e8f0;
-            margin-bottom: 25px;
-            text-align: justify;
-            position: relative;
+        .intro-panel p {
+            font-size: 1.05rem;
+            line-height: 1.9;
+            color: #cbd5e1;
+            margin: 0;
         }
 
-        .intro-content sup {
-            font-size: 0.75em;
-            position: relative;
-            top: -0.5em;
+        .survey-card {
+            background: radial-gradient(circle at top left, rgba(96, 165, 250, 0.12), rgba(15, 23, 42, 0.95));
+            border-radius: 24px;
+            padding: 32px;
+            border: 1px solid rgba(148, 163, 184, 0.25);
+            margin-bottom: 48px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease, border-color 0.3s ease;
         }
 
-        .intro-content sup a {
-            color: #60a5fa;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            padding: 2px 5px;
-            border-radius: 3px;
+        .survey-card:hover {
+            border-color: rgba(148, 163, 184, 0.45);
+            transform: translateY(-2px);
         }
 
-        .intro-content sup a:hover {
-            background: rgba(96, 165, 250, 0.2);
-            color: #93c5fd;
-        }
-
-        /* Survey cards with neon glow effect */
-        .surveys-showcase {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-            gap: 40px;
-            margin-bottom: 80px;
-        }
-
-        .survey-card-modern {
-            background: linear-gradient(135deg, rgba(15,23,42,0.9), rgba(30,41,59,0.9));
-            border-radius: 20px;
-            padding: 40px;
-            position: relative;
-            overflow: hidden;
-            text-decoration: none;
-            color: inherit;
-            display: block;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 1px solid transparent;
-        }
-
-        .survey-card-modern::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, transparent 40%, rgba(99,102,241,0.1) 100%);
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-
-        .survey-card-modern:hover {
-            transform: translateY(-10px) scale(1.02);
-            border-color: rgba(99,102,241,0.5);
-            box-shadow: 
-                0 20px 40px rgba(99,102,241,0.3),
-                inset 0 0 30px rgba(99,102,241,0.1);
-        }
-
-        .survey-card-modern:hover::before {
-            opacity: 1;
-        }
-
-        .survey-icon {
-            width: 60px;
-            height: 60px;
-            margin-bottom: 20px;
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
-            border-radius: 15px;
+        .survey-card-header {
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            font-weight: bold;
-            color: white;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 16px;
         }
 
-        .survey-card-modern h3 {
-            font-size: 2.2em;
-            margin-bottom: 15px;
+        .survey-title {
+            font-size: 2rem;
+            margin: 0;
             background: linear-gradient(135deg, #60a5fa, #a78bfa);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            position: relative;
         }
 
-        .survey-card-modern p {
-            color: #cbd5e1;
-            line-height: 1.8;
-            margin-bottom: 20px;
-            position: relative;
-        }
-
-        .explore-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            color: #60a5fa;
-            font-weight: 500;
-            position: relative;
-            transition: gap 0.3s ease;
-        }
-
-        .survey-card-modern:hover .explore-link {
-            gap: 15px;
-        }
-
-        /* References with modern card design */
-        .references-modern {
-            background: linear-gradient(135deg, rgba(30,41,59,0.6), rgba(15,23,42,0.6));
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(99,102,241,0.2);
-            border-radius: 25px;
-            padding: 40px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .references-modern::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(99,102,241,0.5), transparent);
-        }
-
-        .references-modern h3 {
-            font-size: 2em;
-            margin-bottom: 30px;
-            background: linear-gradient(135deg, #60a5fa, #c084fc);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .reference-grid {
-            display: grid;
-            gap: 15px;
-        }
-
-        .reference-item {
-            background: rgba(30,41,59,0.4);
-            border: 1px solid rgba(99,102,241,0.1);
-            border-radius: 12px;
-            padding: 20px;
-            transition: all 0.3s ease;
-            position: relative;
-            padding-left: 40px;
-        }
-
-        .reference-item:hover {
-            background: rgba(99,102,241,0.1);
-            border-color: rgba(99,102,241,0.3);
-            transform: translateX(5px);
-        }
-
-        .reference-number {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 20px;
-            height: 20px;
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
-            border-radius: 50%;
+        .survey-links {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.8em;
-            font-weight: bold;
-            color: white;
+            gap: 10px;
+            flex-wrap: wrap;
         }
 
-        .reference-item a {
-            color: #60a5fa;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .reference-item a:hover {
-            color: #93c5fd;
-            text-decoration: underline;
-        }
-
-        /* Back button modern style */
-        .back-btn-modern {
+        .survey-link-btn {
             display: inline-flex;
             align-items: center;
-            gap: 10px;
+            gap: 6px;
+            padding: 8px 16px;
+            border-radius: 999px;
+            border: 1px solid rgba(96, 165, 250, 0.4);
+            font-size: 0.85rem;
             color: #60a5fa;
             text-decoration: none;
-            font-weight: 500;
-            padding: 12px 24px;
-            border: 1px solid rgba(96, 165, 250, 0.3);
-            border-radius: 50px;
-            transition: all 0.3s ease;
-            margin-bottom: 40px;
-            background: rgba(96, 165, 250, 0.05);
+            background: rgba(15, 23, 42, 0.9);
+            transition: all 0.2s ease;
+            white-space: nowrap;
         }
 
-        .back-btn-modern:hover {
-            background: rgba(96, 165, 250, 0.1);
-            border-color: rgba(96, 165, 250, 0.5);
-            transform: translateX(-5px);
+        .survey-link-btn:hover {
+            background: rgba(30, 64, 175, 0.7);
+            color: #e5e7eb;
+            transform: translateY(-1px);
+            border-color: rgba(96, 165, 250, 0.7);
         }
 
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .survey-header h1 {
-                font-size: 3em;
-            }
-            
-            .intro-section {
-                padding: 30px 20px;
-            }
-            
-            .surveys-showcase {
+        .survey-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 32px;
+            align-items: start;
+        }
+
+        .survey-description {
+            font-size: 0.98rem;
+            line-height: 1.8;
+            color: #d1d5db;
+        }
+
+        .survey-description p {
+            margin: 0 0 16px 0;
+        }
+
+        .survey-description p:last-child {
+            margin-bottom: 0;
+        }
+
+        .survey-image-container {
+            background: rgba(15, 23, 42, 0.8);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(55, 65, 81, 0.6);
+        }
+
+        .survey-image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .survey-image-container:hover img {
+            transform: scale(1.05);
+        }
+
+        .survey-caption {
+            font-size: 0.8rem;
+            color: #9ca3af;
+            padding: 12px 16px;
+            background: rgba(15, 23, 42, 0.9);
+            line-height: 1.5;
+        }
+
+        .reference {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(148, 163, 184, 0.2);
+            font-size: 0.88rem;
+            color: #94a3b8;
+        }
+
+        .reference-label {
+            font-weight: 600;
+            color: #60a5fa;
+            margin-bottom: 6px;
+        }
+
+        @media (max-width: 960px) {
+            .survey-content {
                 grid-template-columns: 1fr;
-                gap: 30px;
+                gap: 24px;
+            }
+
+            .survey-image-container {
+                order: -1;
+            }
+
+            .survey-card {
+                padding: 24px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .intro-panel {
+                padding: 24px 18px;
+            }
+
+            .survey-card {
+                padding: 20px 16px;
+            }
+
+            .survey-card-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .survey-title {
+                font-size: 1.6rem;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Custom cursor -->
-    <div class="custom-cursor" id="customCursor"></div>
-    
-    <!-- Animated starfield -->
     <div class="stars-container" id="starsContainer"></div>
-    
-    <!-- Galaxy background -->
-    <div class="galaxy-bg"></div>
 
-    <!-- Navigation -->
-    <nav id="main-nav">
-        <!-- Navigation will be loaded by JavaScript -->
-    </nav>
+    <div class="survey-page-container">
+        <a href="index.html" class="back-btn-modern">← Back to Science</a>
 
-    <!-- Main container -->
-    <div class="container">
-        <div id="surveys" class="page active">
-            <div class="survey-container">
-                <a href="index.html" class="back-btn-modern">← Back to Science</a>
-                
-                <!-- Modern header -->
-                <div class="survey-header">
-                    <h1>EXTRAGALACTIC SURVEYS</h1>
-                    <p class="subtitle">Mapping the Architecture of the Cosmos</p>
+        <header class="survey-header">
+            <h1>Galaxy Surveys</h1>
+        </header>
+
+        <section class="intro-panel">
+            <div class="intro-panel-content">
+                <p>
+                    Our group has been involved in the design and build up of many galaxy surveys currently used in astronomy. The surveys are designed to address specific scientific questions including: deep surveys to study the evolution of galaxies (CANDELS), wide surveys to study the large-scale structures (COSMOS, COSMOS-Web), surveys with extensive multi-waveband photometry and spectroscopy to study the physical properties of galaxies (MOSDEF), galaxy clusters (BUFFALO), and the study of properties of galaxies at different redshifts and environments (Hawaii Two-O survey). We have been involved in observational programs (from the stage of writing proposals to observations, data reduction, and cataloging).
+                </p>
+            </div>
+        </section>
+
+        <!-- GOODS -->
+        <article class="survey-card" id="goods">
+            <div class="survey-card-header">
+                <h2 class="survey-title">GOODS</h2>
+                <div class="survey-links">
+                    <a href="#" class="survey-link-btn">🔗 Survey Website</a>
                 </div>
-                
-                <!-- Glassmorphism intro -->
-                <div class="intro-section">
-                    <div class="intro-content">
-                        <p>
-                            Extragalactic galaxy surveys represent systematic observational programs that catalog galaxies across vast cosmic volumes, combining angular positions with redshift measurements to construct three-dimensional maps of the universe's structure. These surveys employ sophisticated methodologies including multi-object spectroscopy, photometric redshift estimation, and weak gravitational lensing to trace the cosmic web—the intricate network of filaments, walls, and voids that define large-scale structure (Abbott et al., 2022)<sup><a href="#ref1">[1]</a></sup>. By measuring baryon acoustic oscillations, galaxy clustering patterns, and the evolution of stellar mass functions, these surveys provide fundamental constraints on cosmological parameters including dark energy, dark matter density, and the expansion history of the universe. The statistical power of modern surveys, encompassing millions of galaxies across redshift ranges from z~0 to z>10, enables precision cosmology while revealing the complex interplay between galaxy formation, environmental effects, and cosmic structure evolution.
-                        </p>
-                        
-                        <p>
-                            The most transformative extragalactic surveys of the past decade—CANDELS (Cosmic Assembly Near-infrared Deep Extragalactic Legacy Survey), COSMOS (Cosmic Evolution Survey), and CEERS (Cosmic Evolution Early Release Science)—have revolutionized our understanding of galaxy formation across cosmic time. CANDELS, the largest Hubble Space Telescope program with 902 orbits, documented galactic evolution from z=8 to z=1.5, establishing that both disk and spheroidal morphologies existed by z>3 and constraining stellar mass assembly during the first third of cosmic history<sup><a href="#ref5">[5]</a></sup>. The COSMOS survey, spanning 2 square degrees with comprehensive multi-wavelength coverage, revealed the crucial role of environment in galaxy evolution by mapping the cosmic web through weak lensing and identifying massive proto-clusters at high redshift<sup><a href="#ref8">[8]</a></sup>. Most recently, CEERS has leveraged JWST's unprecedented infrared sensitivity to push galaxy detection back to z~14, just 300 million years after the Big Bang, revealing mature, massive galaxies that challenge theoretical models of early structure formation (Carniani et al., 2024; Eisenstein et al., 2023)<sup><a href="#ref2">[2]</a></sup><sup><a href="#ref4">[4]</a></sup>.
-                        </p>
-                        
-                        <p>
-                            The James Webb Space Telescope has fundamentally transformed extragalactic surveys since 2022, revealing populations of dusty, massive galaxies previously hidden at cosmic noon and detecting spiral structures at unexpectedly high redshifts (Williams et al., 2024)<sup><a href="#ref9">[9]</a></sup>. These discoveries, combined with evidence for rapid chemical enrichment and supermassive black hole growth in the early universe, suggest that galaxy assembly occurred more rapidly than predicted by current models (D'Eugenio et al., 2024; Maiolino et al., 2024)<sup><a href="#ref3">[3]</a></sup><sup><a href="#ref7">[7]</a></sup>. The synergy between ongoing JWST programs and upcoming wide-field missions—including the operational Euclid telescope, the 2027 Nancy Grace Roman Space Telescope, and the 2025 Vera C. Rubin Observatory—promises to create an unprecedented multi-scale view of cosmic evolution. This coordinated approach will enable studies ranging from dark energy constraints through baryon acoustic oscillations to detailed morphological evolution of individual galaxies, addressing fundamental questions about the nature of dark matter, the physics of galaxy formation, and the ultimate fate of cosmic structure.
-                        </p>
+            </div>
+            <div class="survey-content">
+                <div class="survey-description">
+                    <p>
+                        In 2002, soon after the installation of the Advanced Camera for Survey (ACS) on the Hubble Space Telescope (HST), we performed one of the first galaxy survey programs – The Great Observatories Origins Deep Survey (GOODS). This consisted of two fields in the northern (GOODS-N) and southern (GOODS-S) hemispheres, each 10 × 16.5 arcmin². This is covered in four ACS filters F435W, F606W, F775W, and F850LP. The GOODS legacy continued with observations of the same fields with Spitzer, Chandra, and HST, covering a range of wavelengths.
+                    </p>
+                    <div class="reference">
+                        <div class="reference-label">Reference</div>
+                        Giavalisco et al. 2004
                     </div>
                 </div>
-
-                <!-- Modern survey cards -->
-                <div class="surveys-showcase">
-                    <a href="https://cnas.ucr.edu/news/2013/10/23/uc-riverside-astronomers-help-discover-most-distant-known-galaxy" class="survey-card-modern" target="_blank" rel="noopener noreferrer">
-                        <div class="survey-icon">C</div>
-                        <h3>CANDELS</h3>
-                        <p>Cosmic Assembly Near-infrared Deep Extragalactic Legacy Survey — The most comprehensive HST program dedicated to documenting the first third of galactic evolution, from the universe's infancy to cosmic noon.</p>
-                        <span class="explore-link">Explore CANDELS →</span>
-                    </a>
-                    
-                    <a href="https://cosmos.astro.caltech.edu/" class="survey-card-modern" target="_blank" rel="noopener noreferrer">
-                        <div class="survey-icon">C</div>
-                        <h3>COSMOS</h3>
-                        <p>Cosmic Evolution Survey — A multi-wavelength treasury mapping over 2 million galaxies to trace the cosmic web's influence on galaxy evolution across 75% of the universe's age.</p>
-                        <span class="explore-link">Explore COSMOS →</span>
-                    </a>
-                    
-                    <a href="https://ceers.github.io/index.html" class="survey-card-modern" target="_blank" rel="noopener noreferrer">
-                        <div class="survey-icon">C</div>
-                        <h3>CEERS</h3>
-                        <p>Cosmic Evolution Early Release Science — JWST's revolutionary survey pushing the cosmic frontier to just 300 million years after the Big Bang, revealing the universe's first galaxies.</p>
-                        <span class="explore-link">Explore CEERS →</span>
-                    </a>
+                <div class="survey-image-container">
+                    <img src="../assets/images/surveys/GOODS.png" alt="GOODS Survey">
                 </div>
+            </div>
+        </article>
 
-                <!-- Modern references section -->
-                <div class="references-modern">
-                    <h3>References</h3>
-                    <div class="reference-grid">
-                        <div class="reference-item" id="ref1">
-                            <span class="reference-number">1</span>
-                            Abbott, T. M. C., et al. (2022). "Dark Energy Survey Year 3 results: Cosmological constraints from galaxy clustering and weak lensing." <a href="https://www.osti.gov/pages/biblio/1862311" target="_blank">Physical Review D, 105, 023520</a>
-                        </div>
-                        <div class="reference-item" id="ref2">
-                            <span class="reference-number">2</span>
-                            Carniani, S., et al. (2024). "JADES: The emergence of little red dots and massive galaxies 1-2 Gyr after the Big Bang." <a href="https://arxiv.org/abs/2306.02465" target="_blank">arXiv:2405.21054</a>
-                        </div>
-                        <div class="reference-item" id="ref3">
-                            <span class="reference-number">3</span>
-                            D'Eugenio, F., et al. (2024). "JADES: Insights into the low-mass end of the mass-metallicity-SFR relation at z~3-10." <a href="https://jades-survey.github.io/scientists/publications.html" target="_blank">arXiv:2308.06317</a>
-                        </div>
-                        <div class="reference-item" id="ref4">
-                            <span class="reference-number">4</span>
-                            Eisenstein, D. J., et al. (2023). "Overview of the JWST Advanced Deep Extragalactic Survey (JADES)." <a href="https://arxiv.org/abs/2306.02465" target="_blank">arXiv:2306.02465</a>
-                        </div>
-                        <div class="reference-item" id="ref5">
-                            <span class="reference-number">5</span>
-                            Grogin, N. A., et al. (2011). "CANDELS: The Cosmic Assembly Near-infrared Deep Extragalactic Legacy Survey." <a href="https://www.researchgate.net/publication/51944647_Candels_The_Cosmic_Assembly_Near-infrared_Deep_Extragalactic_Legacy_Survey" target="_blank">ApJS, 197, 35</a>
-                        </div>
-                        <div class="reference-item" id="ref6">
-                            <span class="reference-number">6</span>
-                            Kartaltepe, J. S., et al. (2023). "CEERS Key Paper III: The Diversity of Galaxy Structure and Morphology at z = 3-9 with JWST." <a href="https://iopscience.iop.org/article/10.3847/2041-8213/acad01" target="_blank">ApJL, 946, L15</a>
-                        </div>
-                        <div class="reference-item" id="ref7">
-                            <span class="reference-number">7</span>
-                            Maiolino, R., et al. (2024). "A small and vigorous black hole in the early Universe." <a href="https://aasnova.org/2024/05/08/sampling-overmassive-black-holes-at-cosmic-noon/" target="_blank">Nature, 627, 59</a>
-                        </div>
-                        <div class="reference-item" id="ref8">
-                            <span class="reference-number">8</span>
-                            Scoville, N., et al. (2007). "The Cosmic Evolution Survey (COSMOS): Overview." <a href="https://cosmos.astro.caltech.edu/" target="_blank">ApJS, 172, 1</a>
-                        </div>
-                        <div class="reference-item" id="ref9">
-                            <span class="reference-number">9</span>
-                            Williams, C. C., et al. (2024). "The distribution of galaxy rotation in JWST Advanced Deep Extragalactic Survey." <a href="https://academic.oup.com/mnras/article/538/1/76/8019798" target="_blank">MNRAS, 538, 76</a>
-                        </div>
+        <!-- CANDELS -->
+        <article class="survey-card" id="candels">
+            <div class="survey-card-header">
+                <h2 class="survey-title">CANDELS</h2>
+                <div class="survey-links">
+                    <a href="#" class="survey-link-btn">🔗 Survey Website</a>
+                </div>
+            </div>
+            <div class="survey-content">
+                <div class="survey-description">
+                    <p>
+                        With the installation of the WFC3, the accessible spectral range on the HST was extended to both shorter (UV) and longer (near-infrared) wavelengths. The Cosmic Assembly Near-infrared Deep Extragalactic Legacy Survey (CANDELS). With 900 orbits, this is the largest single project performed on the Hubble Space Telescope. The CANDELS was designed to study the evolution of galaxies to the re-ionization epoch (1 billion years after the Big Bang) and study galaxies at the peak of their star formation activity, detecting over 250,000 galaxies.
+                    </p>
+                    <p>
+                        CANDELS carried out a search for SNe Type Ia at z~1.5. One of the highest redshift galaxies (GN-z11) was found in GOODS-N at a redshift of 11. The light received by us from this galaxy left the galaxy 400 million years after the Big Bang. The galaxy has 1% of the Milky Way's mass but was formed 20 times faster.
+                    </p>
+                    <div class="reference">
+                        <div class="reference-label">References</div>
+                        Grogin et al. 2011; Koekemoer et al. 2011
+                    </div>
+                </div>
+                <div class="survey-image-container">
+                    <img src="../assets/images/surveys/GOODS-N.png" alt="GN-z11 Galaxy">
+                </div>
+            </div>
+        </article>
+
+        <!-- COSMOS -->
+        <article class="survey-card" id="cosmos">
+            <div class="survey-card-header">
+                <h2 class="survey-title">COSMOS</h2>
+                <div class="survey-links">
+                    <a href="#" class="survey-link-btn">🔗 Survey Website</a>
+                </div>
+            </div>
+            <div class="survey-content">
+                <div class="survey-description">
+                    <p>
+                        Cosmic Evolution Survey (COSMOS) is a wide area survey performed with allocation of 600 HST orbits. It covers an area of 2 sq. deg in F850LP filter. Since its inception, the COSMOS has grown to be one of the most widely observed fields in extragalactic astronomy. It provides the widest contiguous survey of galaxies. The growth of the COSMOS can be seen in COSMOS2015, COSMOS2020, and COSMOS2025 catalogs. It now has over 40 filters (broad, medium-band, and narrow-band).
+                    </p>
+                    <div class="reference">
+                        <div class="reference-label">Reference</div>
+                        Scoville et al. 2007
+                    </div>
+                </div>
+                <div class="survey-image-container">
+                    <img src="assets/images/surveys/tbd-cosmos.jpg" alt="COSMOS Survey">
+                </div>
+            </div>
+        </article>
+
+        <!-- MOSDEF -->
+        <article class="survey-card" id="mosdef">
+            <div class="survey-card-header">
+                <h2 class="survey-title">MOSDEF</h2>
+                <div class="survey-links">
+                    <a href="https://mosdef.astro.berkeley.edu/publications/" class="survey-link-btn" target="_blank">🔗 Publications</a>
+                </div>
+            </div>
+            <div class="survey-content">
+                <div class="survey-description">
+                    <p>
+                        Using the multi-object infrared spectrograph (MOSFIRE) on the Keck Telescope, we could perform spectroscopy targeting rest-frame optical features for high redshift galaxies. This provides diagnostic spectral lines indicative of physical conditions in galaxies. The MOSFIRE Deep Evolution Field (MOSDEF) is a collaboration between UCR, UCLA, UCB, and UCSD targeting a mass selected (H-band selected) galaxies at 1.5 < z < 3.5 in CANDELS fields. We have obtained spectral data for ~2000 galaxies.
+                    </p>
+                    <div class="reference">
+                        <div class="reference-label">Reference</div>
+                        See publications list at mosdef.astro.berkeley.edu
+                    </div>
+                </div>
+                <div class="survey-image-container">
+                    <img src="assets/images/surveys/tbd-mosfire.jpg" alt="MOSFIRE Spectroscopy">
+                    <div class="survey-caption">
+                        MOSFIRE visibility of various emission and absorption line features in galaxies as a function of redshift. The MOSDEF covers three redshift bins – low (1.37 < z < 1.70), middle (2.09 < z < 2.61), high (2.95 < z < 3.80).
                     </div>
                 </div>
             </div>
-        </div>
+        </article>
+
+        <!-- BUFFALO -->
+        <article class="survey-card" id="buffalo">
+            <div class="survey-card-header">
+                <h2 class="survey-title">BUFFALO</h2>
+                <div class="survey-links">
+                    <a href="https://buffalo.ipac.caltech.edu/" class="survey-link-btn" target="_blank">🔗 Survey Website</a>
+                </div>
+            </div>
+            <div class="survey-content">
+                <div class="survey-description">
+                    <p>
+                        Beyond Ultra-deep Frontier Fields And Legacy Observations (BUFFALO) is a survey built around the six Hubble Space Telescope (HST) Frontier Fields clusters designed to learn about early galactic assembly and clustering and prepare targets for observations with the James Webb Space Telescope. BUFFALO will place significant new constraints on how and when the most massive and luminous galaxies in the universe formed and how early galaxy formation is linked to dark matter assembly.
+                    </p>
+                    <p>
+                        The BUFFALO photometric catalogs contain detailed information for over 100,000 astronomical sources in 6 clusters spanning a total of 240 arcmin² area. BUFFALO is an international collaboration of ~100 astronomers from 13 countries.
+                    </p>
+                    <div class="reference">
+                        <div class="reference-label">References</div>
+                        Steinhardt, C. et al. 2020 "The BUFFALO HST Survey" ApJS 247, 64<br>
+                        Pagul, A. et al. 2024 "Self-Consistent Combined HST, K-band, and Spitzer Photometric Catalogs of the BUFFALO Survey Fields" ApJS 273, 10
+                    </div>
+                </div>
+                <div class="survey-image-container">
+                    <img src="assets/images/surveys/tbd-buffalo.jpg" alt="BUFFALO Survey">
+                    <div class="survey-caption">
+                        The new composite image of Abell 370 made for the BUFFALO project together with previous observations from the Frontier Fields program showing how BUFFALO observations extend the field of view around the galaxy cluster. Credit: NASA, ESA, A. Koekemoer, M. Jauzac, C. Steinhardt, the BUFFALO team and HST Frontier Fields.
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- Hawaii-20 -->
+        <article class="survey-card" id="h20">
+            <div class="survey-card-header">
+                <h2 class="survey-title">Hawaii-20 (H20)</h2>
+                <div class="survey-links">
+                    <a href="https://project.ifa.hawaii.edu/h20/" class="survey-link-btn" target="_blank">🔗 Survey Website</a>
+                </div>
+            </div>
+            <div class="survey-content">
+                <div class="survey-description">
+                    <p>
+                        The Hawaii Two-0 Survey (H20) is a 20 deg² ultradeep galaxy survey combining Subaru Hyper-SuprimeCam (HSC) imaging (grizy), CFHT MegaCam imaging (u-band), Spitzer imaging (IRAC CH 1 & 2), and Keck DEIMOS spectroscopy of two Euclid Deep Calibration Fields (EDF-North and EDF-Fornax – each 10 sq. deg area). We are using Subaru Prime Focus Spectrograph (PFS) to measure redshifts for ~250,000 galaxies in the H20 fields.
+                    </p>
+                    <div class="reference">
+                        <div class="reference-label">References</div>
+                        McPartland, C. et al. 2025 "Euclid Preparations: The Cosmic Dawn Survey (DAWN) of the Euclid Deep and Auxiliary Fields" ArXive: 2408:0527v3<br>
+                        Zalesky, L. et al. 2025 "Euclid Preparation. Cosmic DAWN Survey: Evolution of Galaxy Stellar Mass Function across 0.2 < z < 6.5 Measured over 10 sq. deg" ArXive: 2504.17867v1
+                    </div>
+                </div>
+                <div class="survey-image-container">
+                    <img src="assets/images/surveys/tbd-h20.jpg" alt="Hawaii-20 Survey">
+                </div>
+            </div>
+        </article>
+
+        <!-- COSMOS-Web -->
+        <article class="survey-card" id="cosmos-web">
+            <div class="survey-card-header">
+                <h2 class="survey-title">COSMOS-Web</h2>
+                <div class="survey-links">
+                    <a href="#" class="survey-link-btn">🔗 Survey Website</a>
+                </div>
+            </div>
+            <div class="survey-content">
+                <div class="survey-description">
+                    <p>
+                        COSMOS-Web is a 255-hour treasury program on the James Webb Space Telescope (JWST) covering a contiguous area of 0.5 sq. deg using NIRCam imaging survey in four filters (F115W, F150W, F277W, and F444W) reaching 5σ point source depth of 27.5–28.2 mag. The COSMOS-Web was designed to (1) identify thousands of galaxies in the re-ionization epoch (6 < z < 11) to study the spatial distribution of galaxies, (2) identify rare populations of galaxies including quiescent galaxies at z > 4, and (3) study the stellar-to-halo mass relation at z~2.
+                    </p>
+                    <div class="reference">
+                        <div class="reference-label">Reference</div>
+                        Casey, C. et al. 2023 "COSMOS-Web: An Overview of the JWST Cosmic Origin Survey" ArXive: 2211.07865v2
+                    </div>
+                </div>
+                <div class="survey-image-container">
+                    <img src="assets/images/surveys/tbd-cosmos-web.jpg" alt="COSMOS-Web Survey">
+                </div>
+            </div>
+        </article>
+
+        <!-- CEERS -->
+        <article class="survey-card" id="ceers">
+            <div class="survey-card-header">
+                <h2 class="survey-title">CEERS</h2>
+                <div class="survey-links">
+                    <a href="#" class="survey-link-btn">🔗 Survey Website</a>
+                </div>
+            </div>
+            <div class="survey-content">
+                <div class="survey-description">
+                    <p>
+                        The Cosmic Evolution Early Release Science (CEERS) survey was designed to study the nature of first generation of galaxies 500 million years after the Big Bang. It targets galaxy formation from z~0.5 to z>10 using several imaging and spectroscopic modes. We use NIRCam imaging to survey 35.5 sq. arcmin area to search for galaxies at z > 9. The CEERS consists of NIRCam imaging, NIRCam grism, NIRSpec R~1000 and R~100, and MIRI imaging.
+                    </p>
+                    <div class="reference">
+                        <div class="reference-label">Reference</div>
+                        To be added
+                    </div>
+                </div>
+                <div class="survey-image-container">
+                    <img src="assets/images/surveys/tbd-ceers.jpg" alt="CEERS Survey">
+                    <div class="survey-caption">
+                        Composite NIRCam image of Lyman Break Galaxies (LBGs). This uses F150W, F200W, and F277W for z~9, F200W, F277W, F356W for z~10–12, and F277W, F356W, F444W for z > 12 galaxies. Estimated photometric redshifts are listed.
+                    </div>
+                </div>
+            </div>
+        </article>
+
     </div>
 
-    <footer id="main-footer">
-        <!-- Footer will be loaded by JavaScript -->
-    </footer>
-
     <script>
-        // Create animated starfield
         function createStars() {
             const starsContainer = document.getElementById('starsContainer');
             const starCount = 150;
-            
+
             for (let i = 0; i < starCount; i++) {
                 const star = document.createElement('div');
                 star.className = 'star';
@@ -479,20 +523,16 @@
                 star.style.top = Math.random() * 100 + '%';
                 star.style.animationDelay = Math.random() * 4 + 's';
                 star.style.animationDuration = (Math.random() * 3 + 2) + 's';
-                
-                // Vary star sizes
+
                 const size = Math.random() * 2 + 1;
                 star.style.width = size + 'px';
                 star.style.height = size + 'px';
-                
+
                 starsContainer.appendChild(star);
             }
         }
-        
-        // Initialize stars on page load
+
         window.addEventListener('DOMContentLoaded', createStars);
     </script>
-    <script src="../../js/main.js"></script>
-    <script src="../../js/navigation.js"></script>
 </body>
 </html>
