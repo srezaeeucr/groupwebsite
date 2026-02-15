@@ -7,6 +7,171 @@
     <link rel="stylesheet" href="../../css/styles.css">
     <link rel="stylesheet" href="../../css/animations.css">
     <link rel="stylesheet" href="../../css/responsive.css">
+    <style>
+        /* Page-specific styles for detailed research content */
+        .research-detail-card {
+            background: linear-gradient(135deg, rgba(20, 30, 60, 0.9), rgba(10, 20, 50, 0.95));
+            border: 1px solid rgba(100, 150, 255, 0.25);
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin-bottom: 2.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .research-detail-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #4a90d9, #8b5cf6, #06b6d4);
+            opacity: 0.8;
+        }
+        
+        .research-detail-card:hover {
+            border-color: rgba(100, 150, 255, 0.4);
+            box-shadow: 0 15px 50px rgba(74, 144, 217, 0.25);
+            transform: translateY(-3px);
+        }
+        
+        .research-detail-card h3 {
+            color: #7dd3fc;
+            font-size: 1.6rem;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .research-detail-card h3 .icon {
+            font-size: 1.8rem;
+        }
+        
+        .research-detail-card .description {
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 1.05rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+        
+        /* References section */
+        .references {
+            margin-top: 1.5rem;
+            padding: 1rem 1.5rem;
+            background: rgba(0, 50, 100, 0.2);
+            border-radius: 10px;
+            border-left: 3px solid #4a90d9;
+        }
+        
+        .references h4 {
+            color: #a5c8f0;
+            font-size: 1rem;
+            margin-bottom: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .references ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem 1.5rem;
+        }
+        
+        .references li {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.95rem;
+            position: relative;
+            padding-left: 1rem;
+        }
+        
+        .references li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: #06b6d4;
+        }
+        
+        /* Figure container */
+        .figure-container {
+            margin: 2rem 0;
+            text-align: center;
+        }
+        
+        .figure-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            border: 1px solid rgba(100, 150, 255, 0.2);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s ease;
+        }
+        
+        .figure-container img:hover {
+            transform: scale(1.02);
+            box-shadow: 0 15px 50px rgba(74, 144, 217, 0.3);
+        }
+        
+        .figure-caption {
+            margin-top: 1rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            font-style: italic;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* Multi-figure layout */
+        .figure-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .figure-grid .figure-container {
+            margin: 0;
+        }
+        
+        /* Intro section */
+        .intro-text {
+            font-size: 1.15rem;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2.5rem;
+            text-align: center;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .research-detail-card {
+                padding: 1.5rem;
+            }
+            
+            .research-detail-card h3 {
+                font-size: 1.3rem;
+            }
+            
+            .figure-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .references ul {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Custom cursor -->
@@ -24,24 +189,92 @@
     <div class="container">
         <div id="galaxy-formation" class="page active">
             <a href="index.html" class="back-btn">← Back to Science</a>
+            
             <div class="content-section">
                 <h2>Galaxy Formation & Evolution</h2>
-                <p>Our research focuses on understanding how galaxies form and evolve over cosmic time through detailed spectroscopic analysis and innovative observational techniques.</p>
                 
-                <div class="research-grid">
-                    <div class="research-card">
-                        <h3>Spectroscopic Properties</h3>
-                        <p>Analyzing emission lines, stellar populations, and chemical abundances to trace galaxy evolution.</p>
+                <p class="intro-text">Our research focuses on understanding how galaxies form and evolve over cosmic time through detailed spectroscopic analysis and innovative observational techniques. Using multi-waveband surveys and cutting-edge data analysis methods, we investigate the fundamental processes that shape galaxy populations across the universe.</p>
+                
+                <!-- Statistical Properties Section -->
+                <div class="research-detail-card">
+                    <h3><span class="icon">📊</span> Statistical Properties of Galaxies</h3>
+                    <p class="description">
+                        Using multi-waveband surveys, we have studied the stellar mass function of galaxies (number of galaxies with a given stellar mass per volume) and their evolution with redshift. This is used to study the mass assembly of galaxies and estimate the number density of most massive galaxies out to the re-ionization epoch. We also find the epoch when the most efficient mass build-up took place.
+                    </p>
+                    
+                    <div class="figure-container">
+                        <img src="images/galaxy-formation/image1.png" alt="Evolution of mass function of galaxies with cosmic time">
+                        <p class="figure-caption">
+                            <strong>Figure 1:</strong> Evolution of mass function of galaxies with cosmic time (Shuntov et al. 2025). Quiescent (red) and star-forming (blue) galaxies show distinct evolutionary tracks.
+                        </p>
                     </div>
-                    <div class="research-card">
-                        <h3>Subkpc Scale Studies</h3>
-                        <p>High-resolution observations revealing the internal structure and dynamics of galaxies.</p>
-                    </div>
-                    <div class="research-card">
-                        <h3>Pixel SED Fitting</h3>
-                        <p>Spatially resolved analysis of stellar populations and star formation histories.</p>
+                    
+                    <div class="references">
+                        <h4>Key Publications</h4>
+                        <ul>
+                            <li>Dahlen et al.</li>
+                            <li>Shuntov et al.</li>
+                            <li>Weaver et al.</li>
+                            <li>Maxmillan et al.</li>
+                        </ul>
                     </div>
                 </div>
+                
+                <!-- Scaling Relations Section -->
+                <div class="research-detail-card">
+                    <h3><span class="icon">⚖️</span> Scaling Relations</h3>
+                    <p class="description">
+                        Scaling relations are defined as the relation between different observables in galaxies—for example, mass-star formation and mass-metallicity relations. These are used to study the evolution of galaxies. We use these relations to investigate the origin of the observable parameters in galaxies and understand the physical processes driving galaxy evolution.
+                    </p>
+                    
+                    <div class="figure-grid">
+                        <div class="figure-container">
+                            <img src="images/galaxy-formation/image2.png" alt="Stellar mass vs star formation rate">
+                            <p class="figure-caption">
+                                <strong>Figure 2:</strong> Stellar mass vs. star formation rate in galaxies in field (blue) and clusters (red). The SFRs are based on Balmer lines (Hα) and fitting of the spectral energy distributions (Sattari et al.).
+                            </p>
+                        </div>
+                        <div class="figure-container">
+                            <img src="images/galaxy-formation/image3.png" alt="Stellar mass vs metallicity relation">
+                            <p class="figure-caption">
+                                <strong>Figure 3:</strong> Stellar mass vs. Metallicity relation for field (blue) and cluster (red) galaxies (Sattari et al.).
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="references">
+                        <h4>Key Publications</h4>
+                        <ul>
+                            <li>Sattari et al.</li>
+                            <li>Shivaei et al.</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Kpc-scale Studies Section -->
+                <div class="research-detail-card">
+                    <h3><span class="icon">🔍</span> Kpc-scale Study of Galaxies</h3>
+                    <p class="description">
+                        By studying pixel-scale properties of galaxies, we investigate if the relations found from global properties of galaxies, based on their integrated light, hold at small spatial scales. This has major implications for understanding galaxy formation. We investigate this by performing SED fitting to individual pixels, measuring the physical properties of galaxies per pixel element. Then we derive the distribution of stellar mass, star formation rate, and dust across a galaxy. We explore if the observed (integral) relations in galaxies are first developed at kpc scales inside the galaxies, producing 2-D images of photometrically measured parameters—similar to what we get from Integral Field Units.
+                    </p>
+                    
+                    <div class="figure-container">
+                        <img src="images/galaxy-formation/image4.png" alt="2-D pixel scale distribution">
+                        <p class="figure-caption">
+                            <strong>Figure 4:</strong> 2-D pixel scale distribution of stellar mass, star formation rate, and extinction across a galaxy, along with the radial profiles.
+                        </p>
+                    </div>
+                    
+                    <div class="references">
+                        <h4>Key Publications</h4>
+                        <ul>
+                            <li>Jafariyazani et al.</li>
+                            <li>Hemmati et al.</li>
+                            <li>Sattari et al.</li>
+                        </ul>
+                    </div>
+                </div>
+                
             </div>
         </div>
     </div>
