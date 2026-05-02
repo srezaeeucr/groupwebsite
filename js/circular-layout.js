@@ -1,30 +1,50 @@
 // circular-layout.js - Handles the circular layout for the home page
 
+const MOBILE_BREAKPOINT = 700;
+
+function isMobileViewport() {
+    return window.innerWidth <= MOBILE_BREAKPOINT;
+}
+
+function clearInlinePositions(layout) {
+    layout.querySelectorAll('.central-node, .circular-node').forEach(n => {
+        n.style.left = '';
+        n.style.top = '';
+    });
+}
+
 // Position nodes in a circle
 function positionCircularNodes() {
     const layout = document.getElementById('circularLayout');
+    if (!layout) return;
     const nodes = layout.querySelectorAll('.circular-node');
     const centralNode = layout.querySelector('.central-node');
-    
-    if (!layout || !centralNode) return;
-    
+    if (!centralNode) return;
+
+    if (isMobileViewport()) {
+        // Mobile uses a CSS grid; clear any stale inline coords from a prior
+        // wider viewport so the static layout takes over cleanly.
+        clearInlinePositions(layout);
+        return;
+    }
+
     const centerX = layout.offsetWidth / 2;
     const centerY = layout.offsetHeight / 2;
-    
+
     // Position central node at exact center
     centralNode.style.left = (centerX - centralNode.offsetWidth / 2) + 'px';
     centralNode.style.top = (centerY - centralNode.offsetHeight / 2) + 'px';
-    
+
     // Calculate radius for outer nodes
     const radius = Math.min(centerX, centerY) * 0.7;
-    
-    nodes.forEach((node, index) => {
+
+    nodes.forEach((node) => {
         const angle = parseFloat(node.getAttribute('data-angle'));
         const angleRad = (angle * Math.PI) / 180;
-        
+
         const x = centerX + radius * Math.cos(angleRad) - node.offsetWidth / 2;
         const y = centerY + radius * Math.sin(angleRad) - node.offsetHeight / 2;
-        
+
         node.style.left = x + 'px';
         node.style.top = y + 'px';
     });
@@ -33,14 +53,15 @@ function positionCircularNodes() {
 // Draw connections from center to all nodes
 function drawConnections() {
     const layout = document.getElementById('circularLayout');
+    if (!layout) return;
     const centralNode = layout.querySelector('.central-node');
     const nodes = layout.querySelectorAll('.circular-node');
-    
+
     // Remove existing connections
     const existingConnections = layout.querySelectorAll('.connection');
     existingConnections.forEach(conn => conn.remove());
-    
-    if (!centralNode) return;
+
+    if (!centralNode || isMobileViewport()) return;
     
     const centerX = parseFloat(centralNode.style.left) + centralNode.offsetWidth / 2;
     const centerY = parseFloat(centralNode.style.top) + centralNode.offsetHeight / 2;

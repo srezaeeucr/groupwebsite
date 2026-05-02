@@ -31,9 +31,16 @@
     }
     
     .nav-links {
-        display: none;
+        flex-wrap: wrap;
+        gap: 0.5rem 0.75rem;
+        font-size: 0.85rem;
+        justify-content: flex-end;
     }
-    
+
+    .nav-links a {
+        padding: 0.35rem 0.7rem;
+    }
+
     .logo-main {
         font-size: 1.1rem;
     }
@@ -243,5 +250,54 @@
         -webkit-text-fill-color: black;
         background: none;
         color: black;
+    }
+}
+
+/* Mobile fallback for the home circular hub.
+   At narrow widths the absolute-positioned circle becomes a 2-column grid
+   so 13 labels actually fit and stay legible. */
+@media (max-width: 700px) {
+    .circular-layout {
+        position: static;
+        transform: none;
+        width: auto;
+        height: auto;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+        padding: 1rem;
+        margin: 0 auto;
+        max-width: 600px;
+    }
+
+    .circular-layout .central-node,
+    .circular-layout .circular-node {
+        position: static;
+        width: auto;
+        height: auto;
+        border-radius: 16px;
+        padding: 1.1rem 0.9rem;
+        min-height: 100px;
+    }
+
+    .circular-layout .central-node {
+        grid-column: 1 / -1;
+        min-height: 130px;
+    }
+
+    .circular-layout .central-node h2 {
+        font-size: 1.6rem;
+    }
+
+    .circular-layout .circular-node h3 {
+        font-size: 0.95rem;
+    }
+
+    .circular-layout .circular-node p {
+        font-size: 0.8rem;
+    }
+
+    .circular-layout .connection {
+        display: none;
     }
 }

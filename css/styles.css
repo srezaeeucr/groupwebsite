@@ -300,13 +300,31 @@ nav {
     font-weight: bold;
 }
 
+/* Shared intro paragraph for content sections */
+.section-intro {
+    text-align: center;
+    color: #cbd5e1;
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+}
+
+.section-note {
+    text-align: center;
+    color: #94a3b8;
+    font-size: 1rem;
+}
+
+.inline-link {
+    color: #7dd3fc;
+}
+
 .research-card h3 {
     color: #0ff;
     margin-bottom: 1rem;
 }
 
 .research-card p {
-    color: #aaa;
+    color: #cbd5e1;
     line-height: 1.6;
 }
 
@@ -332,7 +350,7 @@ nav {
 footer {
     text-align: center;
     padding: 3rem 0;
-    color: #666;
+    color: #94a3b8;
 }
 
 /* Navigation ripple effect */
