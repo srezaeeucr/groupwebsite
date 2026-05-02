@@ -13,11 +13,11 @@ body {
     color: #fff;
     overflow-x: hidden;
     position: relative;
-    cursor: none;
 }
 
-/* Custom cursor */
+/* Custom cursor — only enabled by JS on fine-pointer devices */
 .custom-cursor {
+    display: none;
     position: fixed;
     width: 20px;
     height: 20px;
@@ -27,6 +27,14 @@ body {
     z-index: 9999;
     transition: transform 0.1s ease;
     box-shadow: 0 0 20px rgba(0, 150, 255, 0.5);
+}
+
+body.custom-cursor-on {
+    cursor: none;
+}
+
+body.custom-cursor-on .custom-cursor {
+    display: block;
 }
 
 .custom-cursor::after {
@@ -137,6 +145,11 @@ nav {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    text-decoration: none;
+}
+
+.logo span {
+    display: block;
 }
 
 .logo-main {
@@ -178,7 +191,10 @@ nav {
 
 .nav-links {
     display: flex;
-    gap: 2rem;
+    gap: 1.25rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
 .nav-links a {
@@ -191,13 +207,20 @@ nav {
 }
 
 .nav-links a:hover,
+.nav-links a:focus-visible,
 .nav-links a.active {
     color: #0ff;
     background: rgba(0, 150, 255, 0.1);
-    box-shadow: 
+    box-shadow:
         0 0 15px rgba(0, 150, 255, 0.3),
         inset 0 0 10px rgba(0, 100, 255, 0.1);
     transform: translateY(-2px);
+    outline: none;
+}
+
+.nav-links a:focus-visible {
+    outline: 2px solid #7dd3fc;
+    outline-offset: 2px;
 }
 
 /* Main container */
@@ -252,11 +275,29 @@ nav {
     padding: 2rem;
     transition: all 0.3s;
     cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    display: block;
 }
 
-.research-card:hover {
+.research-card:hover,
+.research-card:focus-visible {
     transform: translateY(-5px);
     box-shadow: 0 10px 30px rgba(0, 0, 255, 0.3);
+    outline: 2px solid #7dd3fc;
+    outline-offset: 3px;
+}
+
+.course-section-title {
+    color: #0ff;
+    font-size: 1.8rem;
+    margin: 3rem 0 1rem 0;
+}
+
+.course-cta {
+    color: #0ff;
+    margin-top: 1rem;
+    font-weight: bold;
 }
 
 .research-card h3 {

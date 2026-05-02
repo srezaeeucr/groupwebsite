@@ -139,6 +139,8 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    text-decoration: none;
+    color: inherit;
     transition: all 0.4s;
     backdrop-filter: blur(15px);
     box-shadow: 
@@ -148,13 +150,16 @@
     animation: centralPulse 4s ease-in-out infinite;
 }
 
-.central-node:hover {
+.central-node:hover,
+.central-node:focus-visible {
     transform: scale(1.1);
-    box-shadow: 
+    box-shadow:
         0 0 80px rgba(0, 100, 255, 1),
         0 0 120px rgba(0, 150, 255, 0.8),
         inset 0 0 50px rgba(0, 200, 255, 0.5);
     animation: none;
+    outline: 3px solid #fff;
+    outline-offset: 4px;
 }
 
 .central-node h2 {
@@ -182,6 +187,8 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    text-decoration: none;
+    color: inherit;
     transition: all 0.4s;
     backdrop-filter: blur(10px);
     text-align: center;
@@ -192,15 +199,18 @@
     animation: counterRotate 300s linear infinite, nodeGlow 6s ease-in-out infinite;
 }
 
-.circular-node:hover {
+.circular-node:hover,
+.circular-node:focus-visible {
     transform: scale(1.15) rotate(0deg);
     background: rgba(0, 50, 100, 0.95);
     border-color: #00f;
-    box-shadow: 
+    box-shadow:
         0 10px 40px rgba(0, 0, 0, 0.7),
         0 0 50px rgba(0, 100, 255, 0.8),
         0 0 80px rgba(0, 150, 255, 0.4);
     animation: counterRotate 300s linear infinite;
+    outline: 3px solid #fff;
+    outline-offset: 4px;
 }
 
 .circular-node h3 {

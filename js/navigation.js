@@ -24,27 +24,8 @@ document.addEventListener('click', (e) => {
     }
 });
 
-// Add active states to navigation based on current page
-document.addEventListener('DOMContentLoaded', () => {
-    const currentPath = window.location.pathname;
-    const navLinks = document.querySelectorAll('.nav-links a');
-    
-    navLinks.forEach(link => {
-        // Get the href and normalize it
-        const linkHref = link.getAttribute('href');
-        const linkPath = linkHref.replace(/^\.\.\//, '').replace(/^\.\//, '');
-        
-        // Check if current path contains this link's path
-        if (currentPath.includes(linkPath.replace('.html', ''))) {
-            link.classList.add('active');
-        }
-        
-        // Special case for home page
-        if (linkPath === 'index.html' && (currentPath === '/' || currentPath.endsWith('/index.html'))) {
-            link.classList.add('active');
-        }
-    });
-});
+// Active-link highlighting is handled by highlightActiveNav() in main.js
+// once the nav HTML has been injected.
 
 // Handle navigation link hover effects
 document.addEventListener('DOMContentLoaded', () => {
