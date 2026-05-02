@@ -57,7 +57,6 @@ async function loadSharedComponents() {
     const navContainer = document.getElementById('main-nav');
     if (navContainer) {
         navContainer.innerHTML = createNavigation(basePath);
-        highlightActiveNav();
     }
     
     // Load footer
@@ -76,15 +75,6 @@ function createNavigation(basePath) {
                 <span class="logo-title">Bahram Mobasher, Distinguished Professor</span>
                 <span class="logo-department">Department of Physics &amp; Astronomy, UC Riverside</span>
             </a>
-            <ul class="nav-links">
-                <li><a href="${basePath}index.html">Home</a></li>
-                <li><a href="${basePath}pages/science/index.html">Science</a></li>
-                <li><a href="${basePath}pages/people.html">People</a></li>
-                <li><a href="${basePath}pages/alumni.html">Alumni</a></li>
-                <li><a href="${basePath}pages/publications.html">Publications</a></li>
-                <li><a href="${basePath}pages/teaching.html">Teaching</a></li>
-                <li><a href="${basePath}pages/outreach.html">Outreach</a></li>
-            </ul>
         </div>
     `;
 }
@@ -94,18 +84,6 @@ function createFooter() {
     return `
         <p>© 2024 UCR Extragalactic Astrophysics Research Group</p>
     `;
-}
-
-// Highlight active navigation item
-function highlightActiveNav() {
-    const here = window.location.pathname.replace(/\/$/, '/index.html');
-    const navLinks = document.querySelectorAll('.nav-links a');
-
-    navLinks.forEach(link => {
-        // Resolve href against the current document so relative paths normalize.
-        const linkPath = new URL(link.href, window.location.href).pathname;
-        if (linkPath === here) link.classList.add('active');
-    });
 }
 
 // Initialize everything when DOM is loaded

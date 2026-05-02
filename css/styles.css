@@ -189,40 +189,6 @@ nav {
     font-weight: 400;
 }
 
-.nav-links {
-    display: flex;
-    gap: 1.25rem;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-.nav-links a {
-    color: #fff;
-    text-decoration: none;
-    transition: all 0.3s;
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    position: relative;
-}
-
-.nav-links a:hover,
-.nav-links a:focus-visible,
-.nav-links a.active {
-    color: #0ff;
-    background: rgba(0, 150, 255, 0.1);
-    box-shadow:
-        0 0 15px rgba(0, 150, 255, 0.3),
-        inset 0 0 10px rgba(0, 100, 255, 0.1);
-    transform: translateY(-2px);
-    outline: none;
-}
-
-.nav-links a:focus-visible {
-    outline: 2px solid #7dd3fc;
-    outline-offset: 2px;
-}
-
 /* Main container */
 .container {
     width: 100vw;
@@ -353,33 +319,3 @@ footer {
     color: #94a3b8;
 }
 
-/* Navigation ripple effect */
-.nav-links a {
-    position: relative;
-    overflow: hidden;
-}
-
-.nav-ripple {
-    position: absolute;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.6);
-    transform: scale(0);
-    animation: navRipple 0.6s ease-out;
-    pointer-events: none;
-}
-
-.uniform-text div {
-    font-family: 'Arial', sans-serif; /* Choose your preferred font */
-    color: #efe7e7; /* Choose your preferred color */
-    font-size: 16px; /* Optional: adjust size */
-    line-height: 1.5; /* Optional: spacing between lines */
-    text-align: center; /* Center the text */
-    margin: 2px 0; /* Small spacing between lines */
-}
-
-@keyframes navRipple {
-    to {
-        transform: scale(4);
-        opacity: 0;
-    }
-}

@@ -30,17 +30,6 @@
         font-size: 0.75rem;
     }
     
-    .nav-links {
-        flex-wrap: wrap;
-        gap: 0.5rem 0.75rem;
-        font-size: 0.85rem;
-        justify-content: flex-end;
-    }
-
-    .nav-links a {
-        padding: 0.35rem 0.7rem;
-    }
-
     .logo-main {
         font-size: 1.1rem;
     }
