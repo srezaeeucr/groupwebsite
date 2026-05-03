@@ -1,40 +1,159 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+
+interface AdsDoc {
+  bibcode: string;
+  title?: string[];
+  author?: string[];
+  pub?: string;
+  year?: string;
+  doi?: string[];
+}
+
+interface AdsResponse {
+  response?: { docs?: AdsDoc[]; numFound?: number };
+}
+
+const token = process.env.ADS_TOKEN;
+const ROWS = 25;
+
+let papers: AdsDoc[] = [];
+let fetchError: string | null = null;
+let fetchedAt: string | null = null;
+
+if (!token) {
+  fetchError = 'Live publication feed disabled (ADS_TOKEN not set). Browse via the links below.';
+} else {
+  try {
+    const url = new URL('https://api.adsabs.harvard.edu/v1/search/query');
+    url.searchParams.set('q', 'author:"Mobasher, B" property:refereed');
+    url.searchParams.set('sort', 'date desc');
+    url.searchParams.set('rows', String(ROWS));
+    url.searchParams.set('fl', 'bibcode,title,author,pub,year,doi');
+
+    const res = await fetch(url, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    if (!res.ok) {
+      const body = await res.text();
+      fetchError = `ADS API returned ${res.status}: ${body.slice(0, 200)}`;
+    } else {
+      const json: AdsResponse = await res.json();
+      papers = json.response?.docs ?? [];
+      fetchedAt = new Date().toISOString().slice(0, 10);
+    }
+  } catch (e) {
+    fetchError = `Failed to reach ADS: ${(e as Error).message}`;
+  }
+}
+
+function formatAuthors(authors: string[] | undefined): string {
+  if (!authors || authors.length === 0) return '';
+  if (authors.length <= 3) return authors.join('; ');
+  return `${authors.slice(0, 3).join('; ')}; et al.`;
+}
 ---
+
 <Layout
   title="Publications"
   description="Recent publications from the UCR Extragalactic Astrophysics Research Group."
   path="/pages/publications.html"
 >
-<div class="container">
-<div id="publications" class="page active">
-            <a href="../index.html" class="back-btn">&larr; Back to Home</a>
-            <div class="content-section">
-                <h2>Recent Publications</h2>
-                <p class="section-intro">
-                    Our group's contributions to extragalactic astronomy. A curated list is in
-                    preparation; in the meantime, browse our work directly on NASA ADS and Google Scholar.
-                </p>
+  <div class="container">
+    <div id="publications" class="page active">
+      <a href="../index.html" class="back-btn">&larr; Back to Home</a>
+      <div class="content-section">
+        <h2>Recent Publications</h2>
 
-                <div class="research-grid">
-                    <a class="research-card"
-                       href="https://ui.adsabs.harvard.edu/search/q=author%3A%22Mobasher%2C%20B%22&sort=date%20desc%2C%20bibcode%20desc"
-                       target="_blank" rel="noopener noreferrer">
-                        <h3>Bahram Mobasher on ADS</h3>
-                        <p>Refereed publications by the group PI, sorted by date.</p>
-                    </a>
-                    <a class="research-card"
-                       href="https://scholar.google.com/scholar?q=Bahram+Mobasher"
-                       target="_blank" rel="noopener noreferrer">
-                        <h3>Google Scholar</h3>
-                        <p>Citations and recent papers indexed by Google Scholar.</p>
-                    </a>
-                    <a class="research-card" href="people.html">
-                        <h3>By group member</h3>
-                        <p>Each member's profile lists featured publications and links to their full record.</p>
-                    </a>
-                </div>
-            </div>
+        {papers.length > 0 ? (
+          <>
+            <p class="section-intro">
+              Latest {papers.length} refereed papers by Bahram Mobasher and the group, fetched from
+              <a href="https://ui.adsabs.harvard.edu/" target="_blank" rel="noopener noreferrer" class="inline-link">
+                NASA ADS
+              </a>
+              {fetchedAt && ` on ${fetchedAt}`}.
+            </p>
+
+            <ol class="ads-paper-list">
+              {papers.map(p => (
+                <li class="ads-paper">
+                  <a class="ads-paper-link"
+                     href={`https://ui.adsabs.harvard.edu/abs/${p.bibcode}/abstract`}
+                     target="_blank" rel="noopener noreferrer">
+                    {p.title?.[0] ?? '(untitled)'}
+                  </a>
+                  <div class="ads-paper-meta">
+                    {formatAuthors(p.author)}
+                    {(p.pub || p.year) && ' · '}
+                    {p.pub}
+                    {p.year && ` (${p.year})`}
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </>
+        ) : (
+          <p class="section-intro">
+            Our group's contributions to extragalactic astronomy. Browse our work directly on
+            NASA ADS and Google Scholar.
+          </p>
+        )}
+
+        {fetchError && (
+          <p class="section-note">{fetchError}</p>
+        )}
+
+        <h3 class="course-section-title">More ways to browse</h3>
+        <div class="research-grid">
+          <a class="research-card"
+             href="https://ui.adsabs.harvard.edu/search/q=author%3A%22Mobasher%2C%20B%22&sort=date%20desc%2C%20bibcode%20desc"
+             target="_blank" rel="noopener noreferrer">
+            <h3>Full ADS record</h3>
+            <p>Every refereed paper by the group PI, sorted by date.</p>
+          </a>
+          <a class="research-card"
+             href="https://scholar.google.com/scholar?q=Bahram+Mobasher"
+             target="_blank" rel="noopener noreferrer">
+            <h3>Google Scholar</h3>
+            <p>Citations and recent papers indexed by Google Scholar.</p>
+          </a>
+          <a class="research-card" href="people.html">
+            <h3>By group member</h3>
+            <p>Each member's profile lists featured publications and links to their full record.</p>
+          </a>
         </div>
-</div>
+      </div>
+    </div>
+  </div>
 </Layout>
+
+<style is:global>
+  .ads-paper-list {
+    list-style: decimal;
+    padding-left: 2rem;
+    margin: 1.5rem 0 2.5rem 0;
+    color: #cbd5e1;
+  }
+  .ads-paper {
+    margin-bottom: 1.1rem;
+    line-height: 1.45;
+  }
+  .ads-paper-link {
+    color: #7dd3fc;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .ads-paper-link:hover,
+  .ads-paper-link:focus-visible {
+    color: #0ff;
+    text-decoration: underline;
+    outline: none;
+  }
+  .ads-paper-meta {
+    color: #94a3b8;
+    font-size: 0.9rem;
+    margin-top: 0.2rem;
+  }
+</style>
