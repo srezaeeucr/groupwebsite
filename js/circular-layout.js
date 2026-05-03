@@ -1,89 +1,132 @@
 // circular-layout.js - Handles the circular layout for the home page
 
-// Position nodes in a circle
-function positionCircularNodes() {
-    const layout = document.getElementById('circularLayout');
+const MOBILE_BREAKPOINT = 700;
+const ORBIT_DEG_PER_SEC = 360 / 300; // one full orbit every 300 seconds
+
+let orbitOffsetDeg = 0;
+let orbitLastTimestamp = 0;
+let orbitRafHandle = null;
+let connections = []; // [{ node, el }]
+
+function isMobileViewport() {
+    return window.innerWidth <= MOBILE_BREAKPOINT;
+}
+
+function prefersReducedMotion() {
+    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
+
+function clearInlinePositions(layout) {
+    layout.querySelectorAll('.central-node, .circular-node').forEach(n => {
+        n.style.left = '';
+        n.style.top = '';
+    });
+}
+
+function rebuildConnections(layout) {
+    connections.forEach(({ el }) => el.remove());
+    connections = [];
+    if (isMobileViewport()) return;
+
     const nodes = layout.querySelectorAll('.circular-node');
+    nodes.forEach(node => {
+        const el = document.createElement('div');
+        el.className = 'connection';
+        layout.appendChild(el);
+        connections.push({ node, el });
+    });
+}
+
+// Computes positions for the central node, every outer node, and every
+// connection line, using the current orbitOffsetDeg. Labels are never
+// rotated — only their (x, y) is updated, so text always reads upright.
+function updatePositions() {
+    const layout = document.getElementById('circularLayout');
+    if (!layout) return;
     const centralNode = layout.querySelector('.central-node');
-    
-    if (!layout || !centralNode) return;
-    
+    if (!centralNode) return;
+
+    if (isMobileViewport()) {
+        clearInlinePositions(layout);
+        return;
+    }
+
     const centerX = layout.offsetWidth / 2;
     const centerY = layout.offsetHeight / 2;
-    
-    // Position central node at exact center
-    centralNode.style.left = (centerX - centralNode.offsetWidth / 2) + 'px';
-    centralNode.style.top = (centerY - centralNode.offsetHeight / 2) + 'px';
-    
-    // Calculate radius for outer nodes
+    const cw = centralNode.offsetWidth;
+    const ch = centralNode.offsetHeight;
+    const centralRadius = cw / 2;
     const radius = Math.min(centerX, centerY) * 0.7;
-    
-    nodes.forEach((node, index) => {
-        const angle = parseFloat(node.getAttribute('data-angle'));
-        const angleRad = (angle * Math.PI) / 180;
-        
-        const x = centerX + radius * Math.cos(angleRad) - node.offsetWidth / 2;
-        const y = centerY + radius * Math.sin(angleRad) - node.offsetHeight / 2;
-        
-        node.style.left = x + 'px';
-        node.style.top = y + 'px';
+
+    centralNode.style.left = (centerX - cw / 2) + 'px';
+    centralNode.style.top = (centerY - ch / 2) + 'px';
+
+    connections.forEach(({ node, el }) => {
+        const baseAngle = parseFloat(node.getAttribute('data-angle'));
+        const angleDeg = baseAngle + orbitOffsetDeg;
+        const angleRad = (angleDeg * Math.PI) / 180;
+
+        const nw = node.offsetWidth;
+        const nh = node.offsetHeight;
+        const nodeRadius = nw / 2;
+
+        const nodeCenterX = centerX + radius * Math.cos(angleRad);
+        const nodeCenterY = centerY + radius * Math.sin(angleRad);
+
+        node.style.left = (nodeCenterX - nw / 2) + 'px';
+        node.style.top = (nodeCenterY - nh / 2) + 'px';
+
+        const startX = centerX + centralRadius * Math.cos(angleRad);
+        const startY = centerY + centralRadius * Math.sin(angleRad);
+        const lineLength = radius - centralRadius - nodeRadius;
+
+        el.style.width = lineLength + 'px';
+        el.style.left = startX + 'px';
+        el.style.top = startY + 'px';
+        el.style.transform = `rotate(${angleDeg}deg)`;
     });
 }
 
-// Draw connections from center to all nodes
-function drawConnections() {
-    const layout = document.getElementById('circularLayout');
-    const centralNode = layout.querySelector('.central-node');
-    const nodes = layout.querySelectorAll('.circular-node');
-    
-    // Remove existing connections
-    const existingConnections = layout.querySelectorAll('.connection');
-    existingConnections.forEach(conn => conn.remove());
-    
-    if (!centralNode) return;
-    
-    const centerX = parseFloat(centralNode.style.left) + centralNode.offsetWidth / 2;
-    const centerY = parseFloat(centralNode.style.top) + centralNode.offsetHeight / 2;
-    
-    nodes.forEach(node => {
-        const nodeX = parseFloat(node.style.left) + node.offsetWidth / 2;
-        const nodeY = parseFloat(node.style.top) + node.offsetHeight / 2;
-        
-        const distance = Math.sqrt(Math.pow(nodeX - centerX, 2) + Math.pow(nodeY - centerY, 2));
-        const angle = Math.atan2(nodeY - centerY, nodeX - centerX) * 180 / Math.PI;
-        
-        // Start connection from edge of central node, not center
-        const centralRadius = centralNode.offsetWidth / 2;
-        const startX = centerX + (centralRadius * Math.cos(angle * Math.PI / 180));
-        const startY = centerY + (centralRadius * Math.sin(angle * Math.PI / 180));
-        
-        // End connection at edge of outer node
-        const nodeRadius = node.offsetWidth / 2;
-        const adjustedDistance = distance - centralRadius - nodeRadius;
-        
-        const connection = document.createElement('div');
-        connection.className = 'connection';
-        connection.style.width = adjustedDistance + 'px';
-        connection.style.left = startX + 'px';
-        connection.style.top = startY + 'px';
-        connection.style.transform = `rotate(${angle}deg)`;
-        
-        layout.appendChild(connection);
-    });
+function tick(timestamp) {
+    if (orbitLastTimestamp) {
+        const dt = (timestamp - orbitLastTimestamp) / 1000;
+        orbitOffsetDeg = (orbitOffsetDeg + ORBIT_DEG_PER_SEC * dt) % 360;
+    }
+    orbitLastTimestamp = timestamp;
+    updatePositions();
+    orbitRafHandle = requestAnimationFrame(tick);
 }
 
-// Initialize layout
+function startOrbit() {
+    if (orbitRafHandle != null) return;
+    if (isMobileViewport() || prefersReducedMotion()) return;
+    orbitLastTimestamp = 0;
+    orbitRafHandle = requestAnimationFrame(tick);
+}
+
+function stopOrbit() {
+    if (orbitRafHandle != null) {
+        cancelAnimationFrame(orbitRafHandle);
+        orbitRafHandle = null;
+    }
+}
+
 function initializeLayout() {
-    // Only run on pages with circular layout
-    if (!document.getElementById('circularLayout')) return;
-    
-    setTimeout(() => {
-        positionCircularNodes();
-        setTimeout(drawConnections, 100);
-    }, 100);
+    const layout = document.getElementById('circularLayout');
+    if (!layout) return;
+
+    stopOrbit();
+    rebuildConnections(layout);
+    updatePositions();
+    startOrbit();
 }
 
-// Event listeners for circular layout
+// Pause when the tab is hidden so we don't burn CPU in the background.
+document.addEventListener('visibilitychange', () => {
+    if (document.hidden) stopOrbit();
+    else startOrbit();
+});
+
 if (document.getElementById('circularLayout')) {
     window.addEventListener('load', initializeLayout);
     window.addEventListener('resize', () => {

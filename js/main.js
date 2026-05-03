@@ -3,9 +3,15 @@
 // Custom cursor functionality
 function initCustomCursor() {
     const cursor = document.getElementById('customCursor');
-    
     if (!cursor) return;
-    
+
+    // Only enable on fine-pointer (mouse) devices that don't prefer reduced motion.
+    const fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!fine || reduced) return;
+
+    document.body.classList.add('custom-cursor-on');
+
     document.addEventListener('mousemove', (e) => {
         cursor.style.left = e.clientX - 10 + 'px';
         cursor.style.top = e.clientY - 10 + 'px';
@@ -51,7 +57,6 @@ async function loadSharedComponents() {
     const navContainer = document.getElementById('main-nav');
     if (navContainer) {
         navContainer.innerHTML = createNavigation(basePath);
-        highlightActiveNav();
     }
     
     // Load footer
@@ -65,9 +70,11 @@ async function loadSharedComponents() {
 function createNavigation(basePath) {
     return `
         <div class="nav-content">
-            <div class="logo uniform-text">
-                <div> Extragalactic Research Lab – Bahram Mobasher, Distinguished Professor, Department of Physics & Astronomy, UC Riverside
-            </div>
+            <a href="${basePath}index.html" class="logo" aria-label="Home">
+                <span class="logo-name">Extragalactic Research Lab</span>
+                <span class="logo-title">Bahram Mobasher, Distinguished Professor</span>
+                <span class="logo-department">Department of Physics &amp; Astronomy, UC Riverside</span>
+            </a>
         </div>
     `;
 }
@@ -77,19 +84,6 @@ function createFooter() {
     return `
         <p>© 2024 UCR Extragalactic Astrophysics Research Group</p>
     `;
-}
-
-// Highlight active navigation item
-function highlightActiveNav() {
-    const currentPath = window.location.pathname;
-    const navLinks = document.querySelectorAll('.nav-links a');
-    
-    navLinks.forEach(link => {
-        const linkPath = link.getAttribute('href');
-        if (currentPath.includes(linkPath.replace('../', '').replace('.html', ''))) {
-            link.classList.add('active');
-        }
-    });
 }
 
 // Initialize everything when DOM is loaded
