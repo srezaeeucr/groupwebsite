@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page not found — UCR Extragalactic Astrophysics Research Group</title>
+    <link rel="icon" type="image/svg+xml" href="/groupwebsite/favicon.svg">
+    <meta name="robots" content="noindex">
+    <link rel="stylesheet" href="/groupwebsite/css/styles.css">
+    <link rel="stylesheet" href="/groupwebsite/css/animations.css">
+    <link rel="stylesheet" href="/groupwebsite/css/responsive.css">
+    <style>
+        .lost {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            min-height: calc(100vh - 80px);
+            padding: 2rem;
+        }
+        .lost h1 {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #00f, #0ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .lost p {
+            color: #cbd5e1;
+            font-size: 1.15rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+        }
+        .lost code {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 0.2rem 0.6rem;
+            border-radius: 6px;
+            color: #7dd3fc;
+            font-size: 0.95em;
+            word-break: break-all;
+        }
+    </style>
+</head>
+<body>
+    <div class="custom-cursor" id="customCursor"></div>
+    <div class="galaxy-bg"></div>
+
+    <nav id="main-nav"></nav>
+
+    <main class="lost">
+        <h1>Lost in space.</h1>
+        <p>
+            We can't find <code id="missing-path">that page</code>. It may have moved
+            or never existed in this corner of the universe.
+        </p>
+        <a href="/groupwebsite/" class="back-btn">&larr; Return to the hub</a>
+    </main>
+
+    <footer id="main-footer"></footer>
+
+    <script defer>
+        document.addEventListener('DOMContentLoaded', () => {
+            const el = document.getElementById('missing-path');
+            if (el) el.textContent = window.location.pathname;
+        });
+    </script>
+    <script src="/groupwebsite/js/main.js" defer></script>
+    <script src="/groupwebsite/js/navigation.js" defer></script>
+</body>
+</html>
