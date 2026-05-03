@@ -1,0 +1,262 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+---
+<Layout
+  title="Group Research Interests"
+  description="Density-morphology relations, BUFFALO, CLASH, HFF, and Coma cluster studies at the UCR Extragalactic Astrophysics Group."
+  path="/pages/science/research_interest.html"
+>
+<div class="container">
+<div id="research-interests" class="page active">
+            <a href="../science.html" class="back-btn">← Back to Science</a>
+            
+            <div class="content-section">
+                <h2>Research Interests</h2>
+                
+                <div class="research-intro">
+                    <p>The main research interest in my group is on the observational study of formation and evolution of galaxies using ground- and space-based observatories. This involves both photometric and spectroscopic observation of galaxies. For many years, with my collaborators, I have been involved in designing multi-waveband galaxy surveys. Broadly speaking, my group is involved in the following projects:</p>
+                </div>
+                
+                <!-- Galaxy Evolution & Structure -->
+                <div class="category-section">
+                    <div class="category-title">
+                        <h3>Galaxy Evolution & Structure</h3>
+                        <span class="line"></span>
+                    </div>
+                    <div class="interests-grid">
+                        <div class="interest-card">
+                            <span class="icon"></span>
+                            <h3>Study of the Large Scale Structure</h3>
+                            <p>Mapping the cosmic web and understanding how galaxies trace the underlying dark matter distribution across vast cosmic volumes.</p>
+                        </div>
+                        <div class="interest-card">
+                            <span class="icon"></span>
+                            <h3>Galaxy Morphology and Origin of the Hubble Sequence</h3>
+                            <p>Investigating how galaxies acquire their diverse shapes and understanding the physical processes that drive morphological evolution.</p>
+                        </div>
+                        <div class="interest-card">
+                            <span class="icon"></span>
+                            <h3>Scaling Relations in Galaxies</h3>
+                            <p>Exploring fundamental relationships between galaxy properties that reveal the physics governing galaxy formation.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- High Redshift Universe -->
+                <div class="category-section">
+                    <div class="category-title">
+                        <h3>High Redshift Universe</h3>
+                        <span class="line"></span>
+                    </div>
+                    <div class="interests-grid">
+                        <div class="interest-card">
+                            <span class="icon"></span>
+                            <h3>Search for Galaxies at the Epoch of Reionization</h3>
+                            <p>Pushing the boundaries of observation to find the earliest galaxies that illuminated the young universe.</p>
+                        </div>
+                        <div class="interest-card">
+                            <span class="icon"></span>
+                            <h3>Nature of Evolved and Massive Galaxies at High Redshifts</h3>
+                            <p>Understanding how the most massive galaxies formed and evolved in the early universe.</p>
+                        </div>
+                        <div class="interest-card">
+                            <span class="icon"></span>
+                            <h3>Search for Rare Populations of Galaxies</h3>
+                            <p>Identifying exotic and unusual galaxies that challenge our understanding of galaxy formation.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Physical Properties & Diagnostics -->
+                <div class="category-section">
+                    <div class="category-title">
+                        <h3>🔬 Physical Properties & Diagnostics</h3>
+                        <span class="line"></span>
+                    </div>
+                    <div class="interests-grid">
+                        <div class="interest-card">
+                            <span class="icon"></span>
+                            <h3>Statistical Properties of Galaxies</h3>
+                            <p>Using large samples to understand the demographics and evolution of galaxy populations.</p>
+                        </div>
+                        <div class="interest-card">
+                            <span class="icon"></span>
+                            <h3>Spectroscopic Lines Diagnostic of Physical Conditions in Galaxies</h3>
+                            <p>Decoding the light from galaxies to measure their chemical composition, star formation, and energetics.</p>
+                        </div>
+                        <div class="interest-card">
+                            <span class="icon"></span>
+                            <h3>Pixel-scale (Kpc) Properties of Galaxies</h3>
+                            <p>Resolving galaxies at kiloparsec scales to understand their internal structure and physics.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Surveys & Methods -->
+                <div class="category-section">
+                    <div class="category-title">
+                        <h3>🛠️ Surveys & Methods</h3>
+                        <span class="line"></span>
+                    </div>
+                    <div class="interests-grid">
+                        <div class="interest-card">
+                            <span class="icon"></span>
+                            <h3>Multi-waveband Photometric and Spectroscopic Surveys of Galaxies</h3>
+                            <p>Designing and conducting comprehensive surveys across the electromagnetic spectrum to build complete pictures of galaxy populations.</p>
+                        </div>
+                        <div class="interest-card">
+                            <span class="icon"></span>
+                            <h3>Application of AI in Astronomy</h3>
+                            <p>Leveraging machine learning and artificial intelligence to analyze large astronomical datasets and discover new phenomena.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Contact Section -->
+                <div class="contact-section">
+                    <p>You are welcome to contact me at <a href="mailto:mobasher@ucr.edu">mobasher@ucr.edu</a> if you have any questions.</p>
+                </div>
+            </div>
+        </div>
+</div>
+</Layout>
+
+<style is:global>
+/* Page-specific styles */
+        .research-intro {
+            max-width: 900px;
+            margin: 0 auto 3rem;
+            text-align: center;
+        }
+        
+        .research-intro p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.85);
+        }
+        
+        .interests-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .interest-card {
+            background: linear-gradient(135deg, rgba(30, 30, 60, 0.8), rgba(20, 20, 50, 0.9));
+            border: 1px solid rgba(100, 150, 255, 0.2);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .interest-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #4a90d9, #8b5cf6, #06b6d4);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .interest-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(100, 150, 255, 0.4);
+            box-shadow: 0 10px 40px rgba(74, 144, 217, 0.2);
+        }
+        
+        .interest-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .interest-card .icon {
+            font-size: 2rem;
+            margin-bottom: 0.75rem;
+            display: block;
+        }
+        
+        .interest-card h3 {
+            color: #8bb8e8;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .interest-card p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin: 0;
+        }
+        
+        /* Category sections */
+        .category-section {
+            margin-bottom: 3rem;
+        }
+        
+        .category-title {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid rgba(100, 150, 255, 0.2);
+        }
+        
+        .category-title h3 {
+            color: #a5c8f0;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin: 0;
+        }
+        
+        .category-title .line {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, rgba(100, 150, 255, 0.3), transparent);
+        }
+        
+        /* Contact section */
+        .contact-section {
+            margin-top: 3rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(74, 144, 217, 0.15), rgba(139, 92, 246, 0.1));
+            border-radius: 12px;
+            border: 1px solid rgba(100, 150, 255, 0.2);
+            text-align: center;
+        }
+        
+        .contact-section p {
+            margin: 0;
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .contact-section a {
+            color: #8bb8e8;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+        
+        .contact-section a:hover {
+            color: #a5d4ff;
+            text-decoration: underline;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .interests-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .research-intro p {
+                font-size: 1rem;
+            }
+        }
+</style>

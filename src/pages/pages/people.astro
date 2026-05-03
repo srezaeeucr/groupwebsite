@@ -1,44 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>People - UCR Extragalactic Astrophysics Research Group</title>
-    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
-    <!-- SEO -->
-    <meta name="description" content="Researchers in the Mobasher group at UC Riverside — project scientists, postdocs, and graduate students working on galaxy evolution, cosmic structure, and astronomical AI.">
-    <link rel="canonical" href="https://srezaeeucr.github.io/groupwebsite/pages/people.html">
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="UCR Extragalactic Astrophysics Research Group">
-    <meta property="og:title" content="People — UCR Extragalactic Astrophysics Research Group">
-    <meta property="og:description" content="Researchers in the Mobasher group at UC Riverside — project scientists, postdocs, and graduate students working on galaxy evolution, cosmic structure, and astronomical AI.">
-    <meta property="og:url" content="https://srezaeeucr.github.io/groupwebsite/pages/people.html">
-    <meta property="og:image" content="https://srezaeeucr.github.io/groupwebsite/assets/images/og/og-card.jpg">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="People — UCR Extragalactic Astrophysics Research Group">
-    <meta name="twitter:description" content="Researchers in the Mobasher group at UC Riverside — project scientists, postdocs, and graduate students working on galaxy evolution, cosmic structure, and astronomical AI.">
-    <meta name="twitter:image" content="https://srezaeeucr.github.io/groupwebsite/assets/images/og/og-card.jpg">
-    <!-- /SEO -->
-    <link rel="stylesheet" href="../css/styles.css">
-    <link rel="stylesheet" href="../css/animations.css">
-    <link rel="stylesheet" href="../css/responsive.css">
-    <link rel="stylesheet" href="../css/people.css">
-</head>
-<body>
-    <!-- Custom cursor -->
-    <div class="custom-cursor" id="customCursor"></div>
-
-    <!-- Galaxy background -->
-    <div class="galaxy-bg"></div>
-
-    <!-- Navigation -->
-    <nav id="main-nav">
-        <!-- Navigation will be loaded by JavaScript -->
-    </nav>
-
-    <!-- Main container -->
-    <div class="container">
-        <div id="people" class="page active">
+---
+import Layout from '../../layouts/Layout.astro';
+---
+<Layout
+  title="People"
+  description="Researchers in the Mobasher group at UC Riverside — project scientists, postdocs, and graduate students working on galaxy evolution, cosmic structure, and astronomical AI."
+  path="/pages/people.html"
+  extraStylesheets={['css/people.css']}
+  extraScripts={['js/email.js']}
+>
+<div class="container">
+<div id="people" class="page active">
             <a href="../index.html" class="back-btn">← Back to Home</a>
             <div class="content-section">
                 <h2>Current Members</h2>
@@ -229,14 +200,5 @@
                 </div>
             </div>
         </div>
-    </div>
-
-    <footer id="main-footer">
-        <!-- Footer will be loaded by JavaScript -->
-    </footer>
-
-    <script src="../js/main.js" defer></script>
-    <script src="../js/navigation.js" defer></script>
-    <script src="../js/email.js" defer></script>
-</body>
-</html>
+</div>
+</Layout>
