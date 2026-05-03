@@ -26,15 +26,13 @@ if (!token) {
   fetchError = 'Live publication feed disabled (ADS_TOKEN not set). Browse via the links below.';
 } else {
   try {
-    // Bahram Mobasher's ORCID — far more precise than the surname-based
-    // query, which also matched his brother (Barzin Mobasher, ASU,
-    // structural engineering). Search all three ADS ORCID sources to
-    // catch papers however the link was claimed.
-    const ORCID = '0000-0001-5846-4404';
-    const orcidClause = `(orcid_pub:"${ORCID}" OR orcid_user:"${ORCID}" OR orcid_other:"${ORCID}")`;
-
+    // Match by author surname but restrict to the ADS astronomy database.
+    // ORCID-only is too strict — many of Bahram's older papers aren't
+    // claimed under his ORCID. The astronomy-database filter still
+    // excludes his brother Barzin (structural engineering at ASU), whose
+    // papers live in other ADS databases.
     const url = new URL('https://api.adsabs.harvard.edu/v1/search/query');
-    url.searchParams.set('q', `${orcidClause} property:refereed`);
+    url.searchParams.set('q', 'author:"Mobasher, B" property:refereed database:astronomy');
     url.searchParams.set('sort', 'date desc');
     url.searchParams.set('rows', String(ROWS));
     url.searchParams.set('fl', 'bibcode,title,author,pub,year,doi');
