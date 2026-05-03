@@ -33,9 +33,10 @@ jobs:
       - name: Build site
         run: npm run build
         env:
-          # Available to client JS via import.meta.env.PUBLIC_ADS_TOKEN.
-          # Configure under repo Settings → Secrets and variables → Actions.
-          PUBLIC_ADS_TOKEN: ${{ secrets.ADS_TOKEN }}
+          # Used at build time only — referenced as process.env.ADS_TOKEN in
+          # src/pages/pages/publications.astro. The token is never embedded
+          # in client-side JS; only the fetched paper list ships to the browser.
+          ADS_TOKEN: ${{ secrets.ADS_TOKEN }}
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
