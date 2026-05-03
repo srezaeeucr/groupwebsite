@@ -1,0 +1,102 @@
+---
+const SITE_NAME = 'UCR Extragalactic Astrophysics Research Group';
+const SITE_BASE_URL = 'https://srezaeeucr.github.io/groupwebsite';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Path appended to SITE_BASE_URL for canonical/og:url. e.g. "/pages/people.html" or "" for the home. */
+  path?: string;
+  /** Extra <link rel="stylesheet"> hrefs (relative to BASE_URL). */
+  extraStylesheets?: string[];
+  /** Extra <script src="..."> srcs (relative to BASE_URL). All deferred. */
+  extraScripts?: string[];
+  /** Set true to inject the site-wide JSON-LD ResearchOrganization block (home only). */
+  withJsonLd?: boolean;
+}
+
+const {
+  title,
+  description,
+  path = '',
+  extraStylesheets = [],
+  extraScripts = [],
+  withJsonLd = false,
+} = Astro.props as Props;
+
+const fullTitle =
+  title === SITE_NAME ? title : `${title} — ${SITE_NAME}`;
+const canonical = `${SITE_BASE_URL}${path}`;
+const baseUrl = import.meta.env.BASE_URL.endsWith('/')
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
+const ogImage = `${SITE_BASE_URL}/assets/images/og/og-card.jpg`;
+---
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{fullTitle}</title>
+
+    <link rel="icon" type="image/svg+xml" href={`${baseUrl}favicon.svg`} />
+
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE_NAME} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    {withJsonLd && (
+      <script type="application/ld+json" set:html={JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "ResearchOrganization",
+        "name": SITE_NAME,
+        "url": `${SITE_BASE_URL}/`,
+        "parentOrganization": {
+          "@type": "CollegeOrUniversity",
+          "name": "University of California, Riverside",
+          "department": "Department of Physics & Astronomy"
+        },
+        "founder": {
+          "@type": "Person",
+          "name": "Bahram Mobasher",
+          "jobTitle": "Distinguished Professor",
+          "affiliation": "University of California, Riverside"
+        }
+      })} />
+    )}
+
+    <link rel="stylesheet" href={`${baseUrl}css/styles.css`} />
+    <link rel="stylesheet" href={`${baseUrl}css/animations.css`} />
+    <link rel="stylesheet" href={`${baseUrl}css/responsive.css`} />
+    {extraStylesheets.map(href => (
+      <link rel="stylesheet" href={`${baseUrl}${href}`} />
+    ))}
+
+    <slot name="head" />
+  </head>
+  <body>
+    <div class="custom-cursor" id="customCursor"></div>
+    <div class="galaxy-bg"></div>
+
+    <nav id="main-nav"></nav>
+
+    <slot />
+
+    <footer id="main-footer"></footer>
+
+    <script src={`${baseUrl}js/main.js`} is:inline defer></script>
+    <script src={`${baseUrl}js/navigation.js`} is:inline defer></script>
+    {extraScripts.map(src => (
+      <script src={`${baseUrl}${src}`} is:inline defer></script>
+    ))}
+  </body>
+</html>
