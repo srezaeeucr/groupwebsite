@@ -15,9 +15,10 @@ interface AdsResponse {
 }
 
 const token = process.env.ADS_TOKEN;
-const ROWS = 25;
+const ROWS = 200;
 
 let papers: AdsDoc[] = [];
+let totalFound = 0;
 let fetchError: string | null = null;
 let fetchedAt: string | null = null;
 
@@ -41,6 +42,7 @@ if (!token) {
     } else {
       const json: AdsResponse = await res.json();
       papers = json.response?.docs ?? [];
+      totalFound = json.response?.numFound ?? papers.length;
       fetchedAt = new Date().toISOString().slice(0, 10);
     }
   } catch (e) {
@@ -53,6 +55,20 @@ function formatAuthors(authors: string[] | undefined): string {
   if (authors.length <= 3) return authors.join('; ');
   return `${authors.slice(0, 3).join('; ')}; et al.`;
 }
+
+// Group papers by year, newest year first, missing year bucketed as "Other".
+const byYear = new Map<string, AdsDoc[]>();
+for (const p of papers) {
+  const y = (p.year && /^\d{4}$/.test(p.year)) ? p.year : 'Other';
+  if (!byYear.has(y)) byYear.set(y, []);
+  byYear.get(y)!.push(p);
+}
+
+const years = Array.from(byYear.keys()).sort((a, b) => {
+  if (a === 'Other') return 1;
+  if (b === 'Other') return -1;
+  return Number(b) - Number(a);
+});
 ---
 
 <Layout
@@ -69,30 +85,39 @@ function formatAuthors(authors: string[] | undefined): string {
         {papers.length > 0 ? (
           <>
             <p class="section-intro">
-              Latest {papers.length} refereed papers by Bahram Mobasher and the group, fetched from
+              Latest {papers.length} of {totalFound.toLocaleString()} refereed papers by Bahram Mobasher and the group, fetched from
               <a href="https://ui.adsabs.harvard.edu/" target="_blank" rel="noopener noreferrer" class="inline-link">
                 NASA ADS
               </a>
-              {fetchedAt && ` on ${fetchedAt}`}.
+              {fetchedAt && ` on ${fetchedAt}`}. Click a year to expand.
             </p>
 
-            <ol class="ads-paper-list">
-              {papers.map(p => (
-                <li class="ads-paper">
-                  <a class="ads-paper-link"
-                     href={`https://ui.adsabs.harvard.edu/abs/${p.bibcode}/abstract`}
-                     target="_blank" rel="noopener noreferrer">
-                    {p.title?.[0] ?? '(untitled)'}
-                  </a>
-                  <div class="ads-paper-meta">
-                    {formatAuthors(p.author)}
-                    {(p.pub || p.year) && ' · '}
-                    {p.pub}
-                    {p.year && ` (${p.year})`}
-                  </div>
-                </li>
+            <div class="ads-by-year">
+              {years.map((y, idx) => (
+                <details class="ads-year" open={idx === 0}>
+                  <summary class="ads-year-summary">
+                    <span class="ads-year-label">{y}</span>
+                    <span class="ads-year-count">{byYear.get(y)!.length} {byYear.get(y)!.length === 1 ? 'paper' : 'papers'}</span>
+                  </summary>
+                  <ol class="ads-paper-list">
+                    {byYear.get(y)!.map(p => (
+                      <li class="ads-paper">
+                        <a class="ads-paper-link"
+                           href={`https://ui.adsabs.harvard.edu/abs/${p.bibcode}/abstract`}
+                           target="_blank" rel="noopener noreferrer">
+                          {p.title?.[0] ?? '(untitled)'}
+                        </a>
+                        <div class="ads-paper-meta">
+                          {formatAuthors(p.author)}
+                          {p.pub && ' · '}
+                          {p.pub}
+                        </div>
+                      </li>
+                    ))}
+                  </ol>
+                </details>
               ))}
-            </ol>
+            </div>
           </>
         ) : (
           <p class="section-intro">
@@ -130,14 +155,62 @@ function formatAuthors(authors: string[] | undefined): string {
 </Layout>
 
 <style is:global>
+  .ads-by-year {
+    margin: 1.5rem 0 2.5rem 0;
+  }
+  .ads-year {
+    border: 1px solid rgba(125, 211, 252, 0.2);
+    border-radius: 12px;
+    margin-bottom: 0.75rem;
+    background: rgba(0, 20, 60, 0.3);
+    overflow: hidden;
+  }
+  .ads-year[open] {
+    background: rgba(0, 30, 80, 0.4);
+  }
+  .ads-year-summary {
+    cursor: pointer;
+    padding: 0.85rem 1.25rem;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    user-select: none;
+    transition: background 0.2s;
+  }
+  .ads-year-summary::-webkit-details-marker { display: none; }
+  .ads-year-summary::before {
+    content: '▸';
+    color: #7dd3fc;
+    font-size: 0.9rem;
+    transition: transform 0.2s;
+    margin-right: 0.5rem;
+  }
+  .ads-year[open] > .ads-year-summary::before {
+    transform: rotate(90deg);
+  }
+  .ads-year-summary:hover {
+    background: rgba(0, 50, 120, 0.4);
+  }
+  .ads-year-label {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #7dd3fc;
+    flex: 1;
+  }
+  .ads-year-count {
+    color: #94a3b8;
+    font-size: 0.9rem;
+  }
   .ads-paper-list {
     list-style: decimal;
-    padding-left: 2rem;
-    margin: 1.5rem 0 2.5rem 0;
+    padding: 0.5rem 1.25rem 1rem 3rem;
+    margin: 0;
     color: #cbd5e1;
   }
   .ads-paper {
-    margin-bottom: 1.1rem;
+    margin-bottom: 1rem;
     line-height: 1.45;
   }
   .ads-paper-link {
