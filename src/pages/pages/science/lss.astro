@@ -24,6 +24,27 @@ import Layout from '../../../layouts/Layout.astro';
                     quenching, and many other studies.
                 </p>
 
+                <!-- Environmental dependence of star formation rate -->
+                <div class="research-detail-card">
+                    <h3><span class="icon"></span> Environmental dependence of star formation rate</h3>
+
+                    <div class="figure-container">
+                        <div class="figure-placeholder" aria-label="Figure pending">
+                            <span class="figure-placeholder-label">Figure pending</span>
+                        </div>
+                        <p class="figure-caption">
+                            Left: SFR vs. environmental density in six redshift intervals
+                            (Column&nbsp;1: the overall sample; Column&nbsp;2: star-forming sample).
+                            Right: the same as the left column for sSFR vs. environmental density.
+                            Colorbars correspond to the population in each pixel and the contours are
+                            placed at three equally spaced levels between the minimum and maximum
+                            population per pixel in each plot
+                            (<a href="https://ui.adsabs.harvard.edu/abs/2024ApJ...966...18T/abstract"
+                                target="_blank" rel="noopener noreferrer">Taamoli et al. 2024</a>).
+                        </p>
+                    </div>
+                </div>
+
                 <!-- Identification of the Large Scale Structure -->
                 <div class="research-detail-card">
                     <h3><span class="icon"></span> Identification of the Large Scale Structure</h3>
@@ -39,6 +60,17 @@ import Layout from '../../../layouts/Layout.astro';
                             show the star-masked regions
                             (<a href="https://arxiv.org/abs/2511.10727"
                                 target="_blank" rel="noopener noreferrer">Hatamnia et al. 2026</a>).
+                        </p>
+                    </div>
+
+                    <div class="figure-container">
+                        <div class="figure-placeholder" aria-label="Figure pending">
+                            <span class="figure-placeholder-label">Figure pending</span>
+                        </div>
+                        <p class="figure-caption">
+                            The LSS in a redshift interval from optical data in the COSMOS survey.
+                            Different steps in the construction of the LSS are presented (Taamoli et
+                            al. 2023).
                         </p>
                     </div>
                 </div>
@@ -171,6 +203,36 @@ import Layout from '../../../layouts/Layout.astro';
         margin: 0 auto;
         border-radius: 8px;
         background: #fff;
+    }
+
+    /* Placeholder shown until the matching figure file is added. */
+    .figure-placeholder {
+        width: 100%;
+        max-width: 1000px;
+        aspect-ratio: 16 / 7;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+        border-radius: 8px;
+        border: 2px dashed rgba(125, 211, 252, 0.4);
+        background: repeating-linear-gradient(
+            45deg,
+            rgba(20, 30, 60, 0.6),
+            rgba(20, 30, 60, 0.6) 12px,
+            rgba(15, 25, 50, 0.6) 12px,
+            rgba(15, 25, 50, 0.6) 24px
+        );
+        color: #94a3b8;
+    }
+    .figure-placeholder-label {
+        font-size: 1rem;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        background: rgba(0, 30, 80, 0.85);
+        padding: 0.45rem 1rem;
+        border-radius: 999px;
+        border: 1px solid rgba(125, 211, 252, 0.3);
     }
     .figure-caption {
         color: rgba(255, 255, 255, 0.75);
