@@ -16,42 +16,72 @@ interface AdsResponse {
 
 const token = process.env.ADS_TOKEN;
 const ROWS = 200;
+const TIMEOUT_MS = 20_000;
+const MAX_ATTEMPTS = 3;
 
 let papers: AdsDoc[] = [];
 let totalFound = 0;
 let fetchError: string | null = null;
 let fetchedAt: string | null = null;
 
-if (!token) {
-  fetchError = 'Live publication feed disabled (ADS_TOKEN not set). Browse via the links below.';
-} else {
+// Match by author surname but restrict to the ADS astronomy database.
+// ORCID-only is too strict — many of Bahram's older papers aren't claimed
+// under his ORCID. The astronomy-database filter still excludes his
+// brother Barzin (structural engineering at ASU), whose papers live in
+// other ADS databases.
+function buildUrl(): URL {
+  const url = new URL('https://api.adsabs.harvard.edu/v1/search/query');
+  url.searchParams.set('q', 'author:"Mobasher, B" property:refereed database:astronomy');
+  url.searchParams.set('sort', 'date desc');
+  url.searchParams.set('rows', String(ROWS));
+  url.searchParams.set('fl', 'bibcode,title,author,pub,year,doi');
+  return url;
+}
+
+async function fetchOnce(token: string): Promise<{ ok: true; json: AdsResponse } | { ok: false; status: number | null; transient: boolean }> {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
   try {
-    // Match by author surname but restrict to the ADS astronomy database.
-    // ORCID-only is too strict — many of Bahram's older papers aren't
-    // claimed under his ORCID. The astronomy-database filter still
-    // excludes his brother Barzin (structural engineering at ASU), whose
-    // papers live in other ADS databases.
-    const url = new URL('https://api.adsabs.harvard.edu/v1/search/query');
-    url.searchParams.set('q', 'author:"Mobasher, B" property:refereed database:astronomy');
-    url.searchParams.set('sort', 'date desc');
-    url.searchParams.set('rows', String(ROWS));
-    url.searchParams.set('fl', 'bibcode,title,author,pub,year,doi');
-
-    const res = await fetch(url, {
+    const res = await fetch(buildUrl(), {
       headers: { Authorization: `Bearer ${token}` },
+      signal: controller.signal,
     });
-
     if (!res.ok) {
-      const body = await res.text();
-      fetchError = `ADS API returned ${res.status}: ${body.slice(0, 200)}`;
-    } else {
-      const json: AdsResponse = await res.json();
-      papers = json.response?.docs ?? [];
-      totalFound = json.response?.numFound ?? papers.length;
-      fetchedAt = new Date().toISOString().slice(0, 10);
+      return { ok: false, status: res.status, transient: res.status >= 500 || res.status === 429 };
     }
-  } catch (e) {
-    fetchError = `Failed to reach ADS: ${(e as Error).message}`;
+    const json: AdsResponse = await res.json();
+    return { ok: true, json };
+  } catch (_e) {
+    // Network errors / aborts (timeouts) are treated as transient.
+    return { ok: false, status: null, transient: true };
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+if (!token) {
+  fetchError = 'Live publication feed temporarily unavailable. Browse via the links below.';
+} else {
+  let lastStatus: number | null = null;
+  for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
+    const result = await fetchOnce(token);
+    if (result.ok) {
+      papers = result.json.response?.docs ?? [];
+      totalFound = result.json.response?.numFound ?? papers.length;
+      fetchedAt = new Date().toISOString().slice(0, 10);
+      fetchError = null;
+      break;
+    }
+    lastStatus = result.status;
+    if (!result.transient || attempt === MAX_ATTEMPTS) break;
+    // Exponential backoff: 1s, 2s, 4s
+    await new Promise(r => setTimeout(r, 1000 * Math.pow(2, attempt - 1)));
+  }
+  if (papers.length === 0 && fetchError === null) {
+    // Generic, sanitized message — never leak raw upstream error HTML to users.
+    fetchError = 'Live publication feed temporarily unavailable. Browse via the links below.';
+    // Still log diagnostic detail to the build log so we can debug.
+    console.warn(`[publications] ADS fetch failed after ${MAX_ATTEMPTS} attempts (last status: ${lastStatus ?? 'network/timeout'})`);
   }
 }
 
