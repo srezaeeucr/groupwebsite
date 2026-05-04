@@ -64,13 +64,14 @@ import Layout from '../../../layouts/Layout.astro';
                     </div>
 
                     <div class="figure-container">
-                        <div class="figure-placeholder" aria-label="Figure pending">
-                            <span class="figure-placeholder-label">Figure pending</span>
-                        </div>
+                        <img src="../../assets/images/lss/lss-construction.jpg"
+                             alt="Construction of the Large Scale Structure from optical data in the COSMOS survey">
                         <p class="figure-caption">
                             The LSS in a redshift interval from optical data in the COSMOS survey.
-                            Different steps in the construction of the LSS are presented (Taamoli et
-                            al. 2023).
+                            Different steps in the construction of the LSS are presented
+                            (<a href="https://ui.adsabs.harvard.edu/abs/2024ApJ...966...18T/abstract"
+                                target="_blank" rel="noopener noreferrer">Taamoli et al. 2024,
+                                ApJ 966, 18</a>).
                         </p>
                     </div>
                 </div>
@@ -205,35 +206,6 @@ import Layout from '../../../layouts/Layout.astro';
         background: #fff;
     }
 
-    /* Placeholder shown until the matching figure file is added. */
-    .figure-placeholder {
-        width: 100%;
-        max-width: 1000px;
-        aspect-ratio: 16 / 7;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0 auto;
-        border-radius: 8px;
-        border: 2px dashed rgba(125, 211, 252, 0.4);
-        background: repeating-linear-gradient(
-            45deg,
-            rgba(20, 30, 60, 0.6),
-            rgba(20, 30, 60, 0.6) 12px,
-            rgba(15, 25, 50, 0.6) 12px,
-            rgba(15, 25, 50, 0.6) 24px
-        );
-        color: #94a3b8;
-    }
-    .figure-placeholder-label {
-        font-size: 1rem;
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
-        background: rgba(0, 30, 80, 0.85);
-        padding: 0.45rem 1rem;
-        border-radius: 999px;
-        border: 1px solid rgba(125, 211, 252, 0.3);
-    }
     .figure-caption {
         color: rgba(255, 255, 255, 0.75);
         font-size: 0.95rem;
